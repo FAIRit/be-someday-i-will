@@ -24,4 +24,13 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
+
+    private String description;
+    private String categories;
+    private String title;
+    private String subtitle;
+    private String authors;
+    private String pageCount;
+    private String buyLink;
+    private String imageLink;
 }

@@ -46,7 +46,7 @@ public class AvatarController {
                 .body(new ByteArrayResource(savedAvatar.getData()));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAvatar(@CurrentUser UserPrincipal userPrincipal) {

@@ -50,7 +50,7 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return userService.createUser(user);
+        return userService.saveUser(user);
     }
 
     private AppUser createUserFromSignupRequest(final SignUpRequest signUpRequest) {

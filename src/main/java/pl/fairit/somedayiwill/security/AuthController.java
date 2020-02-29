@@ -2,12 +2,11 @@ package pl.fairit.somedayiwill.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.payload.ApiResponse;
 import pl.fairit.somedayiwill.payload.AuthResponse;
 import pl.fairit.somedayiwill.payload.LoginRequest;
 import pl.fairit.somedayiwill.payload.SignUpRequest;
-import pl.fairit.somedayiwill.security.AuthService;
+import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.validation.Valid;
 

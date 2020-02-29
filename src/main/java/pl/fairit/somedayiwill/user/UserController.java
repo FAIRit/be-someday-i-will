@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/me")
 public class UserController {
     private final UserService userService;
 
@@ -13,14 +13,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/me")
+    @GetMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto getUserDashboard(@CurrentUser UserPrincipal userPrincipal) {
         return userService.getUserDtoByAppUserId(userPrincipal.getId());
     }
 
-    @DeleteMapping("/me/delete")
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAccount(@CurrentUser UserPrincipal userPrincipal) {
         userService.deleteByUserId(userPrincipal.getId());
