@@ -10,7 +10,7 @@ After creating new account, user will gain acces to his own watch/read later lis
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
- - [ ] User can click add movie/book to his watch later/read later list
+ - [ ] User can add movie/book to his watch later/read later list
 
 ## Used technologies
 * Spring Boot
@@ -21,3 +21,19 @@ After creating new account, user will gain acces to his own watch/read later lis
 * [Google Books API](https://developers.google.com/books)
 * [The Movie Database API](https://developers.themoviedb.org/3/genres/get-tv-list)
 
+## Setup:
+To run project locally using Maven, Java and MySQL (remember to replace db url, password and username in application.properties with your own credentials):
+```
+$ mvn clean install
+$ java --jar target/*jar
+```
+(Coming soon)
+To run project locally using Docker and docker-compose:
+```
+$ docker build …..
+$ docker-compose up
+```
+
+
+### Status:
+Work in progress. 

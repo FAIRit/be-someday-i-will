@@ -1,8 +1,7 @@
-package pl.fairit.somedayiwill.repositories;
+package pl.fairit.somedayiwill.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.fairit.somedayiwill.models.AppUser;
 
 import java.util.Optional;
 

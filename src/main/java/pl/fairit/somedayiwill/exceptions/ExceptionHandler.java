@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.controllers;
+package pl.fairit.somedayiwill.exceptions;
 
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -18,17 +18,14 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(final MethodArgumentNotValidException exp) {
-        final List<String> details = exp.getBindingResult().getFieldErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-        return new ErrorResponse("Failed to validate object", details);
+        return new ErrorResponse("Failed to validate object");
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleException(final Exception exp, final HttpServletRequest request) {
         final Enumeration<String> host = request.getHeaders("Host");
-        return new ErrorResponse(exp.getMessage(), List.of(host.nextElement()));
+        return new ErrorResponse(exp.getMessage());
     }
 
 }

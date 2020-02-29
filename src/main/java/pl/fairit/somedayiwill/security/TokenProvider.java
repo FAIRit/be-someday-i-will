@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pl.fairit.somedayiwill.config.AppProperties;
+import pl.fairit.somedayiwill.user.UserPrincipal;
 
 import java.util.Date;
 

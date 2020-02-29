@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  #  app-server:
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    ports:
+  #      - '8080:8080'
+  #    restart: always
+  #    depends_on:
+  #      - db
+  #    environment:
+  #      SPRING_DATASOURCE_URL: jdbc:mysql://backend/someday?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+  #      SPRING_DATASOURCE_USERNAME: root
+  #      SPRING_DATASOURCE_PASSWORD: root
+  #    networks:
+  #      - backend
+
+  #       Here will be created frontend container
+
+  db:
+    image: mysql:8
+    ports:
+      - '3306:3306'
+    #    restart: always
+    environment:
+      MYSQL_DATABASE: someday
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+  #    networks:
+  #      - backend
+
+#  admin:
+#    image: adminer
+#    ports:
+#      - '8080:8080'
+
+
+#networks:
+#  backend:
+
+
+

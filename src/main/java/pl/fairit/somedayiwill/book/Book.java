@@ -1,10 +1,11 @@
-package pl.fairit.somedayiwill.models;
+package pl.fairit.somedayiwill.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.persistence.*;
 

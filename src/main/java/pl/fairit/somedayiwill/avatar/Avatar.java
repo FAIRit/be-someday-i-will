@@ -1,26 +1,31 @@
-package pl.fairit.somedayiwill.models;
+package pl.fairit.somedayiwill.avatar;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.persistence.*;
 
-@Entity(name = "movies")
+@Entity(name = "avatars")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class Movie {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY)
     private AppUser user;
+
+    @Lob
+    private byte[] data;
+
+    private String fileType;
 }

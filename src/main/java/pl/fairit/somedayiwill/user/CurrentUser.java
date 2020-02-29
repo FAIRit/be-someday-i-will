@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.security;
+package pl.fairit.somedayiwill.user;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

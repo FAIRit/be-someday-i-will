@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.services;
+package pl.fairit.somedayiwill.security;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,10 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.UserAlreadyExistsException;
-import pl.fairit.somedayiwill.models.AppUser;
+import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.payload.LoginRequest;
 import pl.fairit.somedayiwill.payload.SignUpRequest;
-import pl.fairit.somedayiwill.security.TokenProvider;
+import pl.fairit.somedayiwill.user.UserService;
 
 import javax.validation.Valid;
 

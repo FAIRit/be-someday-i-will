@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.models;
+package pl.fairit.somedayiwill.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -7,17 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+import pl.fairit.somedayiwill.avatar.Avatar;
+import pl.fairit.somedayiwill.book.Book;
+import pl.fairit.somedayiwill.movie.Movie;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-import static java.util.Objects.nonNull;
-
-@Entity(name = "app_users")
+@Entity(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,6 +46,14 @@ public class AppUser {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private Avatar avatar;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
