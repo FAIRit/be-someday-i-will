@@ -9,5 +9,5 @@ import pl.fairit.somedayiwill.user.UserDto;
 public interface MovieMapper {
     MovieMapper INSTANCE = Mappers.getMapper(MovieMapper.class);
 
-//    UserDto userToUserDto(AppUser user);
+    MovieDto movieToMovieDto(Movie movie);
 }

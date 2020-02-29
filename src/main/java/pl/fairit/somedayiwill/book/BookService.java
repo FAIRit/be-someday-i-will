@@ -19,16 +19,13 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-//    public Books finAllBooksByUserId(final Long userId) {
-//        return new Books(bookRepository.findAllByUserId(userId));
-//    }
 
     public Book saveBook(final Book book, final AppUser user) {
         book.setUser(user);
         return bookRepository.save(book);
     }
 
-    public Books finAllBooksByUserId(final Long userId) {
+    public Books findAllBooksByUserId(final Long userId) {
         List<BookDto> bookDtoList = bookRepository.findAllByUserId(userId).stream()
                 .map(BookMapper.INSTANCE::bookToBookDto)
                 .collect(Collectors.toList());

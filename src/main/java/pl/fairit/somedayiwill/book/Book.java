@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "books")
 @Data
@@ -25,12 +26,30 @@ public class Book {
     @JoinColumn(name = "user_id")
     private AppUser user;
 
+    @Column(name = "description")
     private String description;
+
+    //todo: create new entity Category and add oneToMany relation
+    @Column(name = "categories")
     private String categories;
+
+    @NotNull
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "subtitle")
     private String subtitle;
+
+    //todo: create new entity Author and add ManyToMany relation
+    @Column(name = "authors")
     private String authors;
+
+    @Column(name = "page_count")
     private String pageCount;
+
+    @Column(name = "buy_link")
     private String buyLink;
+
+    @Column(name = "image_link")
     private String imageLink;
 }

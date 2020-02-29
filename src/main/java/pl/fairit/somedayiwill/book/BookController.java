@@ -31,7 +31,7 @@ public class BookController {
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public Books getAllBooks(@CurrentUser UserPrincipal userPrincipal) {
-        return bookService.finAllBooksByUserId(userPrincipal.getId());
+        return bookService.findAllBooksByUserId(userPrincipal.getId());
     }
 
     @PostMapping

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Entity(name = "movies")
 @Data
@@ -24,4 +26,24 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
+
+    //todo: create new entity Genre and add oneToMany relation
+    @Column(name = "genres")
+    private String genres;
+
+    @NotNull
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
+
+    @Column(name = "poster_link")
+    private String posterLink;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "runtime")
+    private int runtime;
 }
