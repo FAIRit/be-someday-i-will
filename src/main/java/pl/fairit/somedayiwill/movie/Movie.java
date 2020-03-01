@@ -27,7 +27,6 @@ public class Movie {
     @JoinColumn(name = "user_id")
     private AppUser user;
 
-    //todo: create new entity Genre and add oneToMany relation
     @Column(name = "genres")
     private String genres;
 

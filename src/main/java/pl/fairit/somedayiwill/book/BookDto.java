@@ -15,4 +15,6 @@ public class BookDto {
     private String pageCount;
     private String buyLink;
     private String imageLink;
+    private String categories;
+
 }

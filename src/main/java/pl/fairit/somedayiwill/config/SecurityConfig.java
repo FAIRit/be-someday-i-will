@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.fairit.somedayiwill.security.TokenProvider;
 import pl.fairit.somedayiwill.user.UserService;
 import pl.fairit.somedayiwill.security.RestAuthenticationEntryPoint;
 import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
@@ -25,16 +26,17 @@ import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
         prePostEnabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private final TokenProvider tokenProvider;
     private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
+    public SecurityConfig(TokenProvider tokenProvider, UserService userService) {
+        this.tokenProvider = tokenProvider;
         this.userService = userService;
     }
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
+        return new TokenAuthenticationFilter(userService, tokenProvider);
     }
 
     @Override

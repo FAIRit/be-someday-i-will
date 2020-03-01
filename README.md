@@ -13,7 +13,8 @@ After creating new account, user will gain acces to his own watch/read later lis
  - [ ] User can add movie/book to his watch later/read later list
 
 ## Used technologies
-* Spring Boot
+* Spring Boot 2.2.4
+* Java 11
 * MySQL
 * Docker
 

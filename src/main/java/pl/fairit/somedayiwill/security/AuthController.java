@@ -2,6 +2,7 @@ package pl.fairit.somedayiwill.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.fairit.somedayiwill.mailsender.SendGridEmailService;
 import pl.fairit.somedayiwill.payload.ApiResponse;
 import pl.fairit.somedayiwill.payload.AuthResponse;
 import pl.fairit.somedayiwill.payload.LoginRequest;

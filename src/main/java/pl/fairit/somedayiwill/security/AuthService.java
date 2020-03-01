@@ -24,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+
     public AuthService(AuthenticationManager authenticationManager, UserService userService, PasswordEncoder passwordEncoder, TokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
@@ -46,18 +47,17 @@ public class AuthService {
         if (userService.existsByEmail(signUpRequest.getEmail())) {
             throw new UserAlreadyExistsException("Email address already in use.");
         }
-        AppUser user = createUserFromSignupRequest(signUpRequest);
-
+        AppUser user = SignupRequestMapper.INSTANCE.signupRequestToAppUser(signUpRequest);
+//                createUserFromSignupRequest(signUpRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userService.saveUser(user);
     }
 
-    private AppUser createUserFromSignupRequest(final SignUpRequest signUpRequest) {
-        return AppUser.builder()
-                .name(signUpRequest.getName())
-                .email(signUpRequest.getEmail())
-                .password(signUpRequest.getPassword())
-                .build();
-    }
+//    private AppUser createUserFromSignupRequest(final SignUpRequest signUpRequest) {
+//        return AppUser.builder()
+//                .name(signUpRequest.getName())
+//                .email(signUpRequest.getEmail())
+//                .password(signUpRequest.getPassword())
+//                .build();
+//    }
 }

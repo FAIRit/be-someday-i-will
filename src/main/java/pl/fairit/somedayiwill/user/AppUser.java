@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import pl.fairit.somedayiwill.avatar.Avatar;
 import pl.fairit.somedayiwill.book.Book;
+import pl.fairit.somedayiwill.mailsender.NewsletterFrequency;
 import pl.fairit.somedayiwill.movie.Movie;
 
 import javax.persistence.*;
@@ -62,4 +63,9 @@ public class AppUser {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Movie> movies;
+
+    @JsonIgnore
+    @Enumerated(EnumType.STRING)
+    @Column(name = "newsletter_frequency")
+    private NewsletterFrequency newsletterFrequency;
 }

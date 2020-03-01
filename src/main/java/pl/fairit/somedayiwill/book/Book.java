@@ -29,7 +29,6 @@ public class Book {
     @Column(name = "description")
     private String description;
 
-    //todo: create new entity Category and add oneToMany relation
     @Column(name = "categories")
     private String categories;
 
@@ -40,7 +39,6 @@ public class Book {
     @Column(name = "subtitle")
     private String subtitle;
 
-    //todo: create new entity Author and add ManyToMany relation
     @Column(name = "authors")
     private String authors;
 

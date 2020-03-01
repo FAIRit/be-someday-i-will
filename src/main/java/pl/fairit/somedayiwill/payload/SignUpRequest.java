@@ -3,7 +3,10 @@ package pl.fairit.somedayiwill.payload;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import pl.fairit.somedayiwill.mailsender.NewsletterFrequency;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +25,9 @@ public class SignUpRequest {
 
     @NotBlank
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private NewsletterFrequency newsletterFrequency;
 
     @JsonIgnore
     @AssertTrue(message = "Password has to be at least 8 characters and contain at least one digit")
