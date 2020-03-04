@@ -1,7 +1,6 @@
-package pl.fairit.somedayiwill.security;
+package pl.fairit.somedayiwill.security.jwt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -10,15 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private static final Logger logger = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
-
     @Override
-    public void commence(HttpServletRequest httpServletRequest,
-                         HttpServletResponse httpServletResponse,
-                         AuthenticationException e) throws IOException, ServletException {
-        logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        log.error("Responding with unauthorized error. Message - {}", e.getMessage());
         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                 e.getLocalizedMessage());
     }

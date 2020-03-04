@@ -1,11 +1,11 @@
-package pl.fairit.somedayiwill.security;
+package pl.fairit.somedayiwill.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pl.fairit.somedayiwill.config.AppProperties;
-import pl.fairit.somedayiwill.user.UserPrincipal;
+import pl.fairit.somedayiwill.security.user.UserPrincipal;
 
 import java.util.Date;
 
@@ -20,10 +20,10 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        var userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
+        var now = new Date();
+        var expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMills());
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getId().toString())

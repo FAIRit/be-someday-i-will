@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class AppUserDto {
     private String name;
     private String email;
 }

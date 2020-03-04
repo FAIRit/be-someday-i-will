@@ -6,10 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 import pl.fairit.somedayiwill.avatar.Avatar;
 import pl.fairit.somedayiwill.book.Book;
-import pl.fairit.somedayiwill.mailsender.NewsletterFrequency;
+import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
 import pl.fairit.somedayiwill.movie.Movie;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "users")
+@Entity(name = "app_users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,6 +34,10 @@ public class AppUser {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
+
     @NotNull
     @Length(min = 2, message = "Name has to be at at least 2 character long")
     @Column(name = "name")
@@ -43,11 +48,9 @@ public class AppUser {
     @Email(message = "Invalid email")
     private String email;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 
-    @JsonIgnore
     @OneToOne(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -56,15 +59,12 @@ public class AppUser {
     )
     private Avatar avatar;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Movie> movies;
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     @Column(name = "newsletter_frequency")
     private NewsletterFrequency newsletterFrequency;

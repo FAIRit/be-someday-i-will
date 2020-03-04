@@ -9,27 +9,27 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.fairit.somedayiwill.user.AppUser;
-import pl.fairit.somedayiwill.user.CurrentUser;
-import pl.fairit.somedayiwill.user.UserPrincipal;
-import pl.fairit.somedayiwill.user.UserService;
+import pl.fairit.somedayiwill.security.user.CurrentUser;
+import pl.fairit.somedayiwill.security.user.UserPrincipal;
+import pl.fairit.somedayiwill.user.AppUserService;
 
 @RestController
 @RequestMapping("/users/me/avatar")
 public class AvatarController {
 
     private final AvatarService avatarService;
-    private final UserService userService;
+    private final AppUserService appUserService;
 
-    public AvatarController(AvatarService avatarService, UserService userService) {
+    public AvatarController(AvatarService avatarService, AppUserService appUserService) {
         this.avatarService = avatarService;
-        this.userService = userService;
+        this.appUserService = appUserService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Resource> getAvatar(@CurrentUser UserPrincipal userPrincipal) {
-        final Avatar userAvatar = avatarService.getUserAvatar(userPrincipal.getId());
+        final Avatar userAvatar = avatarService.getUsersAvatar(userPrincipal.getId());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(userAvatar.getFileType()))
                 .body(new ByteArrayResource(userAvatar.getData()));
@@ -38,20 +38,15 @@ public class AvatarController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Resource> uploadAvatar(@RequestParam("file") MultipartFile file, @CurrentUser UserPrincipal userPrincipal) {
-        final AppUser existingUser = userService.findExistingUser(userPrincipal.getId());
-        final Avatar savedAvatar = avatarService.saveAvatar(file, existingUser);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(savedAvatar.getFileType()))
-                .body(new ByteArrayResource(savedAvatar.getData()));
+    public void uploadAvatar(@RequestParam("file") MultipartFile file, @CurrentUser UserPrincipal userPrincipal) {
+        final AppUser existingUser = appUserService.getExistingUser(userPrincipal.getId());
+        avatarService.saveAvatar(file, existingUser);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAvatar(@CurrentUser UserPrincipal userPrincipal) {
-        avatarService.deleteAvatarByUserId(userPrincipal.getId());
+        avatarService.deleteUsersAvatar(userPrincipal.getId());
     }
-
-
 }

@@ -1,12 +1,12 @@
 package pl.fairit.somedayiwill.book;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.user.AppUser;
+import pl.fairit.somedayiwill.user.AppUserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,37 +14,47 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final AppUserService userService;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, AppUserService userService) {
         this.bookRepository = bookRepository;
+        this.userService = userService;
     }
 
-
-    public Book saveBook(final Book book, final AppUser user) {
+    public void saveBook(final Book book, final Long userId) {
+        var user = userService.getExistingUser(userId);
         book.setUser(user);
-        return bookRepository.save(book);
+        bookRepository.save(book);
     }
 
-    public Books findAllBooksByUserId(final Long userId) {
+    public Books getAllUsersBooks(final Long userId) {
         List<BookDto> bookDtoList = bookRepository.findAllByUserId(userId).stream()
-                .map(BookMapper.INSTANCE::bookToBookDto)
+                .map(BookMapper.INSTANCE::map)
                 .collect(Collectors.toList());
         return new Books(bookDtoList);
     }
 
-    private Optional<Book> findBookById(final Long bookId) {
-        return bookRepository.findById(bookId);
+    public Book getUsersBook(final Long bookId, final Long userId) {
+        var existingBook = getExistingBookById(bookId);
+        if (existingBook.getUser().getId().equals(userId)) {
+            return existingBook;
+        }
+        throw new AccessDeniedException("You do not have permission to access this content");
     }
 
-    public Book findExistingBookById(final Long bookId) {
-        return findBookById(bookId).orElseThrow(ResourceNotFoundException::new);
+    public void deleteUsersBook(final Long bookId, final Long userId) {
+        var existingBook = getExistingBookById(bookId);
+        if (existingBook.getUser().getId().equals(userId)) {
+            bookRepository.deleteById(bookId);
+        }
+        throw new AccessDeniedException("You do not have permission to access this content");
     }
 
-    public void deleteById(final Long bookId) {
-        bookRepository.deleteById(bookId);
-    }
-
-    public void deleteAllBooks(final Long userId) {
+    public void deleteAllUsersBooks(final Long userId) {
         bookRepository.deleteAllByUserId(userId);
+    }
+
+    private Book getExistingBookById(final Long bookId) {
+        return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book with given id does not exist"));
     }
 }

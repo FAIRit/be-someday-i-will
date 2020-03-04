@@ -1,49 +1,59 @@
 package pl.fairit.somedayiwill.movie;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.user.AppUser;
+import pl.fairit.somedayiwill.user.AppUserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class MovieService {
     private final MovieRepository movieRepository;
+    private final AppUserService userService;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository, AppUserService userService) {
         this.movieRepository = movieRepository;
+        this.userService = userService;
     }
 
-
-    public Movie saveMovie(final Movie movie, final AppUser user) {
+    public void saveMovie(final Movie movie, final Long userId) {
+        var user = userService.getExistingUser(userId);
         movie.setUser(user);
-        return movieRepository.save(movie);
+        movieRepository.save(movie);
     }
 
-    public Movies findAllMoviesByUserId(final Long userId) {
+    public Movies getAllUsersMovies(final Long userId) {
         List<MovieDto> movieDtoList = movieRepository.findAllByUserId(userId).stream()
-                .map(MovieMapper.INSTANCE::movieToMovieDto)
+                .map(MovieMapper.INSTANCE::map)
                 .collect(Collectors.toList());
         return new Movies(movieDtoList);
     }
 
-    private Optional<Movie> findMovieById(final Long movieId) {
-        return movieRepository.findById(movieId);
+    public Movie getUsersMovie(final Long movieId, final Long userId) {
+        var existingMovie = getExistingMovieById(movieId);
+        if (existingMovie.getUser().getId().equals(userId)) {
+            return existingMovie;
+        }
+        throw new AccessDeniedException("You do not have permission to access this content");
     }
 
-    public Movie findExistingMovieById(final Long movieId) {
-        return findMovieById(movieId).orElseThrow(ResourceNotFoundException::new);
+    public void deleteUsersMovie(final Long movieId, final Long userId) {
+        var existingMovie = getExistingMovieById(movieId);
+        if (existingMovie.getUser().getId().equals(userId)) {
+            movieRepository.deleteById(movieId);
+        }
+        throw new AccessDeniedException("You do not have permission to access this content");
     }
 
-    public void deleteById(final Long movieId) {
-        movieRepository.deleteById(movieId);
-    }
-
-    public void deleteAllMovies(final Long userId) {
+    public void deleteAllUsersMovies(final Long userId) {
         movieRepository.deleteAllByUserId(userId);
+    }
+
+    private Movie getExistingMovieById(final Long movieId) {
+        return movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie with given id does not exist"));
     }
 }

@@ -1,11 +1,15 @@
-package pl.fairit.somedayiwill.user;
+package pl.fairit.somedayiwill.security.user;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.fairit.somedayiwill.user.AppUser;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class UserPrincipal implements UserDetails {
@@ -23,21 +27,8 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(AppUser user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-
-        return new UserPrincipal(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword(),
-                authorities
-        );
-    }
-
-    public static UserPrincipal create(AppUser user, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
-        userPrincipal.setAttributes(attributes);
-        return userPrincipal;
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override

@@ -13,10 +13,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.fairit.somedayiwill.security.TokenProvider;
-import pl.fairit.somedayiwill.user.UserService;
-import pl.fairit.somedayiwill.security.RestAuthenticationEntryPoint;
-import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
+import pl.fairit.somedayiwill.security.jwt.RestAuthenticationEntryPoint;
+import pl.fairit.somedayiwill.security.jwt.TokenAuthenticationFilter;
+import pl.fairit.somedayiwill.security.jwt.TokenProvider;
+import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
+import pl.fairit.somedayiwill.user.AppUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,22 +28,22 @@ import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
-    private final UserService userService;
+    private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(TokenProvider tokenProvider, UserService userService) {
+    public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
-        this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter(userService, tokenProvider);
+        return new TokenAuthenticationFilter(userDetailsService, tokenProvider);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(userService)
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -60,23 +61,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //@formatter:off
         http
                 .cors()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .csrf()
-                .disable()
-                .formLogin()
-                .disable()
-                .httpBasic()
-                .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                    .csrf()
+                    .disable()
+                    .formLogin()
+                    .disable()
+                    .httpBasic()
+                    .disable()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
-                .authorizeRequests()
-                .antMatchers("/",
+                    .authorizeRequests()
+                    .antMatchers("/",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",
@@ -86,13 +88,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
-                .permitAll()
-                .antMatchers("/auth/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
-
-        // Add our custom Token based authentication filter
+                    .permitAll()
+                    .antMatchers("/auth/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //@formatter:on
     }
 }

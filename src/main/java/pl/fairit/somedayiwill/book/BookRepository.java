@@ -2,6 +2,7 @@ package pl.fairit.somedayiwill.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import pl.fairit.somedayiwill.user.AppUser;
 
 import java.util.List;
 

@@ -19,10 +19,10 @@ class UserMapperTest {
                 .id(570832493284L)
                 .build();
 
-        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+        AppUserDto appUserDto = AppUserMapper.INSTANCE.map(user);
 
-        assertThat(userDto).isNotNull();
-        assertThat(userDto.getEmail()).isEqualTo("email@email.com");
-        assertThat(userDto.getName()).isEqualTo("Name");
+        assertThat(appUserDto).isNotNull();
+        assertThat(appUserDto.getEmail()).isEqualTo("email@email.com");
+        assertThat(appUserDto.getName()).isEqualTo("Name");
     }
 }

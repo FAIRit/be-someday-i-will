@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.mailsender;
+package pl.fairit.somedayiwill.newsletter;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -19,17 +19,16 @@ public class SendGridEmailService {
     private final static String EMAIL_FROM = "someday-i-will@someday-i-will.com";
     private final SendGrid sendGrid;
 
-
     public SendGridEmailService(SendGrid sendGrid) {
         this.sendGrid = sendGrid;
     }
 
     public void sendMail(final String emailTo, final String subject, final String contentValue) {
-        Email from = new Email(EMAIL_FROM, "Ewelina");
-        Content content = new Content("text/plain", contentValue);
-        Email to = new Email(emailTo);
-        Mail mail = new Mail(from, subject, to, content);
-        Request request = new Request();
+        var from = new Email(EMAIL_FROM, "Ewelina");
+        var content = new Content("text/plain", contentValue);
+        var to = new Email(emailTo);
+        var mail = new Mail(from, subject, to, content);
+        var request = new Request();
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
@@ -37,7 +36,7 @@ public class SendGridEmailService {
             Response response = sendGrid.api(request);
             log.info("Status code: " + response.getStatusCode());
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage());
         }
     }
 

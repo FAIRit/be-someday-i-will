@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.mailsender;
+package pl.fairit.somedayiwill.newsletter;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

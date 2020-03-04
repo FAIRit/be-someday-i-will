@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.payload;
+package pl.fairit.somedayiwill.exceptions;
 
 
 import lombok.AllArgsConstructor;

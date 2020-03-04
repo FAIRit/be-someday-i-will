@@ -1,9 +1,9 @@
-package pl.fairit.somedayiwill.payload;
+package pl.fairit.somedayiwill.signup;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import pl.fairit.somedayiwill.mailsender.NewsletterFrequency;
+import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
