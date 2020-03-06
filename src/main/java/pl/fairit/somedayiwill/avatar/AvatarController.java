@@ -25,7 +25,7 @@ public class AvatarController {
         this.appUserService = appUserService;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Resource> getAvatar(@CurrentUser UserPrincipal userPrincipal) {

@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 import pl.fairit.somedayiwill.avatar.Avatar;
 import pl.fairit.somedayiwill.book.Book;
-import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
 import pl.fairit.somedayiwill.movie.Movie;
+import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

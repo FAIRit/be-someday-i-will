@@ -1,6 +1,7 @@
 package pl.fairit.somedayiwill.movie;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fairit.somedayiwill.security.user.CurrentUser;
@@ -15,21 +16,21 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/{movieId}")
+    @GetMapping(value = "/{movieId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public Movie getMovieById(@CurrentUser UserPrincipal userPrincipal, @PathVariable(name = "movieId") final Long movieId) {
         return movieService.getUsersMovie(movieId, userPrincipal.getId());
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public Movies getAllMovies(@CurrentUser UserPrincipal userPrincipal) {
         return movieService.getAllUsersMovies(userPrincipal.getId());
     }
 
-    @PostMapping
+    @PostMapping()
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public void addMovie(@RequestBody final Movie movie, @CurrentUser UserPrincipal userPrincipal) {

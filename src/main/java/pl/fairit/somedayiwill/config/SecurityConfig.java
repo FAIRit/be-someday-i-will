@@ -7,6 +7,7 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +18,6 @@ import pl.fairit.somedayiwill.security.jwt.RestAuthenticationEntryPoint;
 import pl.fairit.somedayiwill.security.jwt.TokenAuthenticationFilter;
 import pl.fairit.somedayiwill.security.jwt.TokenProvider;
 import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
-import pl.fairit.somedayiwill.user.AppUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +29,14 @@ import pl.fairit.somedayiwill.user.AppUserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
+    private static final String[] AUTH_WHITELIST = {
+            "/auth/**",
+            //swagger-ui paths
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
 
     public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
@@ -78,18 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/",
-                        "/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                    .permitAll()
-                    .antMatchers("/auth/**")
+                    .antMatchers(AUTH_WHITELIST)
                     .permitAll()
                     .anyRequest()
                     .authenticated();

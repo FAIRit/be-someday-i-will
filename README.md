@@ -16,7 +16,10 @@ After creating new account, user will gain acces to his own watch/read later lis
 * Spring Boot 2.2.4
 * Java 11
 * MySQL
+* Flyway
+* Swagger
 * Docker
+
 
 ## Used APIs
 * [Google Books API](https://developers.google.com/books)

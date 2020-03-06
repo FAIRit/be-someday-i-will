@@ -1,6 +1,7 @@
 package pl.fairit.somedayiwill.book;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fairit.somedayiwill.security.user.CurrentUser;
@@ -16,14 +17,14 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/{bookId}")
+    @GetMapping(value = "/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public Book getBookById(@CurrentUser UserPrincipal userPrincipal, @PathVariable(name = "bookId") final Long bookId) {
         return bookService.getUsersBook(bookId, userPrincipal.getId());
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
     public Books getAllBooks(@CurrentUser UserPrincipal userPrincipal) {

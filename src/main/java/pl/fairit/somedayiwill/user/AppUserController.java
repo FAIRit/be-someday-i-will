@@ -1,6 +1,7 @@
 package pl.fairit.somedayiwill.user;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fairit.somedayiwill.security.user.CurrentUser;
@@ -15,7 +16,7 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public AppUserDto getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {

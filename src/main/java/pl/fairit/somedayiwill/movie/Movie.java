@@ -24,7 +24,7 @@ public class Movie {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
+//    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @Column(name = "genres")
