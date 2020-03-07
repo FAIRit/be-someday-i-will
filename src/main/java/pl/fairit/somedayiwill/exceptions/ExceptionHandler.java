@@ -20,7 +20,6 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleException(final Exception exp, final HttpServletRequest request) {
-        final Enumeration<String> host = request.getHeaders("Host");
         return new ErrorResponse(exp.getMessage());
     }
 
