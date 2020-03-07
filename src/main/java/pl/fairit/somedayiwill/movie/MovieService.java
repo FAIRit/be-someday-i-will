@@ -20,23 +20,24 @@ public class MovieService {
         this.userService = userService;
     }
 
-    public void saveMovie(final Movie movie, final Long userId) {
+    public void saveMovie(final MovieDto movieDto, final Long userId) {
         var user = userService.getExistingUser(userId);
-        movie.setUser(user);
-        movieRepository.save(movie);
+        var movieToAdd = MovieMapper.INSTANCE.mapToMovie(movieDto);
+        movieToAdd.setUser(user);
+        movieRepository.save(movieToAdd);
     }
 
     public Movies getAllUsersMovies(final Long userId) {
         List<MovieDto> movieDtoList = movieRepository.findAllByUserId(userId).stream()
-                .map(MovieMapper.INSTANCE::map)
+                .map(MovieMapper.INSTANCE::mapToDto)
                 .collect(Collectors.toList());
         return new Movies(movieDtoList);
     }
 
-    public Movie getUsersMovie(final Long movieId, final Long userId) {
+    public MovieDto getUsersMovie(final Long movieId, final Long userId) {
         var existingMovie = getExistingMovieById(movieId);
         if (existingMovie.getUser().getId().equals(userId)) {
-            return existingMovie;
+            return MovieMapper.INSTANCE.mapToDto(existingMovie);
         }
         throw new AccessDeniedException("You do not have permission to access this content");
     }

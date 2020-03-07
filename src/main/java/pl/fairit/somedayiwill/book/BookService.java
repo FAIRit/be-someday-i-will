@@ -21,23 +21,24 @@ public class BookService {
         this.userService = userService;
     }
 
-    public void saveBook(final Book book, final Long userId) {
+    public void saveBook(final BookDto bookDto, final Long userId) {
         var user = userService.getExistingUser(userId);
-        book.setUser(user);
-        bookRepository.save(book);
+        var bookToSave = BookMapper.INSTANCE.mapBookDtoToBook(bookDto);
+        bookToSave.setUser(user);
+        bookRepository.save(bookToSave);
     }
 
     public Books getAllUsersBooks(final Long userId) {
         List<BookDto> bookDtoList = bookRepository.findAllByUserId(userId).stream()
-                .map(BookMapper.INSTANCE::map)
+                .map(BookMapper.INSTANCE::mapBookToBookDto)
                 .collect(Collectors.toList());
         return new Books(bookDtoList);
     }
 
-    public Book getUsersBook(final Long bookId, final Long userId) {
+    public BookDto getUsersBook(final Long bookId, final Long userId) {
         var existingBook = getExistingBookById(bookId);
         if (existingBook.getUser().getId().equals(userId)) {
-            return existingBook;
+            return BookMapper.INSTANCE.mapBookToBookDto(existingBook);
         }
         throw new AccessDeniedException("You do not have permission to access this content");
     }

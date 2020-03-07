@@ -16,7 +16,7 @@ class UserMapperTest {
                 .name("Name")
                 .password("jkdnkjasd")
                 .createdAt(LocalDate.now())
-                .id(570832493284L)
+                .id(5708284L)
                 .build();
 
         AppUserDto appUserDto = AppUserMapper.INSTANCE.map(user);

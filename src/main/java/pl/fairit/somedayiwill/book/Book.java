@@ -21,7 +21,6 @@ public class Book {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
 //    @JoinColumn(name = "user_id")
     private AppUser user;
@@ -32,7 +31,6 @@ public class Book {
     @Column(name = "categories")
     private String categories;
 
-    @NotNull
     @Column(name = "title")
     private String title;
 
@@ -43,7 +41,7 @@ public class Book {
     private String authors;
 
     @Column(name = "page_count")
-    private String pageCount;
+    private int pageCount;
 
     @Column(name = "buy_link")
     private String buyLink;
