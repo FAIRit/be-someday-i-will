@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.googlebooksapi;
+package pl.fairit.somedayiwill.book.googlebooksapi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,7 @@ public class VolumeInfo {
     private String publishedDate;
     private String[] authors;
     private String description;
-    private int pageCount;
-    private int printType;
+    private Integer pageCount;
     private String[] categories;
     private Map<String, String> imageLinks = new HashMap<>();
     private String buyLink;

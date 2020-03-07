@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;

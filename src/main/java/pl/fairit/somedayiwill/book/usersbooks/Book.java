@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class Book {
     private String authors;
 
     @Column(name = "page_count")
-    private int pageCount;
+    private Integer pageCount;
 
     @Column(name = "buy_link")
     private String buyLink;

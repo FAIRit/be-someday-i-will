@@ -26,7 +26,7 @@ public class AppProperties {
 
     @Data
     private static class GoogleBooks {
-        private String apiKey;
+        private String key;
         private String baseUrl;
     }
 }

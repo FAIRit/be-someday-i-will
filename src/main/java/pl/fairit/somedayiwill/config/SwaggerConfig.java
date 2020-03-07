@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.fairit.somedayiwill.avatar.AvatarController;
-import pl.fairit.somedayiwill.book.BookController;
+import pl.fairit.somedayiwill.book.usersbooks.BookController;
 import pl.fairit.somedayiwill.movie.MovieController;
 import pl.fairit.somedayiwill.user.AppUserController;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -25,7 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.List;
 
 import static com.google.common.base.Predicates.or;
-import static java.util.Objects.isNull;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration

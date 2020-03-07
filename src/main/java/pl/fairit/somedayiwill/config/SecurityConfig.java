@@ -30,8 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
     private static final String[] AUTH_WHITELIST = {
+            "/books/search/**",
+            "/movies/search/**",
             "/auth/**",
-            //swagger-ui paths
             "/swagger*/**",
             "/v2/api-docs",
             "/webjars/**"
@@ -70,6 +71,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //@formatter:off
         http
+                .authorizeRequests()
+                .antMatchers(AUTH_WHITELIST)
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .cors()
                 .and()
                     .sessionManagement()
@@ -83,12 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                     .exceptionHandling()
                     .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .and()
-                    .authorizeRequests()
-                    .antMatchers(AUTH_WHITELIST)
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated();
+                .and();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         //@formatter:on
     }

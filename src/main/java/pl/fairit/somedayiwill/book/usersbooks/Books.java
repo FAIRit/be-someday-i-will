@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

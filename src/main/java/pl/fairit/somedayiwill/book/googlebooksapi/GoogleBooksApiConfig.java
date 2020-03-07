@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.googlebooksapi;
+package pl.fairit.somedayiwill.book.googlebooksapi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

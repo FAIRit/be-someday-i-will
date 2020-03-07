@@ -1,10 +1,12 @@
 package pl.fairit.somedayiwill.book;
 
 import org.junit.jupiter.api.Test;
-import pl.fairit.somedayiwill.googlebooksapi.VolumeInfo;
+import pl.fairit.somedayiwill.book.googlebooksapi.VolumeInfo;
+import pl.fairit.somedayiwill.book.usersbooks.Book;
+import pl.fairit.somedayiwill.book.usersbooks.BookDto;
+import pl.fairit.somedayiwill.book.usersbooks.BookMapper;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +10,10 @@ import javax.validation.constraints.NotNull;
 public class BookDto {
     private Long id;
     private String description;
-    @NotNull
     private String title;
     private String subtitle;
     private String authors;
-    private int pageCount;
+    private Integer pageCount;
     private String buyLink;
     private String imageLink;
     private String categories;
