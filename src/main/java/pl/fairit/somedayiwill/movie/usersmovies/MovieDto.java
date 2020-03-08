@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie;
+package pl.fairit.somedayiwill.movie.usersmovies;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +18,4 @@ public class MovieDto {
     private LocalDate releaseDate;
     private String posterLink;
     private String description;
-    private int runtime;
 }

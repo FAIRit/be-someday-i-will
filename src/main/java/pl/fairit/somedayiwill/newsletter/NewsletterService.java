@@ -5,8 +5,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.fairit.somedayiwill.book.usersbooks.BookDto;
 import pl.fairit.somedayiwill.book.usersbooks.BookService;
-import pl.fairit.somedayiwill.movie.MovieDto;
-import pl.fairit.somedayiwill.movie.MovieService;
+import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
+import pl.fairit.somedayiwill.movie.usersmovies.MovieService;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
 

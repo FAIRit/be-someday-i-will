@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie;
+package pl.fairit.somedayiwill.movie.usersmovies;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -22,14 +22,14 @@ public class MovieService {
 
     public void saveMovie(final MovieDto movieDto, final Long userId) {
         var user = userService.getExistingUser(userId);
-        var movieToAdd = MovieMapper.INSTANCE.mapToMovie(movieDto);
+        var movieToAdd = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
         movieToAdd.setUser(user);
         movieRepository.save(movieToAdd);
     }
 
     public Movies getAllUsersMovies(final Long userId) {
         List<MovieDto> movieDtoList = movieRepository.findAllByUserId(userId).stream()
-                .map(MovieMapper.INSTANCE::mapToDto)
+                .map(MovieMapper.INSTANCE::mapMovieToMovieDto)
                 .collect(Collectors.toList());
         return new Movies(movieDtoList);
     }
@@ -37,7 +37,7 @@ public class MovieService {
     public MovieDto getUsersMovie(final Long movieId, final Long userId) {
         var existingMovie = getExistingMovieById(movieId);
         if (existingMovie.getUser().getId().equals(userId)) {
-            return MovieMapper.INSTANCE.mapToDto(existingMovie);
+            return MovieMapper.INSTANCE.mapMovieToMovieDto(existingMovie);
         }
         throw new AccessDeniedException("You do not have permission to access this content");
     }

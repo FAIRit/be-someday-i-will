@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie;
+package pl.fairit.somedayiwill.movie.usersmovies;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class Movie {
     private Long id;
 
     @ManyToOne
-//    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @Column(name = "genres")
@@ -38,7 +38,4 @@ public class Movie {
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "runtime")
-    private int runtime;
 }

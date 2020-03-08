@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.fairit.somedayiwill.avatar.AvatarController;
 import pl.fairit.somedayiwill.book.usersbooks.BookController;
-import pl.fairit.somedayiwill.movie.MovieController;
+import pl.fairit.somedayiwill.movie.usersmovies.MovieController;
 import pl.fairit.somedayiwill.user.AppUserController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -65,6 +65,8 @@ public class SwaggerConfig {
     private Predicate<String> getSwaggerPaths() {
         return or(
                 regex("/auth.*"),
+                regex("/books/search.*"),
+                regex("/movies/search.*"),
                 regex("/users.*"));
     }
 }

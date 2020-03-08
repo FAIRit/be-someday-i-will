@@ -9,7 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 import pl.fairit.somedayiwill.avatar.Avatar;
 import pl.fairit.somedayiwill.book.usersbooks.Book;
-import pl.fairit.somedayiwill.movie.Movie;
+import pl.fairit.somedayiwill.movie.usersmovies.Movie;
 import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
 
 import javax.persistence.*;

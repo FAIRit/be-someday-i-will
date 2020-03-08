@@ -22,7 +22,7 @@ public class Book {
     private Long id;
 
     @ManyToOne
-//    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @Column(name = "description")

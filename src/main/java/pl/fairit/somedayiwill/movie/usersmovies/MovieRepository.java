@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie;
+package pl.fairit.somedayiwill.movie.usersmovies;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

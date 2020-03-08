@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie;
+package pl.fairit.somedayiwill.movie.usersmovies;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
