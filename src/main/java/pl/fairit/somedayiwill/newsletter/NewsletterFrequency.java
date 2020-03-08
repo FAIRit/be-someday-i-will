@@ -12,4 +12,8 @@ public enum NewsletterFrequency {
     MONTHLY("monthly");
 
     private String value;
+
+    public String getValue() {
+        return this.value;
+    }
 }

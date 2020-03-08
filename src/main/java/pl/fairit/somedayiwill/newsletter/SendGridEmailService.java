@@ -1,5 +1,6 @@
 package pl.fairit.somedayiwill.newsletter;
 
+
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -9,7 +10,6 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.fairit.somedayiwill.user.AppUser;
 
 import java.io.IOException;
 
@@ -17,15 +17,16 @@ import java.io.IOException;
 @Component
 public class SendGridEmailService {
     private final static String EMAIL_FROM = "someday-i-will@someday-i-will.com";
+    private final static String SENDER_NAME = "Ewelina from Someday I Will";
     private final SendGrid sendGrid;
 
     public SendGridEmailService(SendGrid sendGrid) {
         this.sendGrid = sendGrid;
     }
 
-    public void sendMail(final String emailTo, final String subject, final String contentValue) {
-        var from = new Email(EMAIL_FROM, "Ewelina");
-        var content = new Content("text/plain", contentValue);
+    public void sendHtmlMail(final String htmlContent, final String emailTo, final String subject) {
+        var from = new Email(EMAIL_FROM, SENDER_NAME);
+        var content = new Content("text/html", htmlContent);
         var to = new Email(emailTo);
         var mail = new Mail(from, subject, to, content);
         var request = new Request();
@@ -38,11 +39,5 @@ public class SendGridEmailService {
         } catch (IOException ex) {
             log.error(ex.getMessage());
         }
-    }
-
-    public void sendRegisterConfirmationEmail(final AppUser appUser) {
-        final String subject = "Welcome to Someday I Will!";
-        final String content = "Hi " + appUser.getName() + ", welcome to Someday I Will! Thanks for registering an account on the Someday I Will!";
-        sendMail(appUser.getEmail(), subject, content);
     }
 }

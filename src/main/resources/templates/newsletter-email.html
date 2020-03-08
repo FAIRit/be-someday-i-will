@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection">
+    <title th:remove="all">Your <span th:text="${frequency}"></span> newsletter</title>
+</head>
+<body>
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+    <tr>
+        <td align="center">
+            <h1 style="color: #333333; font-family: lora, georgia, 'times new roman', serif; font-size: 40px;">
+                <em>Hi <span th:text="${name}"></span></em></h1>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <h4 style="color: #333333;">Here is your <span th:text="${frequency}"></span> newsletter.</h4>
+        </td>
+    </tr>
+<!--    todo: extract movie or book-->
+    <tr>
+        <td align="center">
+            <p th:if="${books!=null and books.size()>0}">
+                Here are books you added to your Read Later List:
+            <ul>
+                <li th:each="book: ${books}" th:text="${book}">
+                </li>
+            </ul>
+            </p>
+            <p th:if="${movies!=null and movies.size()>0}">
+                Here are movies you added to your Watch Later List:
+            <ul>
+                <li th:each="movie: ${movies}" th:text="${movie}">
+                </li>
+            </ul>
+            </p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    Regards, <br/>
+    &emsp; <em>The Someday I will Team</em>
+</p>
+</body>
+</html>

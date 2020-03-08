@@ -4,8 +4,9 @@ package pl.fairit.somedayiwill.user;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
+import pl.fairit.somedayiwill.newsletter.NewsletterService;
 import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
-import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
+import pl.fairit.somedayiwill.signup.SignupEmailService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,15 +16,15 @@ import java.util.Optional;
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
-    private final SendGridEmailService sendGridEmailService;
+    private final SignupEmailService mailService;
 
-    public AppUserService(AppUserRepository appUserRepository, SendGridEmailService sendGridEmailService) {
+    public AppUserService(AppUserRepository appUserRepository, SignupEmailService mailService) {
         this.appUserRepository = appUserRepository;
-        this.sendGridEmailService = sendGridEmailService;
+        this.mailService = mailService;
     }
 
     public AppUser saveUser(final AppUser user) {
-        sendGridEmailService.sendRegisterConfirmationEmail(user);
+        mailService.sendRegistrationConfirmationEmail(user);
         return appUserRepository.save(user);
     }
 
