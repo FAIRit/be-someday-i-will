@@ -21,21 +21,6 @@ public interface MovieMapper {
 
     Movie mapMovieDtoToMovie(MovieDto movieDto);
 
-//    @Mapping(source = "overview", target = "description")
-//    @Mapping(source = "poster_path", target = "posterLink")
-//    @Mapping(source = "genres", target = "genres", qualifiedByName = "genresArrayToGenresString")
-//    MovieDto mapMDBMovieToMovieDto(MDBMovie mdbMovie);
-
-//    @Named("genresArrayToGenresString")
-//    static String genresArrayToGenresString(List<String> genres) {
-//        if (isNull(genres)) return "";
-//        var joiner = new StringJoiner(", ");
-//        for (String genre : genres) {
-//            joiner.add(genre);
-//        }
-//        return joiner.toString();
-//    }
-
     default MovieDto mapMDBMovieToMovieDto(MDBMovie mdbMovie, Map<Integer, String> genresMap) {
         if (mdbMovie == null) {
             return null;
