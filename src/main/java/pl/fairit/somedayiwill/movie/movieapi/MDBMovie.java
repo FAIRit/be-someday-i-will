@@ -18,5 +18,4 @@ public class MDBMovie {
     private LocalDate release_date;
     private String poster_path;
     private Integer[] genre_ids;
-    private List<String> genres;
 }

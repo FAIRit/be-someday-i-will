@@ -49,9 +49,8 @@ public class MovieDatabaseService {
     private List<MovieDto> mapResponseBodyToMovieDtoList(final MDBWrapper wrapper) {
         var genresMap = getGenresMap();
         return Arrays.stream(wrapper.getResults())
-                .map(mdbMovie -> mapGenresIdsToGenres(mdbMovie, genresMap))
                 .map(this::mapPosterPathWithFullLink)
-                .map(MovieMapper.INSTANCE::mapMDBMovieToMovieDto)
+                .map(mdbMovie -> MovieMapper.INSTANCE.mapMDBMovieToMovieDto(mdbMovie, genresMap))
                 .collect(Collectors.toList());
     }
 
@@ -79,14 +78,6 @@ public class MovieDatabaseService {
 
     private MDBMovie mapPosterPathWithFullLink(MDBMovie mdbMovie) {
         mdbMovie.setPoster_path(getFullPosterLink(mdbMovie.getPoster_path()));
-        return mdbMovie;
-    }
-
-    private MDBMovie mapGenresIdsToGenres(MDBMovie mdbMovie, Map<Integer, String> genresMap) {
-        List<String> genreList = new ArrayList<>();
-        Arrays.stream(mdbMovie.getGenre_ids())
-                .forEach(genreId -> genreList.add(genresMap.get(genreId)));
-        mdbMovie.setGenres(genreList);
         return mdbMovie;
     }
 }

@@ -17,13 +17,13 @@ public class GoogleBooksController {
         this.googleBooksService = googleBooksService;
     }
 
-    @GetMapping(value = "/{query}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Search for books that contain provided text", response = Books.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved books"),
     })
-    public Books getBooksByQuery(@ApiParam(value = "query", required = true) @PathVariable(name = "query") final String query) {
+    public Books getBooksByQuery(@ApiParam(value = "q", required = true) @RequestParam(name = "q") final String query) {
         return googleBooksService.searchBooks(query);
     }
 }
