@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book.googlebooksapi;
+package pl.fairit.somedayiwill.book.booksearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VolumeInfo {
+public class GBook {
     private String title;
     private String publisher;
     private String publishedDate;

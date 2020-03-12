@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.movieapi;
+package pl.fairit.somedayiwill.movie.moviesearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

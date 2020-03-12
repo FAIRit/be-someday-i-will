@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.movieapi;
+package pl.fairit.somedayiwill.movie.moviesearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Genre {
+class Genre {
     private Integer id;
     private String name;
 }

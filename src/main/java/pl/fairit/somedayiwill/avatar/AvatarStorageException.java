@@ -1,7 +1,7 @@
 package pl.fairit.somedayiwill.avatar;
 
 public class AvatarStorageException extends RuntimeException {
-    public AvatarStorageException(String message) {
+    public AvatarStorageException(final String message) {
         super(message);
     }
 }

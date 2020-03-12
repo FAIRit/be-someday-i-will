@@ -1,26 +1,21 @@
-package pl.fairit.somedayiwill.book.googlebooksapi;
+package pl.fairit.somedayiwill.book.booksearch;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import pl.fairit.somedayiwill.book.usersbooks.Book;
 import pl.fairit.somedayiwill.book.usersbooks.BookDto;
 import pl.fairit.somedayiwill.book.usersbooks.BookMapper;
-import pl.fairit.somedayiwill.book.usersbooks.Books;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
 @Component
-public class GoogleBooksService {
+class GoogleBooksService implements BookService {
     @Value("${app.google-books.base-url}")
     private String bookApiBaseUrl;
 
@@ -29,22 +24,23 @@ public class GoogleBooksService {
 
     private final RestTemplate restTemplate;
 
-    public GoogleBooksService(RestTemplate restTemplate) {
+    public GoogleBooksService(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public Books searchBooks(final String query) {
+    public pl.fairit.somedayiwill.book.usersbooks.Books searchBooks(final String query) {
         var fullPath = getFullPath(query);
-        ResponseEntity apiResponse = restTemplate.getForEntity(fullPath, GBWrapper.class);
-        if (isNull(apiResponse.getBody())) return new Books(Collections.emptyList());
-        var gbWrapper = (GBWrapper) apiResponse.getBody();
-        return new Books(mapResponseBodyToBookDtoList(gbWrapper));
+        ResponseEntity apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
+        if (isNull(apiResponse.getBody()))
+            return new pl.fairit.somedayiwill.book.usersbooks.Books(Collections.emptyList());
+        var gbWrapper = (GBooks) apiResponse.getBody();
+        return new pl.fairit.somedayiwill.book.usersbooks.Books(mapResponseBodyToBookDtoList(gbWrapper));
     }
 
-    private List<BookDto> mapResponseBodyToBookDtoList(final GBWrapper wrapper) {
+    private List<BookDto> mapResponseBodyToBookDtoList(final GBooks wrapper) {
         return Arrays.stream(wrapper.getItems())
-                .map(GBItemsWrapper::getVolumeInfo)
-                .map(BookMapper.INSTANCE::mapVolumeInfoToBookDto)
+                .map(GBookWrapper::getGBook)
+                .map(BookMapper.INSTANCE::mapGBookToBookDto)
                 .collect(Collectors.toList());
     }
 

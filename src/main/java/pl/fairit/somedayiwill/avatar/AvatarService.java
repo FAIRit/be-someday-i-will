@@ -11,6 +11,8 @@ import pl.fairit.somedayiwill.user.AppUserRepository;
 
 import java.io.IOException;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @Transactional
 @Slf4j
@@ -19,15 +21,14 @@ public class AvatarService {
     private final AvatarRepository avatarRepository;
     private final AppUserRepository appUserRepository;
 
-    public AvatarService(AvatarRepository avatarRepository, AppUserRepository appUserRepository) {
+    public AvatarService(final AvatarRepository avatarRepository, final AppUserRepository appUserRepository) {
         this.avatarRepository = avatarRepository;
         this.appUserRepository = appUserRepository;
     }
 
-    public void saveAvatar(MultipartFile file, final AppUser user) {
+    public void saveAvatar(final MultipartFile file, final AppUser user) {
         try {
-            var fileType = file.getContentType();
-            if (fileType != null && !fileType.equals(MimeTypeUtils.IMAGE_JPEG_VALUE) && !fileType.equals(MimeTypeUtils.IMAGE_PNG_VALUE)) {
+            if (!isSupportedType(file.getContentType())) {
                 throw new AvatarStorageException("Unsupported file type.");
             }
             var avatar = Avatar.builder()
@@ -39,7 +40,7 @@ public class AvatarService {
             user.setAvatar(avatar);
             appUserRepository.save(user);
         } catch (IOException exp) {
-            log.error("Could not store file");
+            log.error("Could not store file " + exp.getMessage());
         }
     }
 
@@ -49,6 +50,10 @@ public class AvatarService {
 
     public Avatar getUsersAvatar(final Long userId) {
         return avatarRepository.findAvatarByUserId(userId).orElseThrow(ResourceNotFoundException::new);
+    }
+
+    private boolean isSupportedType(final String fileType) {
+        return nonNull(fileType) && (fileType.equals(MimeTypeUtils.IMAGE_JPEG_VALUE) || fileType.equals(MimeTypeUtils.IMAGE_PNG_VALUE));
     }
 
 }

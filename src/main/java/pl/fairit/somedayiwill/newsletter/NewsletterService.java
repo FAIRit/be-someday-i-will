@@ -3,7 +3,6 @@ package pl.fairit.somedayiwill.newsletter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.backoff.BackOff;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pl.fairit.somedayiwill.book.usersbooks.BookDto;
@@ -13,7 +12,6 @@ import pl.fairit.somedayiwill.movie.usersmovies.MovieService;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +26,7 @@ public class NewsletterService {
     private final MovieService movieService;
     private final TemplateEngine textTemplateEngine;
 
-    public NewsletterService(SendGridEmailService sendGridEmailService, AppUserService appUserService, BookService bookService, MovieService movieService, TemplateEngine textTemplateEngine) {
+    public NewsletterService(final SendGridEmailService sendGridEmailService, final AppUserService appUserService, final BookService bookService, final MovieService movieService, final TemplateEngine textTemplateEngine) {
         this.sendGridEmailService = sendGridEmailService;
         this.appUserService = appUserService;
         this.bookService = bookService;
@@ -48,7 +46,7 @@ public class NewsletterService {
         appUserService.getAllUsersForMonthlyNewsletter().forEach(this::sendNewsletter);
     }
 
-    public void sendNewsletter(final AppUser appUser) {
+    private void sendNewsletter(final AppUser appUser) {
         var frequency = appUser.getNewsletterFrequency().getValue();
         var subject = "Your " + frequency + " newsletter";
         var movies = movieService.getAllUsersMovies(appUser.getId()).getMovies();

@@ -37,7 +37,6 @@ public class AppProperties {
     private static class MovieDatabase {
         private String key;
         private String baseUrl;
-        private String posterBaseUrl;
     }
 
     @Bean

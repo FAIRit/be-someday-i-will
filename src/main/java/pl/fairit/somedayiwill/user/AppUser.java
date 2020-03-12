@@ -39,15 +39,15 @@ public class AppUser {
     private LocalDate updatedAt;
 
     @NotNull
-    @Length(min = 2, message = "Name has to be at at least 2 character long")
     @Column(name = "name")
     private String name;
 
     @NotNull
     @Column(name = "email", updatable = false)
-    @Email(message = "Invalid email")
+    @Email
     private String email;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 

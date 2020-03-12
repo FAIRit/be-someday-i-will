@@ -4,9 +4,8 @@ package pl.fairit.somedayiwill.user;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.newsletter.NewsletterService;
 import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
-import pl.fairit.somedayiwill.signup.SignupEmailService;
+import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final SignupEmailService mailService;
 
-    public AppUserService(AppUserRepository appUserRepository, SignupEmailService mailService) {
+    public AppUserService(final AppUserRepository appUserRepository, final SignupEmailService mailService) {
         this.appUserRepository = appUserRepository;
         this.mailService = mailService;
     }
@@ -33,7 +32,7 @@ public class AppUserService {
         return AppUserMapper.INSTANCE.map(user);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(final Long id) {
         appUserRepository.deleteById(id);
     }
 

@@ -51,7 +51,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Someday I will")
+                .title("Someday I Will")
                 .contact(new Contact("Ewelina Fiedorowicz", "someday I will provide an url",
                         "ewelinaformella@gmail.com"))
                 .build();

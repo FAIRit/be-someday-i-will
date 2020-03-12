@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.movieapi;
+package pl.fairit.somedayiwill.book.booksearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GenresWrapper {
-    private Genre[] genres;
+class GBooks {
+    private int totalItems;
+    private GBookWrapper[] items;
 }

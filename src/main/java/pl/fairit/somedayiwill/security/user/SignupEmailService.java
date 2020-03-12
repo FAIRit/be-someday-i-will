@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.signup;
+package pl.fairit.somedayiwill.security.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SignupEmailService {
     private final SendGridEmailService sendGridEmailService;
     private final TemplateEngine textTemplateEngine;
 
-    public SignupEmailService(SendGridEmailService sendGridEmailService, TemplateEngine textTemplateEngine) {
+    public SignupEmailService(final SendGridEmailService sendGridEmailService, final TemplateEngine textTemplateEngine) {
         this.sendGridEmailService = sendGridEmailService;
         this.textTemplateEngine = textTemplateEngine;
     }

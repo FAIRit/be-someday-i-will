@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book.googlebooksapi;
+package pl.fairit.somedayiwill.book.booksearch;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -9,11 +9,11 @@ import pl.fairit.somedayiwill.book.usersbooks.Books;
 @RestController
 @RequestMapping("/books/search")
 @Api(value = "Book searching")
-public class GoogleBooksController {
+public class GoogleBookController {
 
     private final GoogleBooksService googleBooksService;
 
-    public GoogleBooksController(GoogleBooksService googleBooksService) {
+    public GoogleBookController(final GoogleBooksService googleBooksService) {
         this.googleBooksService = googleBooksService;
     }
 

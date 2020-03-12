@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book.googlebooksapi;
+package pl.fairit.somedayiwill.book.booksearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GBItemsWrapper {
-    private VolumeInfo volumeInfo;
+class GBookWrapper {
+    private pl.fairit.somedayiwill.book.booksearch.GBook gBook;
 }

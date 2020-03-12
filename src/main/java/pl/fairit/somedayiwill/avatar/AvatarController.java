@@ -22,7 +22,7 @@ public class AvatarController {
     private final AvatarService avatarService;
     private final AppUserService appUserService;
 
-    public AvatarController(AvatarService avatarService, AppUserService appUserService) {
+    public AvatarController(final AvatarService avatarService, final AppUserService appUserService) {
         this.avatarService = avatarService;
         this.appUserService = appUserService;
     }
@@ -37,7 +37,7 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public ResponseEntity<ByteArrayResource> getAvatar(@CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<ByteArrayResource> getAvatar(@CurrentUser final UserPrincipal userPrincipal) {
         var userAvatar = avatarService.getUsersAvatar(userPrincipal.getId());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(userAvatar.getFileType()))
@@ -54,8 +54,8 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") MultipartFile file,
-                             @CurrentUser UserPrincipal userPrincipal) {
+    public void uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
+                             @CurrentUser final UserPrincipal userPrincipal) {
         final AppUser existingUser = appUserService.getExistingUser(userPrincipal.getId());
         avatarService.saveAvatar(file, existingUser);
     }
@@ -70,7 +70,7 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteAvatar(@CurrentUser UserPrincipal userPrincipal) {
+    public void deleteAvatar(@CurrentUser final UserPrincipal userPrincipal) {
         avatarService.deleteUsersAvatar(userPrincipal.getId());
     }
 }

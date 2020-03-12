@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.login;
+package pl.fairit.somedayiwill.security.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.movieapi;
+package pl.fairit.somedayiwill.movie.moviesearch;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -9,12 +9,12 @@ import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 @RestController
 @RequestMapping("/movies/search")
 @Api(value = "Movie searching")
-public class MovieDatabaseController {
+public class MDBMovieController {
 
-    private final MovieDatabaseService movieDatabaseService;
+    private final MDBMovieService MDBMovieService;
 
-    public MovieDatabaseController(MovieDatabaseService movieDatabaseService) {
-        this.movieDatabaseService = movieDatabaseService;
+    public MDBMovieController(final MDBMovieService MDBMovieService) {
+        this.MDBMovieService = MDBMovieService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,6 +24,6 @@ public class MovieDatabaseController {
             @ApiResponse(code = 200, message = "Successfully retrieved movies"),
     })
     public Movies getMoviesByQuery(@ApiParam(value = "q", required = true) @RequestParam(name = "q") final String query) {
-        return movieDatabaseService.searchMovies(query);
+        return MDBMovieService.searchMovies(query);
     }
 }

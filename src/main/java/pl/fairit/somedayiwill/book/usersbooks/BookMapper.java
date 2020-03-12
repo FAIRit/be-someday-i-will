@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import pl.fairit.somedayiwill.book.googlebooksapi.VolumeInfo;
+import pl.fairit.somedayiwill.book.booksearch.GBook;
 
 import java.util.Map;
 import java.util.StringJoiner;
@@ -22,11 +22,13 @@ public interface BookMapper {
     @Mapping(source = "imageLinks", target = "imageLink", qualifiedByName = "imageLinksMapToString")
     @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
     @Mapping(source = "categories", target = "categories", qualifiedByName = "stringArrayToString")
-    BookDto mapVolumeInfoToBookDto(VolumeInfo volumeInfo);
+    BookDto mapGBookToBookDto(GBook gBook);
 
     @Named("stringArrayToString")
     static String stringArrayToString(String[] array) {
-        if (isNull(array)) return "";
+        if (isNull(array)) {
+            return "";
+        }
         var joiner = new StringJoiner(", ");
         for (String s : array) {
             joiner.add(s);
@@ -35,7 +37,7 @@ public interface BookMapper {
     }
 
     @Named("imageLinksMapToString")
-    static String imageLinksMapToString(Map<String, String> imageLinks) {
+    static String imageLinksMapToString(final Map<String, String> imageLinks) {
         return imageLinks.get("smallThumbnail");
     }
 }

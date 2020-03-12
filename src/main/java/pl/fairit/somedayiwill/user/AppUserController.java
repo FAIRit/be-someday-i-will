@@ -31,7 +31,7 @@ public class AppUserController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public AppUserDto getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+    public AppUserDto getCurrentUser(@CurrentUser final UserPrincipal userPrincipal) {
         return appUserService.getUserDtoByAppUserId(userPrincipal.getId());
     }
 
@@ -45,7 +45,7 @@ public class AppUserController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteUser(@CurrentUser UserPrincipal userPrincipal) {
+    public void deleteUser(@CurrentUser final UserPrincipal userPrincipal) {
         appUserService.deleteUser(userPrincipal.getId());
     }
 }

@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.login;
+package pl.fairit.somedayiwill.security.jwt;
 
 import lombok.Data;
 

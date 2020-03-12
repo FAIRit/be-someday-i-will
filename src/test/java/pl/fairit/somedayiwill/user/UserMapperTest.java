@@ -1,6 +1,7 @@
 package pl.fairit.somedayiwill.user;
 
 
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -11,18 +12,20 @@ class UserMapperTest {
 
     @Test
     void shouldMapUserToUserDtoDto() {
-        AppUser user = AppUser.builder()
-                .email("email@email.com")
-                .name("Name")
+        //given
+        var faker = new Faker();
+        var user = AppUser.builder()
+                .email("fake@email.com")
+                .name(faker.name().firstName())
                 .password("jkdnkjasd")
                 .createdAt(LocalDate.now())
-                .id(5708284L)
+                .id(faker.number().randomNumber())
                 .build();
-
-        AppUserDto appUserDto = AppUserMapper.INSTANCE.map(user);
-
+        //when
+        var appUserDto = AppUserMapper.INSTANCE.map(user);
+        //then
         assertThat(appUserDto).isNotNull();
-        assertThat(appUserDto.getEmail()).isEqualTo("email@email.com");
-        assertThat(appUserDto.getName()).isEqualTo("Name");
+        assertThat(appUserDto.getEmail()).isEqualTo(user.getEmail());
+        assertThat(appUserDto.getName()).isEqualTo(user.getName());
     }
 }

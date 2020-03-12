@@ -2,40 +2,40 @@ package pl.fairit.somedayiwill.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import pl.fairit.somedayiwill.config.AppProperties;
 import pl.fairit.somedayiwill.security.user.UserPrincipal;
 
 import java.util.Date;
 
-@Service
 @Slf4j
+@Service
 public class TokenProvider {
 
-    private AppProperties appProperties;
+    @Value("${app.auth.token-secret}")
+    private String tokenSecret;
 
-    public TokenProvider(AppProperties appProperties) {
-        this.appProperties = appProperties;
-    }
+    @Value("${app.auth.token-expiration-mills}")
+    private long tokenExpirationMills;
 
     public String createToken(Authentication authentication) {
         var userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         var now = new Date();
-        var expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMills());
+        var expiryDate = new Date(now.getTime() + tokenExpirationMills);
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getId().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
+                .signWith(SignatureAlgorithm.HS512, tokenSecret)
                 .compact();
     }
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(appProperties.getAuth().getTokenSecret())
+                .setSigningKey(tokenSecret)
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -44,7 +44,7 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");

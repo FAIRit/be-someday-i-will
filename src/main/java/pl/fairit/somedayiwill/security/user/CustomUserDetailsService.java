@@ -14,7 +14,7 @@ import pl.fairit.somedayiwill.user.AppUserRepository;
 public class CustomUserDetailsService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
 
-    public CustomUserDetailsService(AppUserRepository appUserRepository) {
+    public CustomUserDetailsService(final AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
     }
 

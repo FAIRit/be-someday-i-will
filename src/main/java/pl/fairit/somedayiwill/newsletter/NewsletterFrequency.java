@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum NewsletterFrequency {
-    NEVER,
+    NEVER("never"),
     WEEKLY("weekly"),
     MONTHLY("monthly");
 

@@ -15,7 +15,7 @@ public class BookController {
 
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
+    public BookController(final BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -29,7 +29,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public BookDto getBookById(@ApiParam(value = "Credentials injected automatically while user has valid token", required = true) @CurrentUser UserPrincipal userPrincipal,
+    public BookDto getBookById(@ApiParam(value = "Credentials injected automatically while user has valid token", required = true) @CurrentUser final UserPrincipal userPrincipal,
                                @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
         return bookService.getUsersBook(bookId, userPrincipal.getId());
     }
@@ -44,7 +44,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public Books getAllBooks(@CurrentUser UserPrincipal userPrincipal) {
+    public Books getAllBooks(@CurrentUser final UserPrincipal userPrincipal) {
         return bookService.getAllUsersBooks(userPrincipal.getId());
     }
 
@@ -58,7 +58,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @CurrentUser UserPrincipal userPrincipal) {
+    public void addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @CurrentUser final UserPrincipal userPrincipal) {
         bookService.saveBook(bookDto, userPrincipal.getId());
     }
 
@@ -72,7 +72,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteBookById(@CurrentUser UserPrincipal userPrincipal,
+    public void deleteBookById(@CurrentUser final UserPrincipal userPrincipal,
                                @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
         bookService.deleteUsersBook(bookId, userPrincipal.getId());
     }
@@ -87,7 +87,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteAllBooks(@CurrentUser UserPrincipal userPrincipal) {
+    public void deleteAllBooks(@CurrentUser final UserPrincipal userPrincipal) {
         bookService.deleteAllUsersBooks(userPrincipal.getId());
     }
 }

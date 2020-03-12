@@ -14,7 +14,7 @@ import pl.fairit.somedayiwill.security.user.UserPrincipal;
 public class MovieController {
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(final MovieService movieService) {
         this.movieService = movieService;
     }
 
@@ -28,7 +28,7 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public MovieDto getMovieById(@CurrentUser UserPrincipal userPrincipal,
+    public MovieDto getMovieById(@CurrentUser final UserPrincipal userPrincipal,
                                  @ApiParam(value = "Movie's ID", required = true) @PathVariable(name = "movieId") final Long movieId) {
         return movieService.getUsersMovie(movieId, userPrincipal.getId());
     }
@@ -43,11 +43,11 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public Movies getAllMovies(@CurrentUser UserPrincipal userPrincipal) {
+    public Movies getAllMovies(@CurrentUser final UserPrincipal userPrincipal) {
         return movieService.getAllUsersMovies(userPrincipal.getId());
     }
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
@@ -56,11 +56,11 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void addMovie(@RequestBody final MovieDto movieDto, @CurrentUser UserPrincipal userPrincipal) {
+    public void addMovie(@RequestBody final MovieDto movieDto, @CurrentUser final UserPrincipal userPrincipal) {
         movieService.saveMovie(movieDto, userPrincipal.getId());
     }
 
-    @DeleteMapping("/{movieId}")
+    @DeleteMapping(value = "/{movieId}")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Delete your movie by it's ID")
@@ -70,7 +70,7 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteMovieById(@CurrentUser UserPrincipal userPrincipal,
+    public void deleteMovieById(@CurrentUser final UserPrincipal userPrincipal,
                                 @ApiParam(value = "Movie's ID", required = true) @PathVariable(name = "movieId") final Long movieId) {
         movieService.deleteUsersMovie(movieId, userPrincipal.getId());
     }
@@ -85,7 +85,7 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteAllMovies(@CurrentUser UserPrincipal userPrincipal) {
+    public void deleteAllMovies(@CurrentUser final UserPrincipal userPrincipal) {
         movieService.deleteAllUsersMovies(userPrincipal.getId());
     }
 }

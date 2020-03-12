@@ -2,7 +2,6 @@ package pl.fairit.somedayiwill.security.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import pl.fairit.somedayiwill.signup.SignUpRequest;
 import pl.fairit.somedayiwill.user.AppUser;
 
 @Mapper
