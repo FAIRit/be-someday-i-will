@@ -39,7 +39,7 @@ class GoogleBooksService implements BookService {
 
     private List<BookDto> mapResponseBodyToBookDtoList(final GBooks wrapper) {
         return Arrays.stream(wrapper.getItems())
-                .map(GBookWrapper::getGBook)
+                .map(GBookWrapper::getVolumeInfo)
                 .map(BookMapper.INSTANCE::mapGBookToBookDto)
                 .collect(Collectors.toList());
     }

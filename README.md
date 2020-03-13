@@ -15,7 +15,7 @@ After creating new account, user will gain acces to his own watch/read later lis
 ## Used tools & technologies
 * Spring Boot 2.2.4
 * Java 11
-* MySQL
+* MySQL 
 * Flyway
 * Swagger
 * Docker
@@ -29,10 +29,9 @@ To run project locally using Maven, Java and MySQL (remember to replace db url, 
 $ mvn clean install -DskipTests
 $ java --jar target/*jar
 ```
-(Coming soon)
+
 To run project locally using Docker and docker-compose:
 ```
-$ docker build …..
 $ docker-compose up
 ```
 

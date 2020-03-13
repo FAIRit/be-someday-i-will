@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GBookWrapper {
-    private pl.fairit.somedayiwill.book.booksearch.GBook gBook;
+    private GBook volumeInfo;
 }

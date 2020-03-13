@@ -27,7 +27,7 @@ CREATE TABLE books
     authors     varchar(255),
     buy_link    varchar(255),
     categories  varchar(255),
-    description varchar(255),
+    description varchar(8000),
     image_link  varchar(255),
     page_count  varchar(255),
     subtitle    varchar(255),
@@ -40,7 +40,7 @@ CREATE TABLE books
 CREATE TABLE movies
 (
     id           bigint       NOT NULL AUTO_INCREMENT,
-    description  varchar(255),
+    description  varchar(8000),
     genres       varchar(255),
     poster_link  varchar(255),
     release_date date,

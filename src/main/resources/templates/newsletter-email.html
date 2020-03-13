@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -8,44 +9,108 @@
     <meta content="telephone=no" name="format-detection">
     <title th:remove="all">Your <span th:text="${frequency}"></span> newsletter</title>
 </head>
+
 <body>
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
-    <tr>
-        <td align="center">
-            <h1 style="color: #333333; font-family: lora, georgia, 'times new roman', serif; font-size: 40px;">
-                <em>Hi <span th:text="${name}"></span></em></h1>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <h4 style="color: #333333;">Here is your <span th:text="${frequency}"></span> newsletter.</h4>
-        </td>
-    </tr>
-<!--    todo: extract movie or book-->
-    <tr>
-        <td align="center">
-            <p th:if="${books!=null and books.size()>0}">
-                Here are books you added to your Read Later List:
-            <ul>
-                <li th:each="book: ${books}" th:text="${book}">
-                </li>
-            </ul>
-            </p>
-            <p th:if="${movies!=null and movies.size()>0}">
-                Here are movies you added to your Watch Later List:
-            <ul>
-                <li th:each="movie: ${movies}" th:text="${movie}">
-                </li>
-            </ul>
-            </p>
-        </td>
-    </tr>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td style="padding: 10px 0 30px 0;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="600"
+                       style="border: 1px solid #cccccc; border-collapse: collapse;">
+                    <tr>
+                        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="color: #153643;  font-size: 24px;  font-family: Arial, sans-serif; font-weight: bold; font-style: italic;">
+                                        Hi <span th:text="${name}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                        Take a look at your collections.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td width="260" valign="top">
+                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                           width="100%" th:if="${books!=null and books.size()>0}">
+                                                        <tr>
+                                                            <td style="padding: 10px 0 10px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold;">
+                                                                Books on your read later list:
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 15px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                                <ul>
+                                                                    <li th:each="book: ${books}">
+                                                                        <div style="font-weight: bolder; font-size: 15px;"
+                                                                             th:text="${book.title}">
+                                                                        </div>
+                                                                        <div style="font-style: italic; font-size: 13px;"
+                                                                             th:text="${book.authors}">
+                                                                        </div>
+                                                                        <div style="font-size: 13px;"
+                                                                             th:text="${book.description}">
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td style="font-size: 0; line-height: 0;" width="20">
+                                                    &nbsp;
+                                                </td>
+                                                <td width="260" valign="top">
+                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                           width="100%" th:if="${movies!=null and movies.size()>0}">
+                                                        <tr>
+                                                            <td style="padding: 10px 0 10px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; font-weight: bold;">
+                                                                Movies on your watch later list:
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 15px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+                                                                <ul>
+                                                                    <li th:each="movie: ${movies}">
+                                                                        <div style="font-weight: bolder; font-size: 15px;"
+                                                                             th:text="${movie.title}">
+                                                                        </div>
+                                                                        <div style="font-style: italic; font-size: 13px;"
+                                                                             th:text="${movie.genres}">
+                                                                        </div>
+                                                                        <div style="font-size: 13px;"
+                                                                             th:text="${movie.description}">
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px 0 30px 15px; color: #153643; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px;">
+                            Regards, <br/>
+                            &emsp; <em>The Someday I Will Team</em>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
     </tbody>
 </table>
-<p>
-    Regards, <br/>
-    &emsp; <em>The Someday I will Team</em>
-</p>
 </body>
+
 </html>
