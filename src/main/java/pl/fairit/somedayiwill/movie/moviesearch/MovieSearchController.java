@@ -9,11 +9,11 @@ import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 @RestController
 @RequestMapping("/movies/search")
 @Api(value = "Movie searching")
-public class MDBMovieController {
+public class MovieSearchController {
 
     private final MDBMovieService MDBMovieService;
 
-    public MDBMovieController(final MDBMovieService MDBMovieService) {
+    public MovieSearchController(final MDBMovieService MDBMovieService) {
         this.MDBMovieService = MDBMovieService;
     }
 

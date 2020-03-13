@@ -9,11 +9,11 @@ import pl.fairit.somedayiwill.book.usersbooks.Books;
 @RestController
 @RequestMapping("/books/search")
 @Api(value = "Book searching")
-public class GoogleBookController {
+public class BookSearchController {
 
     private final GoogleBooksService googleBooksService;
 
-    public GoogleBookController(final GoogleBooksService googleBooksService) {
+    public BookSearchController(final GoogleBooksService googleBooksService) {
         this.googleBooksService = googleBooksService;
     }
 

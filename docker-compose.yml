@@ -1,45 +1,31 @@
-version: '3.7'
+version: '3'
 
 services:
-  #  app-server:
-  #    build:
-  #      context: .
-  #      dockerfile: Dockerfile
-  #    ports:
-  #      - '8080:8080'
-  #    restart: always
-  #    depends_on:
-  #      - db
-  #    environment:
-  #      SPRING_DATASOURCE_URL: jdbc:mysql://backend/someday?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
-  #      SPRING_DATASOURCE_USERNAME: root
-  #      SPRING_DATASOURCE_PASSWORD: root
-  #    networks:
-  #      - backend
-
-  #       Here will be created frontend container
-
-  db:
+  someday-mysql:
+    restart: always
+    container_name: someday-mysql
     image: mysql:8
-    ports:
-      - '3306:3306'
-    #    restart: always
     environment:
-      MYSQL_DATABASE: someday
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-  #    networks:
-  #      - backend
+      MYSQL_DATABASE: someday-dev-db
+      MYSQL_ROOT_PASSWORD: someday-db
+      MYSQL_ROOT_HOST: '%'
 
-#  admin:
-#    image: adminer
-#    ports:
-#      - '8080:8080'
+    ports:
+      - 6633:3306
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=someday-db --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
 
-
-#networks:
-#  backend:
-
-
-
+  someday-app:
+    restart: on-failure
+    build: ./
+    expose:
+      - "8080"
+    ports:
+      - 8080:8080
+    environment:
+      WAIT_HOSTS: mysql:3306
+    depends_on:
+      - someday-mysql
