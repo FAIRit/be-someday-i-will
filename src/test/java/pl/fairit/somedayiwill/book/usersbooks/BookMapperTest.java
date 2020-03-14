@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book;
+package pl.fairit.somedayiwill.book.usersbooks;
 
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;

@@ -7,13 +7,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith({MockitoExtension.class})
 class SendGridEmailServiceTest {
-
-    @Mock
-    SendGridEmailService emailService;
-
-    @Test
-    void haveNoIdeaWhatIAmDoind() {
-//        Mockito.when(emailService.sendHtmlMail("","","")).then()
-    }
+//
+//    @Mock
+//    SendGridEmailService emailService;
+//
+//    @Test
+//    void haveNoIdeaWhatIAmDoind() {
+////        Mockito.when(emailService.sendHtmlMail("","","")).then()
+//    }
 
 }

@@ -23,6 +23,7 @@ After creating new account, user will gain access to his own watch/read later li
 * Docker
 * SendGrid
 * Thymeleaf
+* Lombok
 
 
 ## Setup:

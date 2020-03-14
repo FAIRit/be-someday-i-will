@@ -13,15 +13,19 @@ import static java.util.Objects.isNull;
 
 @Mapper
 public interface BookMapper {
+    int DESCRIPTION_MAX_LENGTH = 997;
+
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
     BookDto mapBookToBookDto(Book book);
 
+    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
     Book mapBookDtoToBook(BookDto bookDto);
 
     @Mapping(source = "imageLinks", target = "imageLink", qualifiedByName = "imageLinksMapToString")
     @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
     @Mapping(source = "categories", target = "categories", qualifiedByName = "stringArrayToString")
+    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
     BookDto mapGBookToBookDto(GBook gBook);
 
     @Named("stringArrayToString")
@@ -37,7 +41,12 @@ public interface BookMapper {
     }
 
     @Named("imageLinksMapToString")
-    static String imageLinksMapToString(final Map<String, String> imageLinks) {
+    static String imageLinksMapToString(Map<String, String> imageLinks) {
         return imageLinks.get("smallThumbnail");
+    }
+
+    @Named("trimToLongDescription")
+    static String trimToLongDescription(String description) {
+        return description.length() < DESCRIPTION_MAX_LENGTH ? description : description.substring(0, DESCRIPTION_MAX_LENGTH) + "...";
     }
 }
