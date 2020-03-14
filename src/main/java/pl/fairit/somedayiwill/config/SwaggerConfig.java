@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.fairit.somedayiwill.avatar.AvatarController;
 import pl.fairit.somedayiwill.book.usersbooks.BookController;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieController;
+import pl.fairit.somedayiwill.security.jwt.AuthResponse;
 import pl.fairit.somedayiwill.user.AppUserController;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityScheme;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -32,15 +32,20 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @ComponentScan(basePackageClasses = {AppUserController.class, AvatarController.class, BookController.class, MovieController.class})
 public class SwaggerConfig {
 
+    public static final String DEFAULT_INCLUDE_PATTERN = "/users/.*";
+
+
     @Bean
     public Docket SwaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(getSwaggerPaths())
                 .build()
                 .securitySchemes(Lists.newArrayList(apiKey()))
+                .securityContexts(Lists.newArrayList(securityContext()))
                 .globalResponseMessage(RequestMethod.GET,
                         List.of(new ResponseMessageBuilder()
                                 .code(500)
@@ -57,9 +62,24 @@ public class SwaggerConfig {
                 .build();
     }
 
-    @Bean
-    SecurityScheme apiKey() {
-        return new ApiKey("AUTHORIZATION", "token", "header");
+    private ApiKey apiKey() {
+        return new ApiKey("JWT",  "Authorization", "header");
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN))
+                .build();
+    }
+
+    List<SecurityReference> defaultAuth() {
+        var authorizationScope
+                = new AuthorizationScope("global", "accessEverything");
+        var authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(
+                new SecurityReference("JWT", authorizationScopes));
     }
 
     private Predicate<String> getSwaggerPaths() {

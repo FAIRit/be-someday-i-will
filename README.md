@@ -2,7 +2,7 @@
 
 ## Overview
 This app will allow users to search books, movies and tv series by entering keywords (title, author, etc.).
-After creating new account, user will gain acces to his own watch/read later lists.
+After creating new account, user will gain access to his own watch/read later lists.
 
 ## User stories
  - [ ] User can create an account
@@ -15,6 +15,8 @@ After creating new account, user will gain acces to his own watch/read later lis
 ## Used tools & technologies
 * Spring Boot 2.2.4
 * Java 11
+* Maven
+* JWT
 * MySQL 
 * Flyway
 * Swagger

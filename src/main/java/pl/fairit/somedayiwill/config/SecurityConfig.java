@@ -26,6 +26,8 @@ import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
@@ -33,9 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/books/search/**",
             "/movies/search/**",
             "/auth/**",
-            "/swagger*/**",
+            // Swagger UI
+            "/webjars/**",
             "/v2/api-docs",
-            "/webjars/**"
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
     };
 
     public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {

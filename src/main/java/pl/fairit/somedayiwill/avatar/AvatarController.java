@@ -2,7 +2,6 @@ package pl.fairit.somedayiwill.avatar;
 
 import io.swagger.annotations.*;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import pl.fairit.somedayiwill.security.user.CurrentUser;
 import pl.fairit.somedayiwill.security.user.UserPrincipal;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/users/me/avatar")
@@ -37,7 +37,7 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public ResponseEntity<ByteArrayResource> getAvatar(@CurrentUser final UserPrincipal userPrincipal) {
+    public ResponseEntity<ByteArrayResource> getAvatar(@ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         var userAvatar = avatarService.getUsersAvatar(userPrincipal.getId());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(userAvatar.getFileType()))
@@ -55,7 +55,7 @@ public class AvatarController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     public void uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
-                             @CurrentUser final UserPrincipal userPrincipal) {
+                             @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         final AppUser existingUser = appUserService.getExistingUser(userPrincipal.getId());
         avatarService.saveAvatar(file, existingUser);
     }
@@ -70,7 +70,7 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void deleteAvatar(@CurrentUser final UserPrincipal userPrincipal) {
+    public void deleteAvatar(@ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         avatarService.deleteUsersAvatar(userPrincipal.getId());
     }
 }
