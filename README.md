@@ -2,7 +2,7 @@
 
 ## Overview
 This app will allow users to search books, movies and tv series by entering keywords (title, author, etc.).
-After creating new account, user will gain acces to his own watch/read later lists.
+After creating new account, user will gain access to his own watch/read later lists.
 
 ## User stories
  - [ ] User can create an account
@@ -10,14 +10,37 @@ After creating new account, user will gain acces to his own watch/read later lis
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
- - [ ] User can click add movie/book to his watch later/read later list
+ - [ ] User can add movie/book to his watch later/read later list
 
-## Used technologies
-* Spring Boot
-* MySQL
+## Used tools & technologies
+* Spring Boot 2.2.4
+* Java 11
+* Maven
+* JWT
+* MySQL 
+* Flyway
+* Swagger
 * Docker
+* SendGrid
+* Thymeleaf
+
+
+## Setup:
+To run project locally using Maven, Java and MySQL (remember to replace db url, password and username in application.properties with your own credentials):
+```
+$ mvn clean install -DskipTests
+$ java --jar target/*jar
+```
+
+To run project locally using Docker and docker-compose:
+```
+$ docker-compose up
+```
 
 ## Used APIs
 * [Google Books API](https://developers.google.com/books)
 * [The Movie Database API](https://developers.themoviedb.org/3/genres/get-tv-list)
 
+
+### Status:
+Work in progress. 

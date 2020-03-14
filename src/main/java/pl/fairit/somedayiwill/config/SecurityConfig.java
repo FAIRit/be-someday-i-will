@@ -7,15 +7,17 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.fairit.somedayiwill.security.CustomUserDetailsService;
-import pl.fairit.somedayiwill.security.RestAuthenticationEntryPoint;
-import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
+import pl.fairit.somedayiwill.security.jwt.RestAuthenticationEntryPoint;
+import pl.fairit.somedayiwill.security.jwt.TokenAuthenticationFilter;
+import pl.fairit.somedayiwill.security.jwt.TokenProvider;
+import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -24,23 +26,39 @@ import pl.fairit.somedayiwill.security.TokenAuthenticationFilter;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final TokenProvider tokenProvider;
+    private final CustomUserDetailsService userDetailsService;
+    private static final String[] AUTH_WHITELIST = {
+            "/books/search/**",
+            "/movies/search/**",
+            "/auth/**",
+            // Swagger UI
+            "/webjars/**",
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+    };
 
-    private final CustomUserDetailsService customUserDetailsService;
-
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
+    public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
+        this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
+        return new TokenAuthenticationFilter(userDetailsService, tokenProvider);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -58,39 +76,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //@formatter:off
         http
-                .cors()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf()
-                .disable()
-                .formLogin()
-                .disable()
-                .httpBasic()
-                .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .and()
                 .authorizeRequests()
-                .antMatchers("/",
-                        "/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .antMatchers("/auth/**")
+                .antMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .anyRequest()
-                .authenticated();
-
-        // Add our custom Token based authentication filter
+                .authenticated()
+                .and()
+                .cors()
+                .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .csrf()
+                    .disable()
+                    .formLogin()
+                    .disable()
+                    .httpBasic()
+                    .disable()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .and();
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //@formatter:on
     }
 }
