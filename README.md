@@ -5,25 +5,28 @@ This app will allow users to search books, movies and tv series by entering keyw
 After creating new account, user will gain access to his own watch/read later lists.
 
 ## User stories
- - [ ] User can create an account
- - [ ] User can upload his avatar (nice to have feature)
+ - [x] User can create an account
+ - [x] User can upload his avatar
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
- - [ ] User can add movie/book to his watch later/read later list
+ - [x] User can add movie/book to his watch later/read later list
 
 ## Used tools & technologies
 * Spring Boot 2.2.4
 * Java 11
 * Maven
 * JWT
-* MySQL 
+* MySQL
 * Flyway
-* Swagger
-* Docker
+* Swagger 2
+* Docker (including Docker Compose)
 * SendGrid
 * Thymeleaf
 * Lombok
+* Mockito
+* JUnit 5
+* RestAssured
 
 
 ## Setup:

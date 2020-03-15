@@ -1,5 +1,6 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
+import com.github.javafaker.Faker;
 import io.swagger.models.auth.In;
 import org.junit.jupiter.api.Test;
 import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;
@@ -14,15 +15,15 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMDBMovieToMovieDto() {
+        var faker = new Faker();
         var mdbMovie = MDBMovie.builder()
                 .genre_ids(new Integer[]{1, 6, 13})
-                .poster_path("poster path")
+                .poster_path(faker.internet().url())
                 .release_date(LocalDate.now())
-                .overview("Here is an overview")
-                .title("Best movie ever")
+                .overview(faker.gameOfThrones().quote())
+                .title(faker.harryPotter().house())
                 .build();
-
-        Map<Integer, String> genres = new HashMap<>();
+        var genres = new HashMap<Integer, String>();
         genres.put(1, "Adventure");
         genres.put(5, "Sci-Fi");
         genres.put(13, "Animation");
@@ -34,12 +35,13 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMovieToMovieDto() {
+        var faker = new Faker();
         var movie = Movie.builder()
                 .genres("Adventure, Animation")
-                .posterLink("Best movie ever")
+                .posterLink(faker.internet().url())
                 .releaseDate(LocalDate.now())
-                .description("Best movie ever")
-                .title("Best movie ever")
+                .description(faker.lorem().sentence())
+                .title(faker.book().title())
                 .build();
 
         var movieDto = MovieMapper.INSTANCE.mapMovieToMovieDto(movie);
@@ -53,12 +55,13 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMovieDtoToMovie() {
+        var faker = new Faker();
         var movieDto = MovieDto.builder()
-                .genres("Adventure, Animation")
-                .posterLink("Best movie ever")
+                .genres(faker.book().genre())
+                .posterLink(faker.internet().url())
                 .releaseDate(LocalDate.now())
-                .description("Best movie ever")
-                .title("Best movie ever")
+                .description(faker.lorem().sentence())
+                .title(faker.book().title())
                 .build();
 
         var movie = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
@@ -69,5 +72,4 @@ class MovieMapperTest {
         assertThat(movie.getReleaseDate()).isEqualTo(movieDto.getReleaseDate());
         assertThat(movie.getTitle()).isEqualTo(movieDto.getTitle());
     }
-
 }

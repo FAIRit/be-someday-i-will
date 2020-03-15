@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.book.booksearch;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;

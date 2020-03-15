@@ -18,10 +18,10 @@ class BookMapperTest {
         var faker = new Faker();
         var book = Book.builder()
                 .authors(faker.book().author())
-                .buyLink("link to shop")
-                .imageLink("link to image")
+                .buyLink(faker.internet().url())
+                .imageLink(faker.internet().url())
                 .title(faker.book().title())
-                .description("Someday i will read his fantastic book")
+                .description(faker.witcher().quote())
                 .pageCount(faker.number().randomDigitNotZero())
                 .categories(faker.book().genre())
                 .build();
@@ -43,10 +43,10 @@ class BookMapperTest {
         var faker = new Faker();
         var bookDto = BookDto.builder()
                 .authors(faker.book().author())
-                .buyLink("link to shop")
-                .imageLink("link to image")
+                .buyLink(faker.internet().url())
+                .imageLink(faker.internet().url())
                 .title(faker.book().title())
-                .description("Someday i will read his fantastic book")
+                .description(faker.overwatch().quote())
                 .pageCount(faker.number().randomDigitNotZero())
                 .categories(faker.book().genre())
                 .build();
@@ -54,13 +54,13 @@ class BookMapperTest {
         var book = BookMapper.INSTANCE.mapBookDtoToBook(bookDto);
 
         assertThat(book).isNotNull();
-        assertThat(book.getAuthors()).isEqualTo("Author");
-        assertThat(book.getBuyLink()).isEqualTo("link to shop");
-        assertThat(book.getImageLink()).isEqualTo("link to image");
-        assertThat(book.getTitle()).isEqualTo("Title");
-        assertThat(book.getDescription()).isEqualTo("Someday i will read his fantastic book");
-        assertThat(book.getPageCount()).isEqualTo(34);
-        assertThat(book.getCategories()).isEqualTo("crime, adventure");
+        assertThat(book.getAuthors()).isEqualTo(bookDto.getAuthors());
+        assertThat(book.getBuyLink()).isEqualTo(bookDto.getBuyLink());
+        assertThat(book.getImageLink()).isEqualTo(bookDto.getImageLink());
+        assertThat(book.getTitle()).isEqualTo(bookDto.getTitle());
+        assertThat(book.getDescription()).isEqualTo(bookDto.getDescription().length() < 7997 ? bookDto.getDescription() : bookDto.getDescription().substring(0, 7997) + "...");
+        assertThat(book.getPageCount()).isEqualTo(bookDto.getPageCount());
+        assertThat(book.getCategories()).isEqualTo(bookDto.getCategories());
     }
 
     @Test
@@ -68,10 +68,10 @@ class BookMapperTest {
         var faker = new Faker();
         var gBook = GBook.builder()
                 .authors(new String[]{faker.book().author(), faker.book().author()})
-                .buyLink("link to shop")
-                .imageLinks(Collections.singletonMap("smallThumbnail", "link to image"))
+                .buyLink(faker.internet().url())
+                .imageLinks(Collections.singletonMap("smallThumbnail", faker.internet().url()))
                 .title(faker.book().title())
-                .description("Someday i will read his fantastic book")
+                .description(faker.harryPotter().quote())
                 .pageCount(faker.number().randomDigitNotZero())
                 .categories(new String[]{faker.book().genre(), faker.book().genre()})
                 .build();
@@ -90,7 +90,8 @@ class BookMapperTest {
 
     @Test
     void shouldConvertStringArrayToString() {
-        var authorsAsAnArray = new String[]{"Author1", "Author2"};
+        var faker = new Faker();
+        var authorsAsAnArray = new String[]{faker.book().author(), faker.book().author()};
 
         var authorsAsString = BookMapper.stringArrayToString(authorsAsAnArray);
 
@@ -99,7 +100,8 @@ class BookMapperTest {
 
     @Test
     void shouldConvertImageLinksMapToString() {
-        var imageLinks = Collections.singletonMap("smallThumbnail", "link to image");
+        var faker = new Faker();
+        var imageLinks = Collections.singletonMap("smallThumbnail", faker.internet().url());
 
         var imageLink = BookMapper.imageLinksMapToString(imageLinks);
 

@@ -14,9 +14,9 @@ class UserMapperTest {
     void shouldMapUserToUserDtoDto() {
         var faker = new Faker();
         var user = AppUser.builder()
-                .email("fake@email.com")
+                .email(faker.internet().emailAddress())
                 .name(faker.name().firstName())
-                .password("jkdnkjasd")
+                .password(faker.internet().password())
                 .createdAt(LocalDate.now())
                 .id(faker.number().randomNumber())
                 .build();

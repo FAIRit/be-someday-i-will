@@ -44,17 +44,17 @@ public class MovieService {
 
     public void deleteUsersMovie(final Long movieId, final Long userId) {
         var existingMovie = getExistingMovieById(movieId);
-        if (existingMovie.getUser().getId().equals(userId)) {
-            movieRepository.deleteById(movieId);
+        if (!existingMovie.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("You do not have permission to access this content");
         }
-        throw new AccessDeniedException("You do not have permission to access this content");
+        movieRepository.deleteById(movieId);
     }
 
     public void deleteAllUsersMovies(final Long userId) {
         movieRepository.deleteAllByUserId(userId);
     }
 
-    private Movie getExistingMovieById(final Long movieId) {
+    Movie getExistingMovieById(final Long movieId) {
         return movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie with given id does not exist"));
     }
 }

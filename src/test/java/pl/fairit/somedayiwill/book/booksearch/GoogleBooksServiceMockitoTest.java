@@ -34,15 +34,15 @@ class GoogleBooksServiceMockitoTest {
     GoogleBooksService booksService;
 
     @Test
-    void searchBooks() {
+    void shouldReturnBooksWhenQueryGiven() {
         var faker = new Faker();
         var query = faker.book().title();
         var gBooksToReturn = retrieveGBooks();
         var books = mapGBooksToBooks(gBooksToReturn);
 
         when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(new ResponseEntity(gBooksToReturn, HttpStatus.OK));
-
         var foundBooks = booksService.searchBooks(query);
+
         assertEquals(foundBooks, books);
     }
 
@@ -56,10 +56,10 @@ class GoogleBooksServiceMockitoTest {
         var faker = new Faker();
         return GBook.builder()
                 .authors(new String[]{faker.book().author(), faker.book().author()})
-                .buyLink("https://buyMe.com")
+                .buyLink(faker.internet().url())
                 .categories(new String[]{faker.book().genre()})
                 .description(faker.lorem().sentence())
-                .imageLinks(Collections.singletonMap("smallThumbnail", "https://lookAtMe.com"))
+                .imageLinks(Collections.singletonMap("smallThumbnail", faker.internet().url()))
                 .pageCount(faker.number().numberBetween(10, 300))
                 .publishedDate((faker.date().past(2010, TimeUnit.DAYS)).toString())
                 .title(faker.book().title())

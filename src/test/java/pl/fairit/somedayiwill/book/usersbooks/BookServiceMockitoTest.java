@@ -75,8 +75,8 @@ class BookServiceMockitoTest {
         var userId = 3L;
 
         when(bookRepository.findAllByUserId(userId)).thenReturn(booksToReturnByRepository);
-
         var result = bookService.getAllUsersBooks(userId);
+
         assertEquals(booksToReturn, result);
     }
 
@@ -109,10 +109,10 @@ class BookServiceMockitoTest {
         var faker = new Faker();
         return BookDto.builder()
                 .authors(faker.book().author())
-                .buyLink("https://buyMe.com")
+                .buyLink(faker.internet().url())
                 .categories(faker.book().genre())
                 .description(faker.lorem().sentence())
-                .imageLink("https://lookAtMe.com")
+                .imageLink(faker.internet().url())
                 .pageCount(345)
                 .title(faker.book().title())
                 .build();
@@ -122,10 +122,10 @@ class BookServiceMockitoTest {
         var faker = new Faker();
         return Book.builder()
                 .authors(faker.book().author())
-                .buyLink("https://buyMe.com")
+                .buyLink(faker.internet().url())
                 .categories(faker.book().genre())
                 .description(faker.lorem().sentence())
-                .imageLink("https://lookAtMe.com")
+                .imageLink(faker.internet().url())
                 .pageCount(345)
                 .title(faker.book().title())
                 .build();

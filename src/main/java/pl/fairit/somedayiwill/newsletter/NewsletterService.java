@@ -35,18 +35,18 @@ public class NewsletterService {
     }
 
     @Scheduled(cron = "${app.cron.weekly-pattern}")
-    private void sendWeeklyNewsletter() {
+    void sendWeeklyNewsletter() {
         log.info("Sending weekly newsletter");
         appUserService.getAllUsersForWeeklyNewsletter().forEach(this::sendNewsletter);
     }
 
     @Scheduled(cron = "${app.cron.monthly-pattern}")
-    private void sendMonthlyNewsletter() {
+    void sendMonthlyNewsletter() {
         log.info("Sending monthly newsletter");
         appUserService.getAllUsersForMonthlyNewsletter().forEach(this::sendNewsletter);
     }
 
-    private void sendNewsletter(final AppUser appUser) {
+    void sendNewsletter(final AppUser appUser) {
         var frequency = appUser.getNewsletterFrequency().getValue();
         var subject = "Your " + frequency + " newsletter";
         var movies = movieService.getAllUsersMovies(appUser.getId()).getMovies();
@@ -56,7 +56,7 @@ public class NewsletterService {
         sendGridEmailService.sendHtmlMail(content, email, subject);
     }
 
-    private String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
+    String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
         final Locale locale = new Locale("en");
         final Context ctx = new Context(locale);
         ctx.setVariable("frequency", frequency);
