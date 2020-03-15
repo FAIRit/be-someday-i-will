@@ -9,12 +9,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.get;
 
-@SpringBootTest()
+@SpringBootTest
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 class BookSearchControllerRestAssuredTest {
     @Test
     public void shouldReturnBooksWhenSearchPerformed() {
-        get("/books/search?q=frozen")
+        var query = "frozen";
+        get("/books/search?q=" + query)
                 .then()
                 .assertThat()
                 .statusCode(200);
