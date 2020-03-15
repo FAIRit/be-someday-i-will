@@ -24,21 +24,4 @@ class AuthControllerRestAssuredTest {
                 .then()
                 .statusCode(201);
     }
-
-    //    Response response =
-//            given()
-//                    .headers(
-//                            "Authorization",
-//                            "Bearer " + bearerToken,
-//                            "Content-Type",
-//                            ContentType.JSON,
-//                            "Accept",
-//                            ContentType.JSON)
-//                    .when()
-//                    .get(url)
-//                    .then()
-//                    .contentType(ContentType.JSON)
-//                    .extract()
-//                    .response();
-
 }

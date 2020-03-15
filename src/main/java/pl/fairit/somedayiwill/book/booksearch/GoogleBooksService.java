@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.book.usersbooks.BookDto;
 import pl.fairit.somedayiwill.book.usersbooks.BookMapper;
+import pl.fairit.somedayiwill.book.usersbooks.Books;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,13 +29,13 @@ class GoogleBooksService implements BookService {
         this.restTemplate = restTemplate;
     }
 
-    public pl.fairit.somedayiwill.book.usersbooks.Books searchBooks(final String query) {
+    public Books searchBooks(final String query) {
         var fullPath = getFullPath(query);
-        ResponseEntity apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
+        ResponseEntity<GBooks> apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
         if (isNull(apiResponse.getBody()))
-            return new pl.fairit.somedayiwill.book.usersbooks.Books(Collections.emptyList());
+            return new Books(Collections.emptyList());
         var gbWrapper = (GBooks) apiResponse.getBody();
-        return new pl.fairit.somedayiwill.book.usersbooks.Books(mapResponseBodyToBookDtoList(gbWrapper));
+        return new Books(mapResponseBodyToBookDtoList(gbWrapper));
     }
 
     private List<BookDto> mapResponseBodyToBookDtoList(final GBooks wrapper) {

@@ -55,5 +55,4 @@ public class AvatarService {
     private boolean isSupportedType(final String fileType) {
         return nonNull(fileType) && (fileType.equals(MimeTypeUtils.IMAGE_JPEG_VALUE) || fileType.equals(MimeTypeUtils.IMAGE_PNG_VALUE));
     }
-
 }
