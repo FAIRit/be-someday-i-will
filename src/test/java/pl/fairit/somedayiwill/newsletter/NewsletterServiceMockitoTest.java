@@ -3,26 +3,17 @@ package pl.fairit.somedayiwill.newsletter;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.context.IContext;
 import pl.fairit.somedayiwill.book.usersbooks.BookService;
-import pl.fairit.somedayiwill.book.usersbooks.Books;
-import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieService;
-import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
 
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class NewsletterServiceMockitoTest {
@@ -45,15 +36,13 @@ class NewsletterServiceMockitoTest {
     @InjectMocks
     NewsletterService newsletterService;
 
+    //todo: check if weekly/monthly newsletter goes to proper users according to NewsletterFrequency they chose
+    //todo: check if sendHTMLMail method from SendGridEmailService was called for every provided user
+    //how to mock email template for process method (TextTemplateEngine)?
+
     @Test
     public void shouldSendNewsletterToAllAppUsers() {
-//        var faker = new Faker();
-//        var users = List.of(retrieveAppUser());
-//
-//        when(userService.getAllUsersForWeeklyNewsletter()).thenReturn(users);
-//
-//        newsletterService.sendWeeklyNewsletter();
-//        verify(newsletterService, times(users.size())).sendNewsletter(users.get(0));
+
     }
 
     private List<AppUser> retrieveAppUserList() {

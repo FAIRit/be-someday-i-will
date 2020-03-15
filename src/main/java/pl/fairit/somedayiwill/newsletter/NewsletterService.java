@@ -58,11 +58,11 @@ public class NewsletterService {
 
     String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
         final Locale locale = new Locale("en");
-        final Context ctx = new Context(locale);
-        ctx.setVariable("frequency", frequency);
-        ctx.setVariable("name", name);
-        ctx.setVariable("books", books);
-        ctx.setVariable("movies", movies);
-        return textTemplateEngine.process(NEWSLETTER_EMAIL_TEMPLATE, ctx);
+        final Context context = new Context(locale);
+        context.setVariable("frequency", frequency);
+        context.setVariable("name", name);
+        context.setVariable("books", books);
+        context.setVariable("movies", movies);
+        return textTemplateEngine.process(NEWSLETTER_EMAIL_TEMPLATE, context);
     }
 }
