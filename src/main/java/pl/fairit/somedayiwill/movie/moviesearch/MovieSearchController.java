@@ -11,10 +11,10 @@ import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 @Api(value = "Movie searching")
 public class MovieSearchController {
 
-    private final MDBMovieService MDBMovieService;
+    private final MovieService movieService;
 
-    public MovieSearchController(final MDBMovieService MDBMovieService) {
-        this.MDBMovieService = MDBMovieService;
+    public MovieSearchController(final MDBMovieService movieService) {
+        this.movieService = movieService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,6 +24,6 @@ public class MovieSearchController {
             @ApiResponse(code = 200, message = "Successfully retrieved movies"),
     })
     public Movies getMoviesByQuery(@ApiParam(value = "q", required = true) @RequestParam(name = "q") final String query) {
-        return MDBMovieService.searchMovies(query);
+        return movieService.searchMovies(query);
     }
 }

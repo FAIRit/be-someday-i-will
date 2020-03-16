@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.fairit.somedayiwill.avatar.AvatarStorageException;
 import pl.fairit.somedayiwill.security.user.UserAlreadyExistsException;
 
+//todo: remove duplicated code, add status codes.
 @RestControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)

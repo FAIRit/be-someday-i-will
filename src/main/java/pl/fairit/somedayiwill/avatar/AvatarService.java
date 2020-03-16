@@ -26,7 +26,7 @@ public class AvatarService {
         this.appUserRepository = appUserRepository;
     }
 
-    public void saveAvatar(final MultipartFile file, final AppUser user) {
+    public Avatar saveAvatar(final MultipartFile file, final AppUser user) {
         try {
             if (!isSupportedType(file.getContentType())) {
                 throw new AvatarStorageException("Unsupported file type.");
@@ -39,8 +39,10 @@ public class AvatarService {
 
             user.setAvatar(avatar);
             appUserRepository.save(user);
+            return avatar;
         } catch (IOException exp) {
-            log.error("Could not store file " + exp.getMessage());
+            log.error(exp.getMessage());
+            throw new AvatarStorageException("Could not store file.");
         }
     }
 

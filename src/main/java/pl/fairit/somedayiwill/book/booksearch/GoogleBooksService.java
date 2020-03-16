@@ -31,7 +31,7 @@ class GoogleBooksService implements BookService {
 
     public Books searchBooks(final String query) {
         var fullPath = getFullPath(query);
-        ResponseEntity<GBooks> apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
+        var apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
         if (isNull(apiResponse.getBody()))
             return new Books(Collections.emptyList());
         var gbWrapper = (GBooks) apiResponse.getBody();

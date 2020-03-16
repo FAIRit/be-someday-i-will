@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 import pl.fairit.somedayiwill.book.booksearch.GBook;
 
 import java.util.Map;
-import java.util.StringJoiner;
 
 import static java.util.Objects.isNull;
 
@@ -30,14 +29,7 @@ public interface BookMapper {
 
     @Named("stringArrayToString")
     static String stringArrayToString(String[] array) {
-        if (isNull(array)) {
-            return "";
-        }
-        var joiner = new StringJoiner(", ");
-        for (String s : array) {
-            joiner.add(s);
-        }
-        return joiner.toString();
+        return isNull(array) ? "" : String.join(", ", array);
     }
 
     @Named("imageLinksMapToString")

@@ -32,7 +32,7 @@ public class MDBMovieService implements MovieService {
 
     public Movies searchMovies(final String query) {
         var fullPath = getFullPath(query);
-        ResponseEntity<MDBWrapper> apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
+        var apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
         if (isNull(apiResponse.getBody())) {
             return new Movies(Collections.emptyList());
         }
@@ -41,7 +41,7 @@ public class MDBMovieService implements MovieService {
     }
 
     private Map<Integer, String> getGenresMap() {
-        ResponseEntity<Genres> apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
+        var apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
         if (isNull(apiResponse.getBody())) {
             return Collections.emptyMap();
         }

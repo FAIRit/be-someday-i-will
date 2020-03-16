@@ -11,10 +11,10 @@ import pl.fairit.somedayiwill.book.usersbooks.Books;
 @Api(value = "Book searching")
 public class BookSearchController {
 
-    private final GoogleBooksService googleBooksService;
+    private final BookService bookService;
 
-    public BookSearchController(final GoogleBooksService googleBooksService) {
-        this.googleBooksService = googleBooksService;
+    public BookSearchController(final GoogleBooksService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,6 +24,6 @@ public class BookSearchController {
             @ApiResponse(code = 200, message = "Successfully retrieved books"),
     })
     public Books getBooksByQuery(@ApiParam(value = "q", required = true) @RequestParam(name = "q") final String query) {
-        return googleBooksService.searchBooks(query);
+        return bookService.searchBooks(query);
     }
 }

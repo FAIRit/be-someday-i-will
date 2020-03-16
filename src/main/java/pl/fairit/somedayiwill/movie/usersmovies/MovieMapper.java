@@ -8,10 +8,10 @@ import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.StringJoiner;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Mapper
 public interface MovieMapper {
@@ -30,15 +30,13 @@ public interface MovieMapper {
             return null;
         }
 
-        var joiner = new StringJoiner(", ");
-        Arrays.stream(mdbMovie.getGenre_ids())
-                .forEach(genreId -> {
-                    var genre = genresMap.get(genreId);
-                    if (nonNull(genre)) joiner.add(genre);
-                });
+        var genres = Arrays.stream(mdbMovie.getGenre_ids())
+                .map(genresMap::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(", "));
 
         MovieDto movieDto = new MovieDto();
-        movieDto.setGenres(joiner.toString());
+        movieDto.setGenres(genres);
         movieDto.setDescription(trimToLongDescription(mdbMovie.getOverview()));
         movieDto.setPosterLink(getFullPosterLink(mdbMovie.getPoster_path()));
         movieDto.setTitle(mdbMovie.getTitle());
