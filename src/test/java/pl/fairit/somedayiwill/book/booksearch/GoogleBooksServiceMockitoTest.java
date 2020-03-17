@@ -1,28 +1,24 @@
 package pl.fairit.somedayiwill.book.booksearch;
 
 import com.github.javafaker.Faker;
-import io.swagger.annotations.ApiResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.book.usersbooks.BookMapper;
 import pl.fairit.somedayiwill.book.usersbooks.Books;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,17 +27,17 @@ class GoogleBooksServiceMockitoTest {
     RestTemplate restTemplate;
 
     @InjectMocks
-    GoogleBooksService booksService;
+    BookService booksService;
 
     @Test
-    void shouldReturnBooksWhenQueryGiven() {
+    void shouldReturnBooksWhenAuthorGiven() {
         var faker = new Faker();
         var query = faker.book().title();
         var gBooksToReturn = retrieveGBooks();
         var books = mapGBooksToBooks(gBooksToReturn);
 
         when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(new ResponseEntity(gBooksToReturn, HttpStatus.OK));
-        var foundBooks = booksService.searchBooks(query);
+        var foundBooks = booksService.searchBooksByAuthor(query);
 
         assertEquals(foundBooks, books);
     }

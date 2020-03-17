@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-class GBookWrapper {
+public class GBookWrapper {
     private GBook volumeInfo;
 }

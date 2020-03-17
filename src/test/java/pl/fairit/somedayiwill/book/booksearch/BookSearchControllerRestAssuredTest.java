@@ -12,9 +12,9 @@ import static io.restassured.RestAssured.get;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 class BookSearchControllerRestAssuredTest {
     @Test
-    public void shouldReturnBooksWhenSearchPerformed() {
-        var query = "frozen";
-        get("/books/search?q=" + query)
+    public void shouldReturnBooksWhenSearchWhenAuthorGiven() {
+        var query = "Rowling";
+        get("/books/search?author=" + query)
                 .then()
                 .assertThat()
                 .statusCode(200);

@@ -17,13 +17,13 @@ public class MovieSearchController {
         this.movieService = movieService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = "title")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Search for movies that contain provided text", response = Movies.class)
+    @ApiOperation(value = "Search for movies by title", response = Movies.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved movies"),
     })
-    public Movies getMoviesByQuery(@ApiParam(value = "q", required = true) @RequestParam(name = "q") final String query) {
-        return movieService.searchMovies(query);
+    public Movies getMoviesByTitle(@ApiParam(value = "title", required = true) @RequestParam(name = "title") final String query) {
+        return movieService.searchMoviesByTitle(query);
     }
 }

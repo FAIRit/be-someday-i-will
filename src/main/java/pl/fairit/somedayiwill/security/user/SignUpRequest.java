@@ -19,15 +19,15 @@ import static java.util.Objects.nonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpRequest {
-    @NotBlank
+    @NotBlank(message = "Name has to be provided")
     @Length(min = 2, message = "Name has to be at at least 2 character long")
     private String name;
 
-    @NotBlank
-    @Email(message = "Invalid email")
+    @NotBlank(message = "Email address has to provided")
+    @Email(message = "Invalid email address")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password has to be provided")
     private String password;
 
     @Enumerated(EnumType.STRING)

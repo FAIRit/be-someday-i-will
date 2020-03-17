@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.movie.moviesearch;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
@@ -30,7 +29,7 @@ public class MDBMovieService implements MovieService {
         this.restTemplate = restTemplate;
     }
 
-    public Movies searchMovies(final String query) {
+    public Movies searchMoviesByTitle(final String query) {
         var fullPath = getFullPath(query);
         var apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
         if (isNull(apiResponse.getBody())) {

@@ -4,5 +4,5 @@ import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 
 public interface MovieService {
 
-    Movies searchMovies(final String query);
+    Movies searchMoviesByTitle(final String query);
 }

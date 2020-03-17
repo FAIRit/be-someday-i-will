@@ -37,7 +37,7 @@ class MDBMovieServiceMockitoTest {
 
         when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.eq(MDBWrapper.class))).thenReturn(new ResponseEntity<>(moviesToReturn, HttpStatus.OK));
         when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.eq(Genres.class))).thenReturn(new ResponseEntity<>(retrieveGenres(), HttpStatus.OK));
-        var foundMovies = movieService.searchMovies(query);
+        var foundMovies = movieService.searchMoviesByTitle(query);
 
         assertEquals(foundMovies, movies);
     }

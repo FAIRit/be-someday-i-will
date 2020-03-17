@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.book.booksearch;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.book.usersbooks.BookDto;
@@ -23,14 +22,26 @@ class GoogleBooksService implements BookService {
     @Value("${app.google-books.key}")
     private String googleApiKey;
 
+    private static final String SEARCH_BY_AUTHOR_KEYWORD = "inauthor:";
+    private static final String SEARCH_BY_TITLE_KEYWORD = "intitle:";
+
     private final RestTemplate restTemplate;
 
     public GoogleBooksService(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public Books searchBooks(final String query) {
-        var fullPath = getFullPath(query);
+    @Override
+    public Books searchBooksByTitle(String title) {
+        return searchBooks(getFullPath(title, SEARCH_BY_TITLE_KEYWORD));
+    }
+
+    @Override
+    public Books searchBooksByAuthor(String author) {
+        return searchBooks(getFullPath(author, SEARCH_BY_AUTHOR_KEYWORD));
+    }
+
+    public Books searchBooks(final String fullPath) {
         var apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
         if (isNull(apiResponse.getBody()))
             return new Books(Collections.emptyList());
@@ -45,13 +56,15 @@ class GoogleBooksService implements BookService {
                 .collect(Collectors.toList());
     }
 
-    private String getFullPath(final String query) {
+    private String getFullPath(final String query, final String searchKeyword) {
         var fullPath = new StringBuffer();
         fullPath.append(bookApiBaseUrl)
                 .append("/volumes?q=")
-                .append(query.replaceAll(" ", "%20"))
+                .append(searchKeyword)
+                .append(query.replaceAll(" ", "+"))
                 .append("&key=")
                 .append(googleApiKey);
         return fullPath.toString();
     }
+
 }
