@@ -32,3 +32,4 @@ build/
 sendgrid.env
 /src/main/resources/application-dev.properties
 /src/main/resources/application-nodoc.properties
+/src/main/resources/application-test.properties

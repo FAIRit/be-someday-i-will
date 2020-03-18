@@ -34,6 +34,7 @@
         <org.springframework.restdocs.asciidoctor.version>2.0.4.RELEASE
         </org.springframework.restdocs.asciidoctor.version>
         <org.apache.maven.plugins.version>3.8.0</org.apache.maven.plugins.version>
+        <org.testcontainers.version>1.12.5</org.testcontainers.version>
     </properties>
 
     <dependencies>
@@ -171,6 +172,18 @@
             <artifactId>thymeleaf-spring5</artifactId>
             <version>${org.thymeleaf.spring5.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>${org.testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${org.testcontainers.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
