@@ -54,7 +54,6 @@ class MovieServiceMockitoTest {
         verify(movieRepository, times(1)).deleteById(movie.getId());
     }
 
-
     @Test
     public void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchMovieOwnerId() {
         var movie = retrieveOneMovie();
@@ -87,8 +86,8 @@ class MovieServiceMockitoTest {
         var movieDtoToSave = retrieveOneMovieDto();
 
         when(userService.getExistingUser(user.getId())).thenReturn(user);
-
         movieService.saveMovie(movieDtoToSave, user.getId());
+
         verify(movieRepository, times(1)).save(ArgumentMatchers.any());
     }
 
