@@ -4,40 +4,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import pl.fairit.somedayiwill.newsletter.NewsletterFrequency;
+import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
-import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@Testcontainers
-@ContextConfiguration(initializers = {AppUserTestWithTestContainer.Initializer.class})
+@MockBean(SignupEmailService.class)
+@ContextConfiguration
 public class AppUserTestWithTestContainer {
-    @Container
-    public static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8")
-            .withDatabaseName("testdb")
-            .withPassword("testDbPass")
-            .withUsername("testDbUser")
-            .withInitScript("db/migration/Test_Database.sql")
-            .withStartupTimeout(Duration.ofMillis(2000));
 
     @Autowired
     public AppUserService service;
-
-    @Test
-    public void containerTest() {
-        assertTrue(mySQLContainer.isRunning());
-    }
 
     @Test
     public void findUsersForMonthlyNewsletterShouldReturnOneUser() {
@@ -55,30 +37,20 @@ public class AppUserTestWithTestContainer {
 
     @Test
     public void shouldSaveUser() {
-        var userToSave = AppUser.builder().name("Sam").email("sam@test.com").newsletterFrequency(NewsletterFrequency.NEVER).password("Passsword4").build();
+        var expectedUser = TestUsers.aDefaultUser();
 
-        var savedUser = service.saveUser(userToSave);
+        var actualUser = service.saveUser(expectedUser);
 
-        assertEquals(userToSave, savedUser);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
     public void existsByEmailShouldReturnFalseAfterDeleteUserPerformed() {
-        var existingUser = service.getExistingUser(1L);
+        var existingUser = service.getExistingUser(2L);
 
         service.deleteUser(existingUser.getId());
         var userExists = service.existsByEmail(existingUser.getEmail());
 
         assertFalse(userExists);
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
     }
 }

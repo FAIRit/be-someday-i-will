@@ -1,13 +1,11 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
 import com.github.javafaker.Faker;
-import io.swagger.models.auth.In;
 import org.junit.jupiter.api.Test;
 import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

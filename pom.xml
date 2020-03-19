@@ -35,6 +35,7 @@
         </org.springframework.restdocs.asciidoctor.version>
         <org.apache.maven.plugins.version>3.8.0</org.apache.maven.plugins.version>
         <org.testcontainers.version>1.12.5</org.testcontainers.version>
+        <org.jetbrains.version>19.0.0</org.jetbrains.version>
     </properties>
 
     <dependencies>
@@ -153,7 +154,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>${org.jetbrains.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -176,12 +177,6 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>${org.testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
             <version>${org.testcontainers.version}</version>
             <scope>test</scope>
         </dependency>

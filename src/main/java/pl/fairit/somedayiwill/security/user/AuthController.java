@@ -40,7 +40,8 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully signed up"),
             @ApiResponse(code = 400, message = "Bad credentials"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 409, message = "User with given email already exist")
     })
     public String signup(@Valid @RequestBody final SignUpRequest signUpRequest) {
         authService.registerUser(signUpRequest);
