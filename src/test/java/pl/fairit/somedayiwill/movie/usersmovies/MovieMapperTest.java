@@ -1,10 +1,10 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
-import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMDBMovie;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovie;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovieDto;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,14 +13,7 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMDBMovieToMovieDto() {
-        var faker = new Faker();
-        var mdbMovie = MDBMovie.builder()
-                .genre_ids(new Integer[]{1, 6, 13})
-                .poster_path(faker.internet().url())
-                .release_date(LocalDate.now())
-                .overview(faker.gameOfThrones().quote())
-                .title(faker.harryPotter().house())
-                .build();
+        var mdbMovie = TestMDBMovie.aRandomMDBMovie();
         var genres = new HashMap<Integer, String>();
         genres.put(1, "Adventure");
         genres.put(5, "Sci-Fi");
@@ -33,14 +26,7 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMovieToMovieDto() {
-        var faker = new Faker();
-        var movie = Movie.builder()
-                .genres("Adventure, Animation")
-                .posterLink(faker.internet().url())
-                .releaseDate(LocalDate.now())
-                .description(faker.lorem().sentence())
-                .title(faker.book().title())
-                .build();
+        var movie = TestMovie.aRandomMovie();
 
         var movieDto = MovieMapper.INSTANCE.mapMovieToMovieDto(movie);
 
@@ -53,14 +39,7 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMovieDtoToMovie() {
-        var faker = new Faker();
-        var movieDto = MovieDto.builder()
-                .genres(faker.book().genre())
-                .posterLink(faker.internet().url())
-                .releaseDate(LocalDate.now())
-                .description(faker.lorem().sentence())
-                .title(faker.book().title())
-                .build();
+        var movieDto = TestMovieDto.aRandomMovieDto();
 
         var movie = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
 

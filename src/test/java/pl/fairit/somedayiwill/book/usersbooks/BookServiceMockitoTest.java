@@ -91,7 +91,6 @@ class BookServiceMockitoTest {
         verify(bookRepository, times(1)).save(ArgumentMatchers.any());
     }
 
-    //fixme: access to getExistingBookById() -> it should be private, now its package-private
     @Test
     public void shouldThrowResourceNotFoundExceptionWhenBookWithGivenIdDoesNotExist() {
         var bookId = 1L;

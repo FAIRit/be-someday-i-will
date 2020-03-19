@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -9,10 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.user.AppUser;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovie;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovieDto;
+import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovies;
 import pl.fairit.somedayiwill.user.AppUserService;
+import pl.fairit.somedayiwill.user.TestUsers;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,9 @@ class MovieServiceMockitoTest {
 
     @Test
     public void shouldDeleteUsersMovieWhenUserIdAndMovieIdGiven() {
-        var appUser = retrieveAppUser();
-        var movie = retrieveOneMovie();
+        var appUser = TestUsers.aDefaultUser();
+        appUser.setId(5L);
+        var movie = TestMovie.aRandomMovie();
         movie.setId(13L);
         movie.setUser(appUser);
 
@@ -56,19 +58,22 @@ class MovieServiceMockitoTest {
 
     @Test
     public void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchMovieOwnerId() {
-        var movie = retrieveOneMovie();
+        var movie = TestMovie.aRandomMovie();
+        var appUser = TestUsers.aDefaultUser();
+        appUser.setId(13L);
+        var wrongUserId = 23L;
+
         movie.setId(12L);
-        movie.setUser(retrieveAppUser());
-        var userId = 23L;
+        movie.setUser(appUser);
 
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.of(movie));
 
-        assertThrows(AccessDeniedException.class, () -> movieService.getUsersMovie(movie.getId(), userId));
+        assertThrows(AccessDeniedException.class, () -> movieService.getUsersMovie(movie.getId(), wrongUserId));
     }
 
     @Test
     public void shouldReturnUsersMoviesWhenUserWithGivenIdExist() {
-        var moviesToReturn = retrieveMovies();
+        var moviesToReturn = TestMovies.withListOfRandomMovies(3);
         var moviesToReturnByRepository = moviesToReturn.getMovies().stream()
                 .map(MovieMapper.INSTANCE::mapMovieDtoToMovie)
                 .collect(Collectors.toList());
@@ -82,8 +87,8 @@ class MovieServiceMockitoTest {
 
     @Test
     public void shouldSaveMovieWhenUserWithGivenIdExists() {
-        var user = retrieveAppUser();
-        var movieDtoToSave = retrieveOneMovieDto();
+        var user = TestUsers.aDefaultUser();
+        var movieDtoToSave = TestMovieDto.aRandomMovieDto();
 
         when(userService.getExistingUser(user.getId())).thenReturn(user);
         movieService.saveMovie(movieDtoToSave, user.getId());
@@ -98,35 +103,5 @@ class MovieServiceMockitoTest {
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> movieService.getExistingMovieById(movieId));
-    }
-
-    private Movies retrieveMovies() {
-        return new Movies(List.of(retrieveOneMovieDto(), retrieveOneMovieDto(), retrieveOneMovieDto()));
-    }
-
-    private MovieDto retrieveOneMovieDto() {
-        var faker = new Faker();
-        return MovieDto.builder()
-                .genres(faker.book().genre())
-                .description(faker.lorem().sentence())
-                .posterLink(faker.internet().url())
-                .title(faker.book().title())
-                .build();
-    }
-
-    private AppUser retrieveAppUser() {
-        return AppUser.builder()
-                .id(5L)
-                .build();
-    }
-
-    private Movie retrieveOneMovie() {
-        var faker = new Faker();
-        return Movie.builder()
-                .genres(faker.book().genre())
-                .description(faker.lorem().sentence())
-                .posterLink(faker.internet().url())
-                .title(faker.book().title())
-                .build();
     }
 }

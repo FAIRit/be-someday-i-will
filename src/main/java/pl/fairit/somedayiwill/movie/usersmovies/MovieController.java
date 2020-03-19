@@ -48,7 +48,7 @@ public class MovieController {
         return movieService.getAllUsersMovies(userPrincipal.getId());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
@@ -57,8 +57,8 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void addMovie(@RequestBody final MovieDto movieDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
-        movieService.saveMovie(movieDto, userPrincipal.getId());
+    public MovieDto addMovie(@RequestBody final MovieDto movieDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+        return movieService.saveMovie(movieDto, userPrincipal.getId());
     }
 
     @DeleteMapping(value = "/{movieId}")

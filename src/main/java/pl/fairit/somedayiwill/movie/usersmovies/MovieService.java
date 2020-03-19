@@ -20,11 +20,12 @@ public class MovieService {
         this.userService = userService;
     }
 
-    public void saveMovie(final MovieDto movieDto, final Long userId) {
+    public MovieDto saveMovie(final MovieDto movieDto, final Long userId) {
         var user = userService.getExistingUser(userId);
         var movieToAdd = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
         movieToAdd.setUser(user);
         movieRepository.save(movieToAdd);
+        return MovieMapper.INSTANCE.mapMovieToMovieDto(movieToAdd);
     }
 
     public Movies getAllUsersMovies(final Long userId) {

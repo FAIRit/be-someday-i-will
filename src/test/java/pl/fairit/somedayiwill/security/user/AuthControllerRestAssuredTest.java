@@ -15,17 +15,18 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "local.server.port=8080")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8081")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
 @MockBean(SignupEmailService.class)
-class AuthControllerRestAssuredTest {
+public class AuthControllerRestAssuredTest {
     @Test
     public void whenRequestedPostToSignupThenUserCreated() {
         var userToRegister = TestUsers.aDefaultUser();
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         var response = given()
+                .port(8081)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -42,6 +43,7 @@ class AuthControllerRestAssuredTest {
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
+                .port(8081)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -50,6 +52,7 @@ class AuthControllerRestAssuredTest {
                 .statusCode(201);
 
         given()
+                .port(8081)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -65,6 +68,7 @@ class AuthControllerRestAssuredTest {
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
+                .port(8081)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -80,12 +84,14 @@ class AuthControllerRestAssuredTest {
         var loginRequestBody = retrieveLoginRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
+                .port(8081)
                 .body(signupRequestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/signup")
                 .then()
                 .statusCode(201);
         var response = given()
+                .port(8081)
                 .body(loginRequestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/login");
@@ -95,7 +101,7 @@ class AuthControllerRestAssuredTest {
         assertTrue(responseBody.contains("accessToken"));
     }
 
-    private String retrieveLoginRequestBodyFromProvidedAppUser(final AppUser userToLogin) {
+    public static String retrieveLoginRequestBodyFromProvidedAppUser(final AppUser userToLogin) {
         return new StringBuffer()
                 .append("{\"email\":\"")
                 .append(userToLogin.getEmail())
@@ -105,7 +111,7 @@ class AuthControllerRestAssuredTest {
                 .toString();
     }
 
-    private String retrieveSignupRequestBodyFromProvidedAppUser(final AppUser userToRegister) {
+    public static String retrieveSignupRequestBodyFromProvidedAppUser(final AppUser userToRegister) {
         return new StringBuffer()
                 .append("{\"name\":\"")
                 .append(userToRegister.getName())

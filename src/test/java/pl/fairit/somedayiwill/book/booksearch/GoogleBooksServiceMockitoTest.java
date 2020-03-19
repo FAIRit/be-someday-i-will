@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.book.usersbooks.BookMapper;
-import pl.fairit.somedayiwill.book.usersbooks.BookService;
 import pl.fairit.somedayiwill.book.usersbooks.Books;
 
 import java.util.Arrays;

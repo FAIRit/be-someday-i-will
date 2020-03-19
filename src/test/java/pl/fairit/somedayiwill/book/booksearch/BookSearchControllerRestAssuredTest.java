@@ -7,16 +7,18 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "local.server.port=8080")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8082")
 class BookSearchControllerRestAssuredTest {
     @Test
     public void shouldReturnBooksWhenSearchWhenAuthorGiven() {
         var query = "Rowling";
-        get("/books/search?author=" + query)
+        given()
+                .port(8082)
+                .get("/books/search?author=" + query)
                 .then()
                 .assertThat()
                 .statusCode(200);

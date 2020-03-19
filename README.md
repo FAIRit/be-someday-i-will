@@ -27,6 +27,7 @@ After creating new account, user will gain access to his own watch/read later li
 * Mockito
 * JUnit 5
 * RestAssured
+* Testcontainers
 
 
 ## Setup:
