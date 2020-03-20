@@ -8,12 +8,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8081")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -101,25 +102,5 @@ public class AuthControllerRestAssuredTest {
         assertTrue(responseBody.contains("accessToken"));
     }
 
-    public static String retrieveLoginRequestBodyFromProvidedAppUser(final AppUser userToLogin) {
-        return new StringBuffer()
-                .append("{\"email\":\"")
-                .append(userToLogin.getEmail())
-                .append("\", \"password\": \"")
-                .append(userToLogin.getPassword())
-                .append("\"}")
-                .toString();
-    }
 
-    public static String retrieveSignupRequestBodyFromProvidedAppUser(final AppUser userToRegister) {
-        return new StringBuffer()
-                .append("{\"name\":\"")
-                .append(userToRegister.getName())
-                .append("\", \"email\": \"")
-                .append(userToRegister.getEmail())
-                .append("\", \"password\": \"")
-                .append(userToRegister.getPassword())
-                .append("\"}")
-                .toString();
-    }
 }

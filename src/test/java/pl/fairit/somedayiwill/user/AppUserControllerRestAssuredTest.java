@@ -9,11 +9,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.fairit.somedayiwill.security.user.AuthControllerRestAssuredTest;
 import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8084")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -25,8 +25,8 @@ class AppUserControllerRestAssuredTest {
     @BeforeEach
     public void authorization() {
         var newUser = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = AuthControllerRestAssuredTest.retrieveSignupRequestBodyFromProvidedAppUser(newUser);
-        var loginRequest = AuthControllerRestAssuredTest.retrieveLoginRequestBodyFromProvidedAppUser(newUser);
+        var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(newUser);
+        var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(newUser);
 
         given()
                 .port(8084)
@@ -39,6 +39,7 @@ class AppUserControllerRestAssuredTest {
                 .statusCode(201);
 
         token = given()
+                .port(8084)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
@@ -54,7 +55,11 @@ class AppUserControllerRestAssuredTest {
 
     @Test
     public void shouldReturnUnauthorizedWhenNoCredentialsProvided() {
-        get("/users/me")
+        given()
+                .port(8084)
+                .basePath("/users/me")
+                .when()
+                .get()
                 .then()
                 .assertThat()
                 .statusCode(401);
@@ -63,9 +68,13 @@ class AppUserControllerRestAssuredTest {
     @Test
     public void shouldReturnAppUserDtoWhenValidCredentialsProvided() {
         given()
+                .port(8084)
+                .basePath("/users/me")
                 .header("Authorization", "Bearer " + token)
-                .get("/users/me")
+                .when()
+                .get()
                 .then()
+                .assertThat()
                 .statusCode(200);
     }
 }

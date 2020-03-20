@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.testdatabuilder;
+package pl.fairit.somedayiwill.movie.testmovies;
 
 import com.github.javafaker.Faker;
 import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;

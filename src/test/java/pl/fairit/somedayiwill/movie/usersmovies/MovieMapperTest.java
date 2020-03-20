@@ -1,9 +1,9 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
 import org.junit.jupiter.api.Test;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMDBMovie;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovie;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovieDto;
+import pl.fairit.somedayiwill.movie.testmovies.TestMDBMovie;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovie;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
 
 import java.util.HashMap;
 

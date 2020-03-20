@@ -8,9 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovie;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovieDto;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMovies;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovie;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovies;
 import pl.fairit.somedayiwill.user.AppUserService;
 import pl.fairit.somedayiwill.user.TestUsers;
 

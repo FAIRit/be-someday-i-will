@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.testdatabuilder;
+package pl.fairit.somedayiwill.movie.testmovies;
 
 import pl.fairit.somedayiwill.movie.moviesearch.MDBMovie;
 import pl.fairit.somedayiwill.movie.moviesearch.MDBWrapper;

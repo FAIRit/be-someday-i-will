@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import pl.fairit.somedayiwill.movie.testdatabuilder.TestMDBWrapper;
+import pl.fairit.somedayiwill.movie.testmovies.TestMDBWrapper;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieMapper;
 import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 

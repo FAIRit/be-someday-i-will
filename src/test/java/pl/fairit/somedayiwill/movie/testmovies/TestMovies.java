@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.movie.testdatabuilder;
+package pl.fairit.somedayiwill.movie.testmovies;
 
 import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
 import pl.fairit.somedayiwill.movie.usersmovies.Movies;
