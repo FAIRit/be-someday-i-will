@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -21,13 +22,16 @@ import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequ
 @ContextConfiguration
 @MockBean(SignupEmailService.class)
 public class AuthControllerRestAssuredTest {
+    @LocalServerPort
+    private int port;
+
     @Test
     public void whenRequestedPostToSignupThenUserCreated() {
         var userToRegister = TestUsers.aDefaultUser();
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         var response = given()
-                .port(8081)
+                .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -44,7 +48,7 @@ public class AuthControllerRestAssuredTest {
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
-                .port(8081)
+                .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -53,7 +57,7 @@ public class AuthControllerRestAssuredTest {
                 .statusCode(201);
 
         given()
-                .port(8081)
+                .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -69,7 +73,7 @@ public class AuthControllerRestAssuredTest {
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
-                .port(8081)
+                .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -85,14 +89,14 @@ public class AuthControllerRestAssuredTest {
         var loginRequestBody = retrieveLoginRequestBodyFromProvidedAppUser(userToRegister);
 
         given()
-                .port(8081)
+                .port(port)
                 .body(signupRequestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/signup")
                 .then()
                 .statusCode(201);
         var response = given()
-                .port(8081)
+                .port(port)
                 .body(loginRequestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/login");

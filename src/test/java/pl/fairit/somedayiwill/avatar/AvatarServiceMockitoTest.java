@@ -30,10 +30,10 @@ class AvatarServiceMockitoTest {
 
     @Test
     public void shouldSaveAvatarWhenValidFileProvidedAndAppUserExist() {
-        var file = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, "value".getBytes());
+        var fileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, "value".getBytes());
         var user = retrieveAppUser();
 
-        avatarService.saveAvatar(file, user);
+        avatarService.saveAvatar(fileToSave, user);
 
         verify(userRepository, times(1)).save(user);
     }
@@ -41,9 +41,9 @@ class AvatarServiceMockitoTest {
     @Test
     public void shouldThrowAvatarStorageExceptionWhenUnsupportedFileTypeGiven() {
         var appUser = retrieveAppUser();
-        var file = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_GIF_VALUE, "value".getBytes());
+        var fileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_GIF_VALUE, "value".getBytes());
 
-        assertThrows(AvatarStorageException.class, () -> avatarService.saveAvatar(file, appUser));
+        assertThrows(AvatarStorageException.class, () -> avatarService.saveAvatar(fileToSave, appUser));
     }
 
     @Test

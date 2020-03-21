@@ -1,4 +1,4 @@
-package pl.fairit.somedayiwill.book.booksearch;
+package pl.fairit.somedayiwill.movie.moviesearch;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -13,36 +13,22 @@ import static io.restassured.RestAssured.given;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8082")
-class BookSearchControllerRestAssuredTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8086")
+class MovieSearchControllerRestAssuredTest {
     @LocalServerPort
     private int port;
 
     @Test
-    public void shouldReturnBooksWhenSearchByAuthorPerformed() {
-        var query = "Rowling";
+    public void shouldReturnMoviesWhenSearchByTitlePerformed() {
+        var query = "Peppa";
         given()
                 .port(port)
-                .get("/books/search?author=" + query)
+                .get("/movies/search?title=" + query)
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .and()
                 .assertThat()
-                .body("books", Matchers.notNullValue());
-    }
-
-    @Test
-    public void shouldReturnBooksWhenSearchByTitlePerformed() {
-        var query = "Potter";
-        given()
-                .port(port)
-                .get("/books/search?title=" + query)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .and()
-                .assertThat()
-                .body("books", Matchers.notNullValue());
+                .body("movies", Matchers.notNullValue());
     }
 }

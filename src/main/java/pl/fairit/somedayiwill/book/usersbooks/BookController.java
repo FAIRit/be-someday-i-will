@@ -59,8 +59,8 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
-        bookService.saveBook(bookDto, userPrincipal.getId());
+    public BookDto addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+        return bookService.saveBook(bookDto, userPrincipal.getId());
     }
 
     @DeleteMapping("/{bookId}")

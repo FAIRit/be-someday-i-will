@@ -6,12 +6,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.fairit.somedayiwill.security.TestAuthRequest;
 import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
+import java.util.Objects;
+
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
 
@@ -20,16 +26,19 @@ import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequ
 @ContextConfiguration
 @MockBean(SignupEmailService.class)
 class AppUserControllerRestAssuredTest {
+    @LocalServerPort
+    private int port;
     private static String token;
+
 
     @BeforeEach
     public void authorization() {
-        var newUser = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(newUser);
-        var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(newUser);
+        var user = TestUsers.aUserWithRandomCredentials();
+        var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
+        var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
 
         given()
-                .port(8084)
+                .port(port)
                 .basePath("/auth/signup")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
@@ -38,8 +47,8 @@ class AppUserControllerRestAssuredTest {
                 .then()
                 .statusCode(201);
 
-        token = given()
-                .port(8084)
+        var authResponse = given()
+                .port(port)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
@@ -49,14 +58,15 @@ class AppUserControllerRestAssuredTest {
                 .statusCode(200)
                 .extract()
                 .body()
-                .asString()
-                .substring(16, 184);
+                .asString();
+
+        token = Objects.requireNonNull(TestAuthRequest.getTokenFromJSONString(authResponse)).getAccessToken();
     }
 
     @Test
     public void shouldReturnUnauthorizedWhenNoCredentialsProvided() {
         given()
-                .port(8084)
+                .port(port)
                 .basePath("/users/me")
                 .when()
                 .get()
@@ -67,15 +77,15 @@ class AppUserControllerRestAssuredTest {
 
     @Test
     public void shouldReturnAppUserDtoWhenValidCredentialsProvided() {
-        given()
-                .port(8084)
+        var response = given()
+                .port(port)
                 .basePath("/users/me")
                 .header("Authorization", "Bearer " + token)
-                .when()
-                .get()
-                .then()
-                .assertThat()
-                .statusCode(200);
+                .get();
+        var responseBody = response.getBody().asString();
+
+        assertEquals(200, response.getStatusCode());
+        assertTrue(responseBody.contains("email"));
     }
 }
 

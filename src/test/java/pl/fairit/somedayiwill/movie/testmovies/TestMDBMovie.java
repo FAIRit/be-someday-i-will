@@ -11,7 +11,6 @@ public class TestMDBMovie {
         return MDBMovie.builder()
                 .genre_ids(new Integer[]{1, 6, 13})
                 .poster_path(faker.internet().url())
-                .release_date(LocalDate.now())
                 .overview(faker.gameOfThrones().quote())
                 .title(faker.harryPotter().house())
                 .build();

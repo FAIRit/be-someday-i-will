@@ -21,11 +21,12 @@ public class BookService {
         this.userService = userService;
     }
 
-    public void saveBook(final BookDto bookDto, final Long userId) {
+    public BookDto saveBook(final BookDto bookDto, final Long userId) {
         var user = userService.getExistingUser(userId);
         var bookToSave = BookMapper.INSTANCE.mapBookDtoToBook(bookDto);
         bookToSave.setUser(user);
         bookRepository.save(bookToSave);
+        return BookMapper.INSTANCE.mapBookToBookDto(bookToSave);
     }
 
     public Books getAllUsersBooks(final Long userId) {

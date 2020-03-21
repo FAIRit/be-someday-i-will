@@ -51,7 +51,7 @@ public class AvatarService {
     }
 
     public Avatar getUsersAvatar(final Long userId) {
-        return avatarRepository.findAvatarByUserId(userId).orElseThrow(ResourceNotFoundException::new);
+        return avatarRepository.findAvatarByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Avatar does not exist"));
     }
 
     private boolean isSupportedType(final String fileType) {
