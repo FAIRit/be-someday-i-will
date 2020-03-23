@@ -46,24 +46,27 @@ public class AuthControllerRestAssuredTest {
     public void whenPerformedPostSecondTimeWithTheSameCredentialsThenShouldReturnConflictStatusCode() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
-
+        //@formatter:off
         given()
                 .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .post("/auth/signup")
-                .then()
+        .then()
+                .assertThat()
                 .statusCode(201);
 
         given()
                 .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .post("/auth/signup")
-                .then()
+        .then()
+                .assertThat()
                 .statusCode(409);
+        //@formatter:on
     }
 
     @Test
@@ -71,15 +74,18 @@ public class AuthControllerRestAssuredTest {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
         userToRegister.setPassword("invalid");
         var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
-
+        //@formatter:off
         given()
                 .port(port)
                 .body(requestBody)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .post("/auth/signup")
-                .then()
+        .then()
+                .assertThat()
                 .statusCode(400);
+        //@formatter:on
+
     }
 
     @Test
@@ -105,6 +111,4 @@ public class AuthControllerRestAssuredTest {
         assertEquals(200, response.getStatusCode());
         assertTrue(responseBody.contains("accessToken"));
     }
-
-
 }

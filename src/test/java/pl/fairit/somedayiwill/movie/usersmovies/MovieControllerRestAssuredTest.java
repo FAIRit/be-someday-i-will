@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
 import io.restassured.http.ContentType;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +13,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.TestAuthRequest;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
+import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
@@ -36,6 +35,9 @@ public class MovieControllerRestAssuredTest {
 
     @BeforeEach
     public void authorization() {
+        if (nonNull(token)) {
+            return;
+        }
         var user = TestUsers.aUserWithRandomCredentials();
         var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
         var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
@@ -45,37 +47,33 @@ public class MovieControllerRestAssuredTest {
                 .basePath("/auth/signup")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
-                .when()
-                .post()
-                .then()
-                .statusCode(201);
+                .post();
 
         var authResponse = given()
                 .port(port)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when()
                 .post()
                 .then()
-                .statusCode(200)
                 .extract()
                 .body()
                 .asString();
-
         token = Objects.requireNonNull(TestAuthRequest.getTokenFromJSONString(authResponse)).getAccessToken();
     }
 
     @Test
     public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+        //@formatter:off
         given()
                 .port(port)
                 .basePath("/users/me/movies")
-                .when()
+        .when()
                 .get()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(401);
+        //@formatter:on
     }
 
     @Test
@@ -145,6 +143,7 @@ public class MovieControllerRestAssuredTest {
         var movieToSave = TestMovieDto.aRandomMovieDto();
         var jsonMovieDto = TestMovieDto.asJSONString(movieToSave);
 
+        //@formatter:off
         //save movie
         var postResponse = given()
                 .port(port)
@@ -161,9 +160,10 @@ public class MovieControllerRestAssuredTest {
                 .basePath("/users/me/movies")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .delete("/" + movieToSave.getId())
-                .then()
+        .then()
+                .assertThat()
                 .statusCode(204);
         //attempt to get deleted movie
         var getResponse = given()
@@ -171,30 +171,32 @@ public class MovieControllerRestAssuredTest {
                 .basePath("/users/me/movies")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .get("/" + movieToSave.getId())
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(404)
                 .and()
                 .extract()
                 .body()
                 .asString();
-
+        //@formatter:on
         assertTrue(getResponse.contains("Movie with given id does not exist"));
     }
 
     @Test //todo: assert empty array returned
     public void shouldReturnedNoContentWhenDeleteAllMoviesPerformed() {
+        //@formatter:off
         given()
                 .port(port)
                 .basePath("/users/me/movies")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .delete()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(204);
+        //@formatter:on
     }
 }

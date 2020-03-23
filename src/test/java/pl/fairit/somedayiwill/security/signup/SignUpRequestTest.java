@@ -32,7 +32,7 @@ class SignUpRequestTest {
         var faker = new Faker();
         var signupRequest = new SignUpRequest();
 
-        signupRequest.setPassword(faker.internet().password(8, 100, true, true, true));
+        signupRequest.setPassword(faker.internet().password(8, 100, true, true, true)+faker.number().numberBetween(0,10));
 
         assertTrue(signupRequest.isPasswordValid());
     }

@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.book.usersbooks;
 
 import io.restassured.http.ContentType;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +13,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.fairit.somedayiwill.book.testbooks.TestBookDto;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.TestAuthRequest;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
@@ -37,29 +35,26 @@ class BookControllerRestAssuredTest {
 
     @BeforeEach
     public void authorization() {
+        if (nonNull(token)) {
+            return;
+        }
         var user = TestUsers.aUserWithRandomCredentials();
         var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
         var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
-
         given()
                 .port(port)
                 .basePath("/auth/signup")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
-                .when()
-                .post()
-                .then()
-                .statusCode(201);
+                .post();
 
         var authResponse = given()
                 .port(port)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when()
                 .post()
                 .then()
-                .statusCode(200)
                 .extract()
                 .body()
                 .asString();
@@ -69,14 +64,16 @@ class BookControllerRestAssuredTest {
 
     @Test
     public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+        //@formatter:off
         given()
                 .port(port)
                 .basePath("/users/me/books")
-                .when()
+        .when()
                 .get()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(401);
+        //@formatter:on
     }
 
     @Test
@@ -146,6 +143,7 @@ class BookControllerRestAssuredTest {
         var bookToSave = TestBookDto.aRandomBookDto();
         var jsonBookDto = TestBookDto.asJSONString(bookToSave);
 
+        //@formatter:off
         //save book
         var postResponse = given()
                 .port(port)
@@ -162,9 +160,9 @@ class BookControllerRestAssuredTest {
                 .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .delete("/" + bookToSave.getId())
-                .then()
+        .then()
                 .statusCode(204);
         //attempt to get deleted book
         var getResponse = given()
@@ -172,15 +170,16 @@ class BookControllerRestAssuredTest {
                 .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .when()
+        .when()
                 .get("/" + bookToSave.getId())
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(404)
                 .and()
                 .extract()
                 .body()
                 .asString();
+        //@formatter:on
 
         assertTrue(getResponse.contains("Book with given id does not exist"));
     }

@@ -25,7 +25,7 @@ class SendGridEmailServiceMockitoTest {
     @InjectMocks
     SendGridEmailService emailService;
 
-//    @Test
+    @Test
     public void shouldSendEmailAndReturnOkResponse() throws IOException {
         var faker = new Faker();
         var htmlContent = faker.lorem().sentence();

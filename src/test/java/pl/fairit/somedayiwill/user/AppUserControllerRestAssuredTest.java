@@ -16,6 +16,7 @@ import pl.fairit.somedayiwill.security.user.SignupEmailService;
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
+import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
@@ -33,6 +34,9 @@ class AppUserControllerRestAssuredTest {
 
     @BeforeEach
     public void authorization() {
+        if (nonNull(token)) {
+            return;
+        }
         var user = TestUsers.aUserWithRandomCredentials();
         var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
         var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
@@ -42,20 +46,15 @@ class AppUserControllerRestAssuredTest {
                 .basePath("/auth/signup")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
-                .when()
-                .post()
-                .then()
-                .statusCode(201);
+                .post();
 
         var authResponse = given()
                 .port(port)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when()
                 .post()
                 .then()
-                .statusCode(200)
                 .extract()
                 .body()
                 .asString();

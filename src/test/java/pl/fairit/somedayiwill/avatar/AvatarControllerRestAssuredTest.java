@@ -14,13 +14,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.MimeTypeUtils;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.TestAuthRequest;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
 import java.io.IOException;
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
+import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
@@ -36,6 +36,9 @@ class AvatarControllerRestAssuredTest {
 
     @BeforeEach
     public void authorization() {
+        if (nonNull(token)) {
+            return;
+        }
         var user = TestUsers.aUserWithRandomCredentials();
         var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
         var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
@@ -45,20 +48,15 @@ class AvatarControllerRestAssuredTest {
                 .basePath("/auth/signup")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
-                .when()
-                .post()
-                .then()
-                .statusCode(201);
+                .post();
 
         var authResponse = given()
                 .port(port)
                 .basePath("/auth/login")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when()
                 .post()
                 .then()
-                .statusCode(200)
                 .extract()
                 .body()
                 .asString();
@@ -68,14 +66,16 @@ class AvatarControllerRestAssuredTest {
 
     @Test
     public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+        //@formatter:off
         given()
                 .port(port)
                 .basePath("/users/me/avatar")
-                .when()
+        .when()
                 .get()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(401);
+        //@formatter:on
     }
 
     @Test
@@ -89,6 +89,7 @@ class AvatarControllerRestAssuredTest {
                 .header("Authorization", "Bearer " + token)
                 .multiPart("file", validFileToSave.getName(), validFileToSave.getBytes(), validFileToSave.getContentType())
                 .post();
+
         assertEquals(201, response.getStatusCode());
     }//todo: assertion on returned body
 
@@ -103,13 +104,14 @@ class AvatarControllerRestAssuredTest {
                 .header("Authorization", "Bearer " + token)
                 .multiPart("file", invalidFileToSave.getName(), invalidFileToSave.getBytes(), invalidFileToSave.getContentType())
                 .post();
+
         assertEquals(415, response.getStatusCode());
     }
 
     @Test
     public void shouldReturnNoContentWhenDeleteAvatarPerformed() throws IOException {
         var validFileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, "value".getBytes());
-
+        //@formatter:off
         //save file
         given()
                 .port(port)
@@ -117,9 +119,9 @@ class AvatarControllerRestAssuredTest {
                 .contentType("multipart/form-data")
                 .header("Authorization", "Bearer " + token)
                 .multiPart("file", validFileToSave.getName(), validFileToSave.getBytes(), validFileToSave.getContentType())
-                .when()
+        .when()
                 .post()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(201);
         //delete file
@@ -127,9 +129,9 @@ class AvatarControllerRestAssuredTest {
                 .port(port)
                 .basePath("/users/me/avatar")
                 .header("Authorization", "Bearer " + token)
-                .when()
+        .when()
                 .delete()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(204);
         //attempt to get deleted file
@@ -137,10 +139,11 @@ class AvatarControllerRestAssuredTest {
                 .port(port)
                 .header("Authorization", "Bearer " + token)
                 .basePath("/users/me/avatar")
-                .when()
+        .when()
                 .get()
-                .then()
+        .then()
                 .assertThat()
                 .statusCode(404);
+        //@formatter:on
     }
 }
