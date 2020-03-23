@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 import static java.util.Objects.nonNull;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
 import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
@@ -80,7 +81,8 @@ class AvatarControllerRestAssuredTest {
 
     @Test
     public void shouldReturnCreatedStatusCodeWhenPostPerformed() throws IOException {
-        var validFileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, "value".getBytes());
+        var fileValue = "value".getBytes();
+        var validFileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, fileValue);
 
         var response = given()
                 .port(port)
@@ -90,8 +92,10 @@ class AvatarControllerRestAssuredTest {
                 .multiPart("file", validFileToSave.getName(), validFileToSave.getBytes(), validFileToSave.getContentType())
                 .post();
 
+        assertEquals(validFileToSave.getContentType(), response.getContentType());
+        assertArrayEquals(fileValue, response.getBody().asByteArray());
         assertEquals(201, response.getStatusCode());
-    }//todo: assertion on returned body
+    }
 
     @Test
     public void shouldReturnBadRequestStatusCodeWhenPostPerformed() throws IOException {
