@@ -64,7 +64,7 @@ public class MovieController {
     @DeleteMapping(value = "/{movieId}")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Delete your movie by it's ID")
+    @ApiOperation(value = "Delete your movie by its ID")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Movie successfully deleted"),
             @ApiResponse(code = 401, message = "You are not authorized to access the resource"),

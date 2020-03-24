@@ -30,7 +30,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public BookDto getBookById(@ApiParam(value = "Credentials injected automatically while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
+    public BookDto getBookById(@ApiParam(value = "Credentials injected while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
                                @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
         return bookService.getUsersBook(bookId, userPrincipal.getId());
     }
@@ -66,7 +66,7 @@ public class BookController {
     @DeleteMapping("/{bookId}")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Delete your book by it's ID")
+    @ApiOperation(value = "Delete your book by its ID")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Book successfully deleted"),
             @ApiResponse(code = 401, message = "You are not authorized to access the resource"),
