@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
 import pl.fairit.somedayiwill.security.user.CurrentUser;
 import pl.fairit.somedayiwill.security.user.UserPrincipal;
 import springfox.documentation.annotations.ApiIgnore;
@@ -52,9 +53,9 @@ public class BookController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Upload a book")
+    @ApiOperation(value = "Add a book to your watchlist", response = BookDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Books successfully uploaded"),
+            @ApiResponse(code = 201, message = "Book successfully uploaded"),
             @ApiResponse(code = 401, message = "You are not authorized to access the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")

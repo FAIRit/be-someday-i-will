@@ -27,7 +27,6 @@ import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
         prePostEnabled = true
 )
 
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;

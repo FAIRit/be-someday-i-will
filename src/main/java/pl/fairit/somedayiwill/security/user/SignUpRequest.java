@@ -46,6 +46,7 @@ public class SignUpRequest {
     public boolean isPasswordValid() {
         return nonNull(password) && password.length() >= 8 &&
                 password.chars().anyMatch(Character::isDigit) &&
+                password.chars().anyMatch(Character::isLowerCase) &&
                 password.chars().anyMatch(Character::isUpperCase);
     }
 }
