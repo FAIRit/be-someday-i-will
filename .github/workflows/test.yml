@@ -1,6 +1,6 @@
 name: Java CI with Maven
 
-on: [push, pull_request]
+on: push
 
 jobs:
   build:
@@ -14,4 +14,9 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
+        env:
+          SPRING_SENDGRID_API_KEY: ${{ secrets.SPRING_SENDGRID_API_KEY }}
+          APP_AUTH_TOKEN_SECRET: ${{ secrets.APP_AUTH_TOKEN_SECRET }}
+          APP_GOOGLE_BOOKS_KEY: ${{ secrets.APP_GOOGLE_BOOKS_KEY }}
+          APP_MOVIE_DATABASE_KEY: ${{ secrets.APP_MOVIE_DATABASE_KEY }}
         run: mvn -B test --file pom.xml

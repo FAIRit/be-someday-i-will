@@ -19,7 +19,7 @@ public class TestAuthRequest {
             loginRequestBody.put("email", userToLogin.getEmail());
             loginRequestBody.put("password", userToLogin.getPassword());
         } catch (JSONException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return loginRequestBody.toString();
     }
@@ -34,7 +34,7 @@ public class TestAuthRequest {
                 signupRequestBody.put("newsletter_frequency", userToRegister.getNewsletterFrequency());
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return signupRequestBody.toString();
     }
