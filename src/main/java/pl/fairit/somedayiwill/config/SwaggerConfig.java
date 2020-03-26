@@ -82,6 +82,6 @@ public class SwaggerConfig {
                 regex("/auth.*"),
                 regex("/books/search.*"),
                 regex("/movies/search.*"),
-                regex("/users.*"));
+                regex(DEFAULT_INCLUDE_PATTERN));
     }
 }
