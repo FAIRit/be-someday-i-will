@@ -10,8 +10,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.TestAuthRequest;
-import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
 import java.util.Objects;
 
@@ -19,13 +19,13 @@ import static io.restassured.RestAssured.given;
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aLoginRequest;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aSignupRequest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8084")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
-@MockBean(SignupEmailService.class)
+@MockBean(SendGridEmailService.class)
 class AppUserControllerRestAssuredTest {
     @LocalServerPort
     private int port;
@@ -38,8 +38,8 @@ class AppUserControllerRestAssuredTest {
             return;
         }
         var user = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
-        var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
+        var signupRequest = aSignupRequest(user);
+        var loginRequest = aLoginRequest(user);
 
         given()
                 .port(port)

@@ -5,11 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.MimeTypeUtils;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserRepository;
+import pl.fairit.somedayiwill.user.TestUsers;
 
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AvatarServiceMockitoTest {
+class AvatarServiceTest {
     @Mock
     AvatarRepository avatarRepository;
 
@@ -30,8 +29,8 @@ class AvatarServiceMockitoTest {
 
     @Test
     public void shouldSaveAvatarWhenValidFileProvidedAndAppUserExist() {
-        var fileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_JPEG_VALUE, "value".getBytes());
-        var user = retrieveAppUser();
+        var fileToSave = TestMultipartFile.aValidMultipartFileMock();
+        var user = TestUsers.aDefaultUser();
 
         avatarService.saveAvatar(fileToSave, user);
 
@@ -40,34 +39,34 @@ class AvatarServiceMockitoTest {
 
     @Test
     public void shouldThrowAvatarStorageExceptionWhenUnsupportedFileTypeGiven() {
-        var appUser = retrieveAppUser();
-        var fileToSave = new MockMultipartFile("file_name", "original_name", MimeTypeUtils.IMAGE_GIF_VALUE, "value".getBytes());
+        var user = TestUsers.aDefaultUser();
+        var fileToSave = TestMultipartFile.anInvalidMultipartFileMock();
 
-        assertThrows(AvatarStorageException.class, () -> avatarService.saveAvatar(fileToSave, appUser));
+        assertThrows(AvatarStorageException.class, () -> avatarService.saveAvatar(fileToSave, user));
     }
 
     @Test
     public void shouldReturnUserAvatarWhenExistingUserIdGiven() {
-        var appUser = retrieveAppUser();
+        var user = TestUsers.aDefaultUser();
         var avatar = Avatar.builder()
                 .data("fileContent".getBytes())
                 .fileType(MimeTypeUtils.IMAGE_JPEG_VALUE)
-                .user(appUser)
+                .user(user)
                 .build();
 
-        when(avatarRepository.findAvatarByUserId(appUser.getId())).thenReturn(java.util.Optional.ofNullable(avatar));
-        var result = avatarService.getUsersAvatar(appUser.getId());
+        when(avatarRepository.findAvatarByUserId(user.getId())).thenReturn(Optional.ofNullable(avatar));
+        var result = avatarService.getUsersAvatar(user.getId());
 
         assertEquals(result, avatar);
     }
 
     @Test
     public void shouldThrowResourceNotFoundExceptionWhenUserAvatarDoesNotExist() {
-        var appUser = retrieveAppUser();
+        var user = TestUsers.aDefaultUser();
 
-        when(avatarRepository.findAvatarByUserId(appUser.getId())).thenReturn(Optional.empty());
+        when(avatarRepository.findAvatarByUserId(user.getId())).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> avatarService.getUsersAvatar(appUser.getId()));
+        assertThrows(ResourceNotFoundException.class, () -> avatarService.getUsersAvatar(user.getId()));
     }
 
     @Test
@@ -77,11 +76,5 @@ class AvatarServiceMockitoTest {
         avatarService.deleteUsersAvatar(userId);
 
         verify(avatarRepository, times(1)).deleteAvatarByUserId(userId);
-    }
-
-    private AppUser retrieveAppUser() {
-        return AppUser.builder()
-                .id(5L)
-                .build();
     }
 }

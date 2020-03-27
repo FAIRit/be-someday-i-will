@@ -44,7 +44,7 @@ public class TestUsers {
     }
 
     private static String generateStrongPassword() {
-        var password = new Faker().internet().password(8, 16, true, true, true);
+        var password = new Faker().internet().password(8, 16, true, false, true);
         if (isPasswordValid(password)) {
             return password;
         }

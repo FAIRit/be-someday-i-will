@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.book.booksearch;
 
-import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

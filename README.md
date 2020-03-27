@@ -4,7 +4,7 @@
 This app will allow users to search books, movies and tv series by entering keywords (title, author, etc.).
 After creating new account, user will gain access to his own watch/read later lists.
 
-## Live demo: [click here](http://somedayiwill-env.eba-3hdq2v4t.us-west-2.elasticbeanstalk.com/swagger-ui.html#/)
+## Live demo (deployed to AWS Elastic BeanStalk): [click here](http://somedayiwill-env.eba-3hdq2v4t.us-west-2.elasticbeanstalk.com/swagger-ui.html#/)
 
 ## User stories
  - [x] User can create an account
@@ -30,6 +30,7 @@ After creating new account, user will gain access to his own watch/read later li
 * JUnit 5
 * RestAssured
 * Testcontainers
+* GitHub Actions
 
 
 ## Setup:

@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.user.SignupEmailService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@MockBean(SignupEmailService.class)
+@MockBean(SendGridEmailService.class)
 @ContextConfiguration
 public class AppUserTestWithTestContainer {
 

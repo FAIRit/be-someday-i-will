@@ -10,7 +10,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.fairit.somedayiwill.book.testbooks.TestBooks;
 import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
 import pl.fairit.somedayiwill.movie.testmovies.TestMovies;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
@@ -23,8 +22,8 @@ import static io.restassured.RestAssured.given;
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aLoginRequest;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aSignupRequest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8085")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -41,8 +40,8 @@ public class MovieControllerRestAssuredTest {
             return;
         }
         var user = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = retrieveSignupRequestBodyFromProvidedAppUser(user);
-        var loginRequest = retrieveLoginRequestBodyFromProvidedAppUser(user);
+        var signupRequest = aSignupRequest(user);
+        var loginRequest = aLoginRequest(user);
 
         given()
                 .port(port)

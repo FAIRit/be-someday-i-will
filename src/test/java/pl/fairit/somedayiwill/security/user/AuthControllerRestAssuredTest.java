@@ -14,8 +14,8 @@ import pl.fairit.somedayiwill.user.TestUsers;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveLoginRequestBodyFromProvidedAppUser;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.retrieveSignupRequestBodyFromProvidedAppUser;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aLoginRequest;
+import static pl.fairit.somedayiwill.security.TestAuthRequest.aSignupRequest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8081")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -28,7 +28,7 @@ public class AuthControllerRestAssuredTest {
     @Test
     public void whenRequestedPostToSignupThenUserCreated() {
         var userToRegister = TestUsers.aDefaultUser();
-        var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
+        var requestBody = aSignupRequest(userToRegister);
 
         var response = given()
                 .port(port)
@@ -45,7 +45,7 @@ public class AuthControllerRestAssuredTest {
     @Test
     public void whenPerformedPostSecondTimeWithTheSameCredentialsThenShouldReturnConflictStatusCode() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
-        var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
+        var requestBody = aSignupRequest(userToRegister);
         //@formatter:off
         given()
                 .port(port)
@@ -73,7 +73,7 @@ public class AuthControllerRestAssuredTest {
     public void whenPasswordNotValidThenShouldReturnBadRequestStatusCode() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
         userToRegister.setPassword("invalid");
-        var requestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
+        var requestBody = aSignupRequest(userToRegister);
         //@formatter:off
         given()
                 .port(port)
@@ -91,8 +91,8 @@ public class AuthControllerRestAssuredTest {
     @Test
     public void shouldReturnTokenWhenValidLoginRequestPerformed() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
-        var signupRequestBody = retrieveSignupRequestBodyFromProvidedAppUser(userToRegister);
-        var loginRequestBody = retrieveLoginRequestBodyFromProvidedAppUser(userToRegister);
+        var signupRequestBody = aSignupRequest(userToRegister);
+        var loginRequestBody = aLoginRequest(userToRegister);
 
         given()
                 .port(port)

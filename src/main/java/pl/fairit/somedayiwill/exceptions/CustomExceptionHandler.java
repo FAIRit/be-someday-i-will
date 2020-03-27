@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) //which status code is best for not specified exception?
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     ErrorResponse handleGlobalException(final Exception exp) {
         return new ErrorResponse(LocalDateTime.now(), List.of(exp.getMessage()));

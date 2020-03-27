@@ -4,7 +4,8 @@ import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import pl.fairit.somedayiwill.security.user.SignUpRequest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SignUpRequestTest {
     @Test
@@ -32,7 +33,7 @@ class SignUpRequestTest {
         var faker = new Faker();
         var signupRequest = new SignUpRequest();
 
-        signupRequest.setPassword(faker.internet().password(8, 100, true, true, true)+faker.number().numberBetween(0,10));
+        signupRequest.setPassword(faker.internet().password(8, 100, true, true, true) + faker.number().numberBetween(0, 10));
 
         assertTrue(signupRequest.isPasswordValid());
     }
