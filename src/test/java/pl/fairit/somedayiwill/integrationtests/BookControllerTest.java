@@ -1,8 +1,9 @@
-package pl.fairit.somedayiwill.book.usersbooks;
+package pl.fairit.somedayiwill.integrationtests;
 
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,65 +13,36 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.fairit.somedayiwill.book.testbooks.TestBookDto;
 import pl.fairit.somedayiwill.book.testbooks.TestBooks;
+import pl.fairit.somedayiwill.book.usersbooks.BookService;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
-import pl.fairit.somedayiwill.security.TestAuthRequest;
-import pl.fairit.somedayiwill.user.TestUsers;
-
-import java.util.Objects;
+import pl.fairit.somedayiwill.security.TestAuthorization;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.aLoginRequest;
-import static pl.fairit.somedayiwill.security.TestAuthRequest.aSignupRequest;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, value = "server.port=8087")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
-class BookControllerRestAssuredTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class BookControllerTest {
     @LocalServerPort
     private int port;
-    private static String token;
+    private String token;
 
-    @BeforeEach
-    public void authorization() {
-        if (nonNull(token)) {
-            return;
-        }
-        var user = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = aSignupRequest(user);
-        var loginRequest = aLoginRequest(user);
-        given()
-                .port(port)
-                .basePath("/auth/signup")
-                .contentType(ContentType.JSON)
-                .body(signupRequest)
-                .post();
-
-        var authResponse = given()
-                .port(port)
-                .basePath("/auth/login")
-                .contentType(ContentType.JSON)
-                .body(loginRequest)
-                .post()
-                .then()
-                .extract()
-                .body()
-                .asString();
-
-        token = Objects.requireNonNull(TestAuthRequest.getTokenFromJSONString(authResponse)).getAccessToken();
+    @BeforeAll
+    public void authorize() {
+        token = TestAuthorization.getToken(port);
     }
 
     @Test
     public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
         //@formatter:off
-        given()
-                .port(port)
-                .basePath("/users/me/books")
-        .when()
-                .get()
+        when()
+                .get("/users/me/books")
         .then()
                 .assertThat()
                 .statusCode(401);
@@ -84,22 +56,18 @@ class BookControllerRestAssuredTest {
 
         //save book
         var postResponse = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(jsonBookDto)
-                .post()
+                .post("/users/me/books")
                 .then()
                 .extract()
                 .body();
         bookToSave = TestBookDto.fromJSONString(postResponse.asString());
         //get all
         var response = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
-                .get();
+                .get("/users/me/books");
         var books = TestBooks.fromJSONString(response.getBody().asString());
 
         assert nonNull(books);
@@ -114,12 +82,10 @@ class BookControllerRestAssuredTest {
         var jsonBookDto = TestBookDto.asJSONString(bookToSave);
 
         var response = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(jsonBookDto)
-                .post();
+                .post("/users/me/books");
         var returnedBookDto = TestBookDto.fromJSONString(response.getBody().asString());
         bookToSave.setId(returnedBookDto.getId());
                     /*BookId is generated by the database so there will always be this small difference
@@ -138,20 +104,16 @@ class BookControllerRestAssuredTest {
 
         //save book
         var postResponse = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(jsonBookDto)
-                .post();
+                .post("/users/me/books");
         bookToSave = TestBookDto.fromJSONString(postResponse.getBody().asString());
         //get book
         var getResponse = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .get("/" + bookToSave.getId());
+                .get("/users/me/books/" + bookToSave.getId());
         var returnedBook = TestBookDto.fromJSONString(getResponse.getBody().asString());
 
         assertEquals(bookToSave, returnedBook);
@@ -166,32 +128,26 @@ class BookControllerRestAssuredTest {
         //@formatter:off
         //save book
         var postResponse = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(jsonBookDto)
-                .post();
+                .post("/users/me/books");
         bookToSave = TestBookDto.fromJSONString(postResponse.getBody().asString());
         //delete book
         assert nonNull(bookToSave);
         given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
         .when()
-                .delete("/" + bookToSave.getId())
+                .delete("/users/me/books/" + bookToSave.getId())
         .then()
                 .statusCode(204);
         //attempt to get deleted book
         var getResponse = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
         .when()
-                .get("/" + bookToSave.getId())
+                .get("/users/me/books/" + bookToSave.getId())
         .then()
                 .assertThat()
                 .statusCode(404)
@@ -209,12 +165,10 @@ class BookControllerRestAssuredTest {
         //delete add
         //@formatter:off
         given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
         .when()
-                .delete()
+                .delete("/users/me/books")
                 .then()
         .assertThat()
                 .statusCode(204)
@@ -225,10 +179,8 @@ class BookControllerRestAssuredTest {
 
         //get all
         var body = given()
-                .port(port)
-                .basePath("/users/me/books")
                 .header("Authorization", "Bearer " + token)
-                .get()
+                .get("/users/me/books")
                 .then()
                 .extract()
                 .body()
@@ -239,4 +191,3 @@ class BookControllerRestAssuredTest {
         assertTrue(books.getBooks().isEmpty());
     }
 }
-

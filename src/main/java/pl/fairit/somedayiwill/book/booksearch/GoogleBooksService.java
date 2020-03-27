@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 
 @Component
-class GoogleBooksService implements BookService {
+public class GoogleBooksService implements BookService {
     @Value("${app.google-books.base-url}")
     private String bookApiBaseUrl;
 
@@ -66,5 +66,4 @@ class GoogleBooksService implements BookService {
                 .append(googleApiKey);
         return fullPath.toString();
     }
-
 }

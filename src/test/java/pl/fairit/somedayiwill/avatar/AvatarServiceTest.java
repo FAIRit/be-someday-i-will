@@ -10,6 +10,7 @@ import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
 import pl.fairit.somedayiwill.user.AppUserRepository;
 import pl.fairit.somedayiwill.user.TestUsers;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,13 +47,10 @@ class AvatarServiceTest {
     }
 
     @Test
-    public void shouldReturnUserAvatarWhenExistingUserIdGiven() {
+    public void shouldReturnUserAvatarWhenExistingUserIdGiven() throws IOException {
         var user = TestUsers.aDefaultUser();
-        var avatar = Avatar.builder()
-                .data("fileContent".getBytes())
-                .fileType(MimeTypeUtils.IMAGE_JPEG_VALUE)
-                .user(user)
-                .build();
+        var avatar = TestAvatar.fromMultipartFile(TestMultipartFile.aValidMultipartFileMock());
+        avatar.setUser(user);
 
         when(avatarRepository.findAvatarByUserId(user.getId())).thenReturn(Optional.ofNullable(avatar));
         var result = avatarService.getUsersAvatar(user.getId());

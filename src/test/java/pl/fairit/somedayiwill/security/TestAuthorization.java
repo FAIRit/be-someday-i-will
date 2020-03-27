@@ -18,7 +18,7 @@ import static java.util.Objects.nonNull;
 
 @Slf4j
 public class TestAuthorization {
-    public static String authorize(int port) {
+    public static String getToken(int port) {
         RestAssured.port = port;
         var user = TestUsers.aUserWithRandomCredentials();
         var signupRequest = aSignupRequest(user);

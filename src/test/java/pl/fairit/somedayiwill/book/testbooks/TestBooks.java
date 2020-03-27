@@ -8,9 +8,9 @@ import java.io.IOException;
 
 @Slf4j
 public class TestBooks {
-    public static Books fromJSONString(String moviesAsString) {
+    public static Books fromJSONString(String booksAsString) {
         try {
-            return new ObjectMapper().readValue(moviesAsString, Books.class);
+            return new ObjectMapper().readValue(booksAsString, Books.class);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
