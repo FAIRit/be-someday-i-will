@@ -71,8 +71,8 @@ class BookControllerTest {
         var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
 
         assert nonNull(foundBooks);
-        assertEquals(1, foundBooks.getBooks().size());
-        assertEquals(bookToReturn, foundBooks.getBooks().get(0));
+        assertEquals(1, foundBooks.getBookDtos().size());
+        assertEquals(bookToReturn, foundBooks.getBookDtos().get(0));
         assertEquals(booksToReturn, foundBooks);
         assertEquals(200, response.getStatusCode());
     }
@@ -160,7 +160,7 @@ class BookControllerTest {
         var books = TestBooks.fromJSONString(response.getBody().asString());
 
         assert nonNull(books);
-        assertTrue(books.getBooks().isEmpty());
+        assertTrue(books.getBookDtos().isEmpty());
         assertEquals(200, response.getStatusCode());
     }
 }

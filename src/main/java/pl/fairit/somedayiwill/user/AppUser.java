@@ -1,13 +1,11 @@
 package pl.fairit.somedayiwill.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import pl.fairit.somedayiwill.avatar.Avatar;
 import pl.fairit.somedayiwill.book.usersbooks.Book;
 import pl.fairit.somedayiwill.movie.usersmovies.Movie;

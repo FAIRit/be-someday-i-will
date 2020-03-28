@@ -14,5 +14,5 @@ import java.util.List;
 @ApiModel
 public class Books {
     @ApiModelProperty(notes = "The list of books")
-    private List<BookDto> books;
+    private List<BookDto> bookDtos;
 }

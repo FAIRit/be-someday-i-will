@@ -50,7 +50,7 @@ public class NewsletterService {
         var frequency = appUser.getNewsletterFrequency().getValue();
         var subject = "Your " + frequency + " newsletter";
         var movies = movieService.getAllUsersMovies(appUser.getId()).getMovies();
-        var books = bookService.getAllUsersBooks(appUser.getId()).getBooks();
+        var books = bookService.getAllUsersBooks(appUser.getId()).getBookDtos();
         var content = createNewsletterHtmlContent(appUser.getName(), movies, books, frequency);
         var email = appUser.getEmail();
         sendGridEmailService.sendHtmlMail(content, email, subject);

@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.movie.usersmovies;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.book.usersbooks;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -8,9 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
+import pl.fairit.somedayiwill.book.testbooks.TestBook;
+import pl.fairit.somedayiwill.book.testbooks.TestBookDto;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
+import pl.fairit.somedayiwill.user.TestUsers;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BookServiceMockitoTest {
+class BookServiceTest {
 
     @Mock
     BookRepository bookRepository;
@@ -43,8 +44,9 @@ class BookServiceMockitoTest {
 
     @Test
     public void shouldDeleteUsersBookWhenUserIdAndBookIdGiven() {
-        var appUser = retrieveAppUser();
-        var book = retrieveOneBook();
+        var appUser = TestUsers.aUserWithRandomCredentials();
+        appUser.setId(5L);
+        var book = TestBook.aRandomBook();
         book.setId(13L);
         book.setUser(appUser);
 
@@ -56,9 +58,11 @@ class BookServiceMockitoTest {
 
     @Test
     public void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchBookOwnerId() {
-        var book = retrieveOneBook();
+        var book = TestBook.aRandomBook();
         book.setId(12L);
-        book.setUser(retrieveAppUser());
+        var appUser = TestUsers.aUserWithRandomCredentials();
+        appUser.setId(5L);
+        book.setUser(appUser);
         var userId = 23L;
 
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
@@ -68,8 +72,8 @@ class BookServiceMockitoTest {
 
     @Test
     public void shouldReturnUsersBooksWhenUserWithGivenIdExist() {
-        var booksToReturn = retrieveBooks();
-        var booksToReturnByRepository = booksToReturn.getBooks().stream()
+        var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
+        var booksToReturnByRepository = booksToReturn.getBookDtos().stream()
                 .map(BookMapper.INSTANCE::mapBookDtoToBook)
                 .collect(Collectors.toList());
         var userId = 3L;
@@ -82,8 +86,9 @@ class BookServiceMockitoTest {
 
     @Test
     public void shouldSaveBookWhenUserWithGivenIdExists() {
-        var user = retrieveAppUser();
-        var bookDtoToSave = retrieveOneBookDto();
+        var user = TestUsers.aUserWithRandomCredentials();
+        user.setId(3L);
+        var bookDtoToSave = TestBookDto.aRandomBookDto();
 
         when(userService.getExistingUser(user.getId())).thenReturn(user);
 
@@ -98,41 +103,5 @@ class BookServiceMockitoTest {
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> bookService.getExistingBookById(bookId));
-    }
-
-    private Books retrieveBooks() {
-        return new Books(List.of(retrieveOneBookDto(), retrieveOneBookDto(), retrieveOneBookDto()));
-    }
-
-    private BookDto retrieveOneBookDto() {
-        var faker = new Faker();
-        return BookDto.builder()
-                .authors(faker.book().author())
-                .buyLink(faker.internet().url())
-                .categories(faker.book().genre())
-                .description(faker.lorem().sentence())
-                .imageLink(faker.internet().url())
-                .pageCount(345)
-                .title(faker.book().title())
-                .build();
-    }
-
-    private Book retrieveOneBook() {
-        var faker = new Faker();
-        return Book.builder()
-                .authors(faker.book().author())
-                .buyLink(faker.internet().url())
-                .categories(faker.book().genre())
-                .description(faker.lorem().sentence())
-                .imageLink(faker.internet().url())
-                .pageCount(345)
-                .title(faker.book().title())
-                .build();
-    }
-
-    private AppUser retrieveAppUser() {
-        return AppUser.builder()
-                .id(5L)
-                .build();
     }
 }

@@ -12,7 +12,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByEmail(String email);
 
     @Override
-    Optional<AppUser> findById(Long Long);
+    Optional<AppUser> findById(Long id);
 
     Boolean existsByEmail(String email);
 

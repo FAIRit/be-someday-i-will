@@ -1,7 +1,9 @@
 package pl.fairit.somedayiwill.integrationtests;
 
-import org.hamcrest.Matchers;
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +25,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookSearchControllerTest {
     @LocalServerPort
     private int port;
 
     @MockBean
     GoogleBooksService googleBooksService;
+
+    @BeforeAll
+    private void setup() {
+        RestAssured.port = port;
+    }
 
     @Test
     public void shouldReturnBooksWhenSearchByAuthorPerformed() {
@@ -37,7 +45,6 @@ class BookSearchControllerTest {
 
         Mockito.when(googleBooksService.searchBooksByAuthor(query)).thenReturn(booksToReturn);
         var response = given()
-                .port(port)
                 .get("/books/search?author=" + query);
         var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
 
@@ -52,7 +59,6 @@ class BookSearchControllerTest {
 
         Mockito.when(googleBooksService.searchBooksByTitle(query)).thenReturn(booksToReturn);
         var response = given()
-                .port(port)
                 .get("/books/search?title=" + query);
         var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
 

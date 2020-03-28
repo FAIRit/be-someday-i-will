@@ -36,7 +36,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public Docket SwaggerApi() {
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
