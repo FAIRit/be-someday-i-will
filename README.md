@@ -34,14 +34,11 @@ After creating new account, user will gain access to his own watch/read later li
 
 
 ## Setup:
-To run project locally using Maven, Java and MySQL (remember to replace db url, password and username in application.properties with your own credentials):
-```
-$ mvn package
-$ java --jar target/*jar
-```
+***IMPORTANT:*** To make this application work you have to provide valid Google API key, Sendgrid API key and MDBDatabase API key.
 
-To run project locally using Docker and docker-compose:
 ```
+$ ./mvnw clean package
+$ docker-compose build --build-arg APP_GOOGLE_BOOKS_KEY=YOUR_KEY --build-arg APP_MOVIE_DATABASE_KEY=YOUR_KEY --build-arg SPRING_SENDGRID_API_KEY=YOUR_KEY
 $ docker-compose up
 ```
 

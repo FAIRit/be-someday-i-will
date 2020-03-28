@@ -20,12 +20,18 @@ services:
 
   someday-app:
     restart: on-failure
-    build: ./
+    build:
+      context: .
+      args:
+        APP_GOOGLE_BOOKS_KEY:
+        APP_MOVIE_DATABASE_KEY:
+        SPRING_SENDGRID_API_KEY:
     expose:
       - "8080"
     ports:
       - 8080:8080
     environment:
+      SPRING_PROFILES_ACTIVE: default
       WAIT_HOSTS: mysql:3306
     depends_on:
       - someday-mysql
