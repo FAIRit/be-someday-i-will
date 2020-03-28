@@ -22,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class MovieServiceMockitoTest {
-
+class MovieServiceTest {
     @Mock
     MovieRepository movieRepository;
 
@@ -62,7 +61,6 @@ class MovieServiceMockitoTest {
         var appUser = TestUsers.aDefaultUser();
         appUser.setId(13L);
         var wrongUserId = 23L;
-
         movie.setId(12L);
         movie.setUser(appUser);
 

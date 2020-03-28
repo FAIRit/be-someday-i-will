@@ -6,6 +6,7 @@ import pl.fairit.somedayiwill.security.user.SignUpRequest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static pl.fairit.somedayiwill.user.TestUsers.generateStrongPassword;
 
 class SignUpRequestTest {
     @Test
@@ -30,10 +31,9 @@ class SignUpRequestTest {
 
     @Test
     void shouldReturnTrueWhenPasswordValid() {
-        var faker = new Faker();
         var signupRequest = new SignUpRequest();
 
-        signupRequest.setPassword(faker.internet().password(8, 100, true, true, true) + faker.number().numberBetween(0, 10));
+        signupRequest.setPassword(generateStrongPassword());
 
         assertTrue(signupRequest.isPasswordValid());
     }

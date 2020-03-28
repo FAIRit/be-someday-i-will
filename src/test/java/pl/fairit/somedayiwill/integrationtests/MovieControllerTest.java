@@ -14,11 +14,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.fairit.somedayiwill.book.testbooks.TestBookDto;
-import pl.fairit.somedayiwill.book.testbooks.TestBooks;
-import pl.fairit.somedayiwill.book.usersbooks.BookService;
-import pl.fairit.somedayiwill.book.usersbooks.Books;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
+import pl.fairit.somedayiwill.movie.testmovies.TestMovies;
+import pl.fairit.somedayiwill.movie.usersmovies.MovieService;
+import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 import pl.fairit.somedayiwill.newsletter.SendGridEmailService;
 import pl.fairit.somedayiwill.security.TestAuthorization;
 
@@ -35,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class BookControllerTest {
+public class MovieControllerTest {
     @LocalServerPort
     private int port;
-    private String token;
+    private static String token;
 
     @MockBean
-    private BookService booksService;
+    private MovieService movieService;
 
     @BeforeAll
     public void authorize() {
@@ -53,7 +53,7 @@ class BookControllerTest {
     public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
         //@formatter:off
         when()
-                .get("/users/me/books")
+                .get("/users/me/movies")
         .then()
                 .assertThat()
                 .statusCode(401);
@@ -61,64 +61,64 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnListOfUsersBooksWhenGetAllPerformed() {
-        var booksToReturn = TestBooks.withListOfRandomBooks(6);
+    public void shouldReturnListOfUsersMoviesWhenGetAllPerformed() {
+        var moviesToReturn = TestMovies.withListOfRandomMovies(3);
 
-        Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong())).thenReturn(booksToReturn);
+        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong())).thenReturn(moviesToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
-                .get("/users/me/books");
-        var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
+                .get("/users/me/movies");
+        var foundMovies = TestMovies.fromJSONString(response.getBody().asString());
 
-        assert nonNull(foundBooks);
-        assertEquals(6, foundBooks.getBookDtos().size());
-        assertEquals(booksToReturn, foundBooks);
+        assert nonNull(foundMovies);
+        assertEquals(3, foundMovies.getMovies().size());
+        assertEquals(moviesToReturn, foundMovies);
         assertEquals(200, response.getStatusCode());
     }
 
     @Test
-    public void shouldReturnSavedBookWhenPostPerformed() {
-        var bookToSave = TestBookDto.aRandomBookDto();
-        var jsonBookDto = TestBookDto.asJSONString(bookToSave);
+    public void shouldReturnSavedMovieWhenPostPerformed() {
+        var movieToSave = TestMovieDto.aRandomMovieDto();
+        var jsonMovieDto = TestMovieDto.asJSONString(movieToSave);
 
-        Mockito.when(booksService.saveBook(ArgumentMatchers.eq(bookToSave), ArgumentMatchers.anyLong())).thenReturn(bookToSave);
+        Mockito.when(movieService.saveMovie(ArgumentMatchers.eq(movieToSave), ArgumentMatchers.anyLong())).thenReturn(movieToSave);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .body(jsonBookDto)
-                .post("/users/me/books");
-        var returnedBookDto = TestBookDto.fromJSONString(response.getBody().asString());
+                .body(jsonMovieDto)
+                .post("/users/me/movies");
+        var returnedMovieDto = TestMovieDto.fromJSONString(response.getBody().asString());
 
-        assertEquals(bookToSave, returnedBookDto);
+        assertEquals(movieToSave, returnedMovieDto);
         assertEquals(201, response.getStatusCode());
     }
 
     @Test
-    public void shouldReturnBookWhenGetBookByIdPerformed() {
-        var bookToReturn = TestBookDto.aRandomBookDto();
-        bookToReturn.setId(3L);
+    public void shouldReturnMovieWhenGetMovieByIdPerformed() {
+        var movieToReturn = TestMovieDto.aRandomMovieDto();
+        movieToReturn.setId(7L);
 
-        Mockito.when(booksService.getUsersBook(ArgumentMatchers.eq(3L), ArgumentMatchers.anyLong())).thenReturn(bookToReturn);
-        var response = given()
+        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(7L), ArgumentMatchers.anyLong())).thenReturn(movieToReturn);
+        var getResponse = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .get("/users/me/books/" + bookToReturn.getId());
-        var returnedBook = TestBookDto.fromJSONString(response.getBody().asString());
+                .get("/users/me/movies/" + movieToReturn.getId());
+        var returnedMovie = TestMovieDto.fromJSONString(getResponse.getBody().asString());
 
-        assertEquals(bookToReturn, returnedBook);
-        assertEquals(200, response.getStatusCode());
+        assertEquals(movieToReturn, returnedMovie);
+        assertEquals(200, getResponse.getStatusCode());
     }
 
     @Test
-    public void shouldReturnNoContentStatusCodeAfterDeleteBookByIdPerformed() {
-        var bookId = 4L;
+    public void shouldReturnNoContentStatusCodeAfterDeleteOnePerformed() {
+        var movieId = 7L;
 
         //@formatter:off
         given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
         .when()
-                .delete("/users/me/books/" + bookId)
+                .delete("/users/me/movies/" + movieId)
         .then()
                 .assertThat()
                 .statusCode(204);
@@ -126,42 +126,43 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnNotFoundStatusCodeWhenGetBookByIdPerformed() {
-        var bookId = 6L;
+    public void shouldReturnNotFoundStatusCodeWhenGetMovieByIdPerformed() {
+        var movieId = 4L;
 
-        Mockito.when(booksService.getUsersBook(ArgumentMatchers.eq(bookId), ArgumentMatchers.anyLong())).thenThrow(new ResourceNotFoundException("Book with given id does not exist"));
+        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(movieId), ArgumentMatchers.anyLong())).thenThrow(new ResourceNotFoundException("Movie with given id does not exist"));
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .get("/users/me/books/" + bookId);
+                .get("/users/me/movies/" + movieId);
 
         assertEquals(404, response.getStatusCode());
-        assertTrue(response.getBody().asString().contains("Book with given id does not exist"));
+        assertTrue(response.getBody().asString().contains("Movie with given id does not exist"));
     }
 
     @Test
-    public void shouldReturnedNoContentWhenDeleteAllBooksPerformed() {
+    public void shouldReturnedNoContentWhenDeleteAllMoviesPerformed() {
         //@formatter:off
         given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
         .when()
-                .delete("/users/me/books")
-                .then()
-        .statusCode(204);
+                .delete("/users/me/movies")
+        .then()
+                .statusCode(204);
         //@formatter:on
     }
 
     @Test
-    public void shouldReturnBooksWithEmptyListWhenGetAllBooksPerformed() {
-        Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong())).thenReturn(new Books(Collections.emptyList()));
+    public void shouldReturnMoviesWithEmptyListWhenGetAllMoviesPerformed() {
+        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong())).thenReturn(new Movies(Collections.emptyList()));
         var response = given()
                 .header("Authorization", "Bearer " + token)
-                .get("/users/me/books");
-        var books = TestBooks.fromJSONString(response.getBody().asString());
+                .get("/users/me/movies");
+        var movies = TestMovies.fromJSONString(response.getBody().asString());
 
-        assert nonNull(books);
-        assertTrue(books.getBookDtos().isEmpty());
+        assert nonNull(movies);
+        assertTrue(movies.getMovies().isEmpty());
         assertEquals(200, response.getStatusCode());
     }
 }
+

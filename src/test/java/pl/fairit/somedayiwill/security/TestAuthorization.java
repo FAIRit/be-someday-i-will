@@ -7,6 +7,8 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import pl.fairit.somedayiwill.security.jwt.AuthResponse;
+import pl.fairit.somedayiwill.security.user.LoginRequest;
+import pl.fairit.somedayiwill.security.user.SignUpRequest;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
@@ -18,21 +20,18 @@ import static java.util.Objects.nonNull;
 
 @Slf4j
 public class TestAuthorization {
-    public static String getToken(int port) {
-        RestAssured.port = port;
+    public static String getToken() {
         var user = TestUsers.aUserWithRandomCredentials();
-        var signupRequest = aSignupRequest(user);
-        var loginRequest = aLoginRequest(user);
+        var signupRequest = aSignupRequestAsString(user);
+        var loginRequest = aLoginRequestAsString(user);
 
         given()
-                .port(port)
                 .basePath("/")
                 .contentType(ContentType.JSON)
                 .body(signupRequest)
                 .post("/auth/signup");
 
         var authResponse = given()
-                .port(port)
                 .basePath("/")
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
@@ -45,7 +44,7 @@ public class TestAuthorization {
         return Objects.requireNonNull(getTokenFromJSONString(authResponse)).getAccessToken();
     }
 
-    private static String aLoginRequest(final AppUser userToLogin) {
+    public static String aLoginRequestAsString(final AppUser userToLogin) {
         var loginRequestBody = new JSONObject();
         try {
             loginRequestBody.put("email", userToLogin.getEmail());
@@ -56,7 +55,11 @@ public class TestAuthorization {
         return loginRequestBody.toString();
     }
 
-    private static String aSignupRequest(final AppUser userToRegister) {
+    public static LoginRequest aLoginRequest(final AppUser userToLogin) {
+        return new LoginRequest(userToLogin.getEmail(), userToLogin.getPassword());
+    }
+
+    public static String aSignupRequestAsString(final AppUser userToRegister) {
         var signupRequestBody = new JSONObject();
         try {
             signupRequestBody.put("email", userToRegister.getEmail());
@@ -71,7 +74,11 @@ public class TestAuthorization {
         return signupRequestBody.toString();
     }
 
-    private static AuthResponse getTokenFromJSONString(String responseBody) {
+    public static SignUpRequest aSignupRequest(final AppUser userToRegister) {
+        return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister.getPassword(), userToRegister.getNewsletterFrequency());
+    }
+
+    public static AuthResponse getTokenFromJSONString(String responseBody) {
         try {
             return new ObjectMapper().readValue(responseBody, AuthResponse.class);
         } catch (IOException e) {

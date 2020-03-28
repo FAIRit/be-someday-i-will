@@ -1,5 +1,6 @@
 package pl.fairit.somedayiwill.integrationtests;
 
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -43,7 +44,8 @@ class AvatarControllerTest {
 
     @BeforeAll
     public void authorize() {
-        token = TestAuthorization.getToken(port);
+        RestAssured.port = port;
+        token = TestAuthorization.getToken();
     }
 
     @Test
