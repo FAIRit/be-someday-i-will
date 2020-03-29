@@ -35,12 +35,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          version_label: 16
+          version_label: 17
           application_name: someday-app
           environment_name: SomedayApp-env
           region: us-west-2
           deployment_package: deploy.zip
-          SPRING_SENDGRID_API_KEY: ${{ secrets.SPRING_SENDGRID_API_KEY }}
-          APP_AUTH_TOKEN_SECRET: ${{ secrets.APP_AUTH_TOKEN_SECRET }}
-          APP_GOOGLE_BOOKS_KEY: ${{ secrets.APP_GOOGLE_BOOKS_KEY }}
-          APP_MOVIE_DATABASE_KEY: ${{ secrets.APP_MOVIE_DATABASE_KEY }}
