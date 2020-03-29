@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Tests
 
 on: push
 
@@ -15,6 +15,7 @@ jobs:
           java-version: 11
       - name: Build with Maven
         env:
+          SPRING_PROFILES_ACTIVE: gh
           SPRING_SENDGRID_API_KEY: ${{ secrets.SPRING_SENDGRID_API_KEY }}
           APP_AUTH_TOKEN_SECRET: ${{ secrets.APP_AUTH_TOKEN_SECRET }}
           APP_GOOGLE_BOOKS_KEY: ${{ secrets.APP_GOOGLE_BOOKS_KEY }}

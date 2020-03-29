@@ -21,6 +21,7 @@ services:
   someday-app:
     restart: on-failure
     build:
+      dockerfile: Dockerfile-local
       context: .
       args:
         APP_GOOGLE_BOOKS_KEY:
@@ -29,7 +30,7 @@ services:
     expose:
       - 8080
     ports:
-      - 9090:8080
+      - 8080:8080
     environment:
       SPRING_PROFILES_ACTIVE: default
       WAIT_HOSTS: mysql:3306
