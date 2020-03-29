@@ -1,4 +1,4 @@
-name: AWS deploy
+name: deploy
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          version_label: 15
+          version_label: 16
           application_name: someday-app
           environment_name: SomedayApp-env
           region: us-west-2
