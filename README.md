@@ -38,6 +38,9 @@ After creating new account, user will gain access to his own watch/read later li
 
 ```
 $ ./mvnw clean package
+$ mkdir -p target/dependency
+$ cd target/dependency
+$ jar -xf ../*.jar
 $ docker-compose build --build-arg APP_GOOGLE_BOOKS_KEY=YOUR_KEY --build-arg APP_MOVIE_DATABASE_KEY=YOUR_KEY --build-arg SPRING_SENDGRID_API_KEY=YOUR_KEY
 $ docker-compose up
 ```
