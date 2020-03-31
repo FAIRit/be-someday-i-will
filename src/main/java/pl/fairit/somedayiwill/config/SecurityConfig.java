@@ -28,8 +28,11 @@ import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
+
+
     private final CustomUserDetailsService userDetailsService;
     private static final String[] AUTH_WHITELIST = {
+            "/",
             "/books/search/**",
             "/movies/search/**",
             "/auth/**",
@@ -41,6 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
+            // Home page
+            "/error",
+            "/**/*.png",
+            "/**/*.gif",
+            "/**/*.svg",
+            "/**/*.jpg",
+            "/**/*.html",
+            "/**/*.css",
+            "/**/*.js",
+            "/**/*.woff2",
+            "/**/*.woff"
     };
 
     public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {

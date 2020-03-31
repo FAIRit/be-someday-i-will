@@ -36,16 +36,13 @@
         <org.apache.maven.plugins.version>3.8.0</org.apache.maven.plugins.version>
         <org.testcontainers.version>1.12.5</org.testcontainers.version>
         <org.jetbrains.version>19.0.0</org.jetbrains.version>
+        <org.webjars.jquery>2.1.1</org.webjars.jquery>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,6 +115,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${io.jsonwebtoken.version}</version>
@@ -183,7 +184,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>jdbc</artifactId>
-            <version>1.12.5</version>
+            <version>${org.testcontainers.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
