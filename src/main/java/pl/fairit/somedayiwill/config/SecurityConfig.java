@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // Home page
             "/error",
             "/**/*.png",
+            "/**/*.ico",
             "/**/*.gif",
             "/**/*.svg",
             "/**/*.jpg",
