@@ -7,7 +7,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -61,7 +60,7 @@ class AvatarControllerTest {
 
     @Test
     public void shouldReturnCreatedStatusCodeWhenPostPerformed() throws IOException {
-        var validFileToSave = TestMultipartFile.aValidMultipartFileMock();
+        var validFileToSave = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(validFileToSave);
 
         Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class))).thenReturn(avatarToReturn);
@@ -78,7 +77,7 @@ class AvatarControllerTest {
 
     @Test
     public void shouldReturnUnsupportedMediaTypeStatusCodeWhenPostPerformed() throws IOException {
-        var invalidFileToSave = TestMultipartFile.anInvalidMultipartFileMock();
+        var invalidFileToSave = TestMultipartFile.aMockWithGifFileType();
 
         Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class))).thenCallRealMethod();
         var response = given()
@@ -126,7 +125,7 @@ class AvatarControllerTest {
 
     @Test
     public void shouldReturnAvatarWhenGetPerformed() throws IOException {
-        var file = TestMultipartFile.aValidMultipartFileMock();
+        var file = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(file);
 
         Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong())).thenReturn(avatarToReturn);

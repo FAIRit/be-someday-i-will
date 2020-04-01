@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.avatar;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,6 @@ public class Avatar {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     private AppUser user;
 
