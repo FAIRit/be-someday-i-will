@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @ExtendWith(SpringExtension.class)
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
-public class AppUserTestWithTestContainer {
+public class AppUserTest {
 
     @Autowired
     public AppUserService service;

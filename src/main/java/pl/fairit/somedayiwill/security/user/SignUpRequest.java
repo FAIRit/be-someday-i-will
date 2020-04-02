@@ -28,7 +28,7 @@ public class SignUpRequest {
     @ApiModelProperty(notes = "The user's name")
     private String name;
 
-    @NotNull(message = "Email address has to provided")
+    @NotNull(message = "Email address has to be provided")
     @Email(message = "Invalid email address")
     @ApiModelProperty(notes = "The user's email address")
     private String email;

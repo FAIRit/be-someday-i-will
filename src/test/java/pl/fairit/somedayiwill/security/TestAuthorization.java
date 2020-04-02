@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.security;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -41,7 +40,8 @@ public class TestAuthorization {
                 .body()
                 .asString();
 
-        return Objects.requireNonNull(getTokenFromJSONString(authResponse)).getAccessToken();
+        return Objects.requireNonNull(getTokenFromJSONString(authResponse))
+                .getAccessToken();
     }
 
     public static String aLoginRequestAsString(final AppUser userToLogin) {
@@ -76,6 +76,12 @@ public class TestAuthorization {
 
     public static SignUpRequest aSignupRequest(final AppUser userToRegister) {
         return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister.getPassword(), userToRegister.getNewsletterFrequency());
+    }
+
+    public static SignUpRequest aSignUpRequest(final String password) {
+        var request = new SignUpRequest();
+        request.setPassword(password);
+        return request;
     }
 
     public static AuthResponse getTokenFromJSONString(String responseBody) {

@@ -1,40 +1,32 @@
 package pl.fairit.somedayiwill.security.signup;
 
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import pl.fairit.somedayiwill.security.TestAuthorization;
 import pl.fairit.somedayiwill.security.user.SignUpRequest;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.fairit.somedayiwill.user.TestUsers.generateStrongPassword;
 
 class SignUpRequestTest {
-    @Test
-    void shouldReturnFalseWhenPasswordIsTooShort() {
-        var signupRequest = new SignUpRequest();
-        var faker = new Faker();
-
-        signupRequest.setPassword(faker.internet().password(0, 7));
-
-        assertFalse(signupRequest.isPasswordValid());
+    @ParameterizedTest
+    @MethodSource("signupRequests")
+    void validatePasswords(SignUpRequest request, Boolean isPasswordValid) {
+        assertEquals(isPasswordValid, request.isPasswordValid());
     }
 
-    @Test
-    void shouldReturnFalseWhenPasswordIsAllLowerCase() {
-        var faker = new Faker();
-        var signupRequest = new SignUpRequest();
-
-        signupRequest.setPassword(faker.internet().password(8, 100, false));
-
-        assertFalse(signupRequest.isPasswordValid());
-    }
-
-    @Test
-    void shouldReturnTrueWhenPasswordValid() {
-        var signupRequest = new SignUpRequest();
-
-        signupRequest.setPassword(generateStrongPassword());
-
-        assertTrue(signupRequest.isPasswordValid());
+    private static Stream<Arguments> signupRequests() {
+        return Stream.of(
+                Arguments.of(TestAuthorization.aSignUpRequest("strongForSure124!"), true),
+                Arguments.of(TestAuthorization.aSignUpRequest(generateStrongPassword()), true),
+                Arguments.of(TestAuthorization.aSignUpRequest(new Faker().internet()
+                        .password(8, 16, false)), false),
+                Arguments.of(TestAuthorization.aSignUpRequest(new Faker().internet()
+                        .password(0, 7)), false)
+        );
     }
 }
