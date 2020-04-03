@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ExtendWith(SpringExtension.class)
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -64,14 +64,17 @@ public class MovieControllerTest {
     public void shouldReturnListOfUsersMoviesWhenGetAllPerformed() {
         var moviesToReturn = TestMovies.withListOfRandomMovies(3);
 
-        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong())).thenReturn(moviesToReturn);
+        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong()))
+                .thenReturn(moviesToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/movies");
-        var foundMovies = TestMovies.fromJSONString(response.getBody().asString());
+        var foundMovies = TestMovies.fromJSONString(response.getBody()
+                .asString());
 
         assert nonNull(foundMovies);
-        assertEquals(3, foundMovies.getMovies().size());
+        assertEquals(3, foundMovies.getMovies()
+                .size());
         assertEquals(moviesToReturn, foundMovies);
         assertEquals(200, response.getStatusCode());
     }
@@ -81,13 +84,15 @@ public class MovieControllerTest {
         var movieToSave = TestMovieDto.aRandomMovieDto();
         var jsonMovieDto = TestMovieDto.asJSONString(movieToSave);
 
-        Mockito.when(movieService.saveMovie(ArgumentMatchers.eq(movieToSave), ArgumentMatchers.anyLong())).thenReturn(movieToSave);
+        Mockito.when(movieService.saveMovie(ArgumentMatchers.eq(movieToSave), ArgumentMatchers.anyLong()))
+                .thenReturn(movieToSave);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(jsonMovieDto)
                 .post("/users/me/movies");
-        var returnedMovieDto = TestMovieDto.fromJSONString(response.getBody().asString());
+        var returnedMovieDto = TestMovieDto.fromJSONString(response.getBody()
+                .asString());
 
         assertEquals(movieToSave, returnedMovieDto);
         assertEquals(201, response.getStatusCode());
@@ -98,12 +103,14 @@ public class MovieControllerTest {
         var movieToReturn = TestMovieDto.aRandomMovieDto();
         movieToReturn.setId(7L);
 
-        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(7L), ArgumentMatchers.anyLong())).thenReturn(movieToReturn);
+        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(7L), ArgumentMatchers.anyLong()))
+                .thenReturn(movieToReturn);
         var getResponse = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .get("/users/me/movies/" + movieToReturn.getId());
-        var returnedMovie = TestMovieDto.fromJSONString(getResponse.getBody().asString());
+        var returnedMovie = TestMovieDto.fromJSONString(getResponse.getBody()
+                .asString());
 
         assertEquals(movieToReturn, returnedMovie);
         assertEquals(200, getResponse.getStatusCode());
@@ -129,14 +136,17 @@ public class MovieControllerTest {
     public void shouldReturnNotFoundStatusCodeWhenGetMovieByIdPerformed() {
         var movieId = 4L;
 
-        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(movieId), ArgumentMatchers.anyLong())).thenThrow(new ResourceNotFoundException("Movie with given id does not exist"));
+        Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(movieId), ArgumentMatchers.anyLong()))
+                .thenThrow(new ResourceNotFoundException("Movie with given id does not exist"));
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .get("/users/me/movies/" + movieId);
 
         assertEquals(404, response.getStatusCode());
-        assertTrue(response.getBody().asString().contains("Movie with given id does not exist"));
+        assertTrue(response.getBody()
+                .asString()
+                .contains("Movie with given id does not exist"));
     }
 
     @Test
@@ -154,14 +164,17 @@ public class MovieControllerTest {
 
     @Test
     public void shouldReturnMoviesWithEmptyListWhenGetAllMoviesPerformed() {
-        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong())).thenReturn(new Movies(Collections.emptyList()));
+        Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong()))
+                .thenReturn(new Movies(Collections.emptyList()));
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/movies");
-        var movies = TestMovies.fromJSONString(response.getBody().asString());
+        var movies = TestMovies.fromJSONString(response.getBody()
+                .asString());
 
         assert nonNull(movies);
-        assertTrue(movies.getMovies().isEmpty());
+        assertTrue(movies.getMovies()
+                .isEmpty());
         assertEquals(200, response.getStatusCode());
     }
 }

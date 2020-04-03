@@ -6,7 +6,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.fairit.somedayiwill.movie.moviesearch.MDBMovieService;
@@ -15,7 +14,7 @@ import pl.fairit.somedayiwill.movie.testmovies.TestMovies;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MovieSearchControllerTest {
@@ -30,11 +29,13 @@ class MovieSearchControllerTest {
         var query = "Peppa";
         var moviesToReturn = TestMovies.withListOfRandomMovies(3);
 
-        Mockito.when(movieService.searchMoviesByTitle(query)).thenReturn(moviesToReturn);
+        Mockito.when(movieService.searchMoviesByTitle(query))
+                .thenReturn(moviesToReturn);
         var response = given()
                 .port(port)
                 .get("/movies/search?title=" + query);
-        var returnedMovies = TestMovies.fromJSONString(response.getBody().asString());
+        var returnedMovies = TestMovies.fromJSONString(response.getBody()
+                .asString());
 
 
         assert returnedMovies != null;
