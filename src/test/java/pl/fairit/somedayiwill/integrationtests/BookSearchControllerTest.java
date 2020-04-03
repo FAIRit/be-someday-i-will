@@ -22,9 +22,9 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookSearchControllerTest {
     @LocalServerPort
@@ -43,10 +43,12 @@ class BookSearchControllerTest {
         var query = "Rowling";
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
 
-        Mockito.when(googleBooksService.searchBooksByAuthor(query)).thenReturn(booksToReturn);
+        Mockito.when(googleBooksService.searchBooksByAuthor(query))
+                .thenReturn(booksToReturn);
         var response = given()
                 .get("/books/search?author=" + query);
-        var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
+        var foundBooks = TestBooks.fromJSONString(response.getBody()
+                .asString());
 
         assertEquals(200, response.getStatusCode());
         assertEquals(booksToReturn, foundBooks);
@@ -57,10 +59,12 @@ class BookSearchControllerTest {
         var query = "Rowling";
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
 
-        Mockito.when(googleBooksService.searchBooksByTitle(query)).thenReturn(booksToReturn);
+        Mockito.when(googleBooksService.searchBooksByTitle(query))
+                .thenReturn(booksToReturn);
         var response = given()
                 .get("/books/search?title=" + query);
-        var foundBooks = TestBooks.fromJSONString(response.getBody().asString());
+        var foundBooks = TestBooks.fromJSONString(response.getBody()
+                .asString());
 
         assertEquals(200, response.getStatusCode());
         assertEquals(booksToReturn, foundBooks);

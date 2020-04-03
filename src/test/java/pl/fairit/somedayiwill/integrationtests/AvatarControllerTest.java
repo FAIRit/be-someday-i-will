@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +28,7 @@ import static io.restassured.RestAssured.when;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ExtendWith(SpringExtension.class)
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -48,7 +47,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+    public void shouldReturnUnauthorizedWhenGetWithNoTokenPerformed() {
         //@formatter:off
         when()
                 .get("/users/me/avatar")
@@ -63,7 +62,8 @@ class AvatarControllerTest {
         var validFileToSave = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(validFileToSave);
 
-        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class))).thenReturn(avatarToReturn);
+        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+                .thenReturn(avatarToReturn);
         var response = given()
                 .contentType("multipart/form-data")
                 .header("Authorization", "Bearer " + token)
@@ -71,7 +71,8 @@ class AvatarControllerTest {
                 .post("/users/me/avatar");
 
         assertEquals(validFileToSave.getContentType(), response.getContentType());
-        assertArrayEquals(validFileToSave.getBytes(), response.getBody().asByteArray());
+        assertArrayEquals(validFileToSave.getBytes(), response.getBody()
+                .asByteArray());
         assertEquals(201, response.getStatusCode());
     }
 
@@ -79,7 +80,8 @@ class AvatarControllerTest {
     public void shouldReturnUnsupportedMediaTypeStatusCodeWhenPostPerformed() throws IOException {
         var invalidFileToSave = TestMultipartFile.aMockWithGifFileType();
 
-        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class))).thenCallRealMethod();
+        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+                .thenCallRealMethod();
         var response = given()
                 .contentType("multipart/form-data")
                 .header("Authorization", "Bearer " + token)
@@ -87,7 +89,9 @@ class AvatarControllerTest {
                 .post("/users/me/avatar");
 
         assertEquals(415, response.getStatusCode());
-        assertTrue(response.getBody().asString().contains("Unsupported file type."));
+        assertTrue(response.getBody()
+                .asString()
+                .contains("Unsupported file type."));
     }
 
     @Test
@@ -105,7 +109,8 @@ class AvatarControllerTest {
 
     @Test
     public void shouldReturnNotFoundStatusCode() {
-        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong())).thenThrow(new ResourceNotFoundException("Avatar does not exist"));
+        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong()))
+                .thenThrow(new ResourceNotFoundException("Avatar does not exist"));
 
         //@formatter:off
        var response = given()
@@ -128,13 +133,15 @@ class AvatarControllerTest {
         var file = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(file);
 
-        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong())).thenReturn(avatarToReturn);
+        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong()))
+                .thenReturn(avatarToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/avatar");
 
         assertEquals(avatarToReturn.getFileType(), response.getContentType());
-        assertArrayEquals(avatarToReturn.getData(), response.getBody().asByteArray());
+        assertArrayEquals(avatarToReturn.getData(), response.getBody()
+                .asByteArray());
         assertEquals(200, response.getStatusCode());
     }
 }
