@@ -25,16 +25,16 @@ import static java.util.Objects.nonNull;
 public class SignUpRequest {
     @NotNull(message = "Name has to be provided")
     @Length(min = 2, message = "Name has to be at at least 2 character long")
-    @ApiModelProperty(notes = "The user's name")
+    @ApiModelProperty(notes = "The user's name", example = "John")
     private String name;
 
     @NotNull(message = "Email address has to be provided")
     @Email(message = "Invalid email address")
-    @ApiModelProperty(notes = "The user's email address")
+    @ApiModelProperty(notes = "The user's email address", example = "john@doe.com")
     private String email;
 
     @NotBlank(message = "Password has to be provided")
-    @ApiModelProperty(notes = "The user's password")
+    @ApiModelProperty(notes = "The user's password", example = "Password1")
     private String password;
 
     @Enumerated(EnumType.STRING)

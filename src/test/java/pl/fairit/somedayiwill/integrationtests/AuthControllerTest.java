@@ -54,7 +54,7 @@ public class AuthControllerTest {
         var bodyValue = response.getBody()
                 .asString();
 
-        assertEquals("User registered successfully", bodyValue);
+        assertTrue(bodyValue.contains("User registered successfully"));
         assertEquals(201, response.getStatusCode());
     }
 

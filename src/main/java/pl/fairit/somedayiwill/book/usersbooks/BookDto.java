@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Builder
 @AllArgsConstructor

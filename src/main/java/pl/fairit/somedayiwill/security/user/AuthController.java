@@ -35,15 +35,15 @@ public class AuthController {
 
     @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Sign up", response = String.class)
+    @ApiOperation(value = "Sign up", response = SignupResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully signed up"),
             @ApiResponse(code = 400, message = "Bad credentials"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
             @ApiResponse(code = 409, message = "User with given email already exist")
     })
-    public String signup(@Valid @RequestBody final SignUpRequest signUpRequest) {
+    public SignupResponse signup(@Valid @RequestBody final SignUpRequest signUpRequest) {
         authService.registerUser(signUpRequest);
-        return "User registered successfully";
+        return new SignupResponse("User registered successfully");
     }
 }

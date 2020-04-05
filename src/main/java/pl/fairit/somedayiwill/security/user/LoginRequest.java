@@ -14,10 +14,10 @@ import javax.validation.constraints.NotNull;
 public class LoginRequest {
     @NotNull
     @Email
-    @ApiModelProperty(notes = "The user's email address")
+    @ApiModelProperty(notes = "The user's email address", example = "john@doe.com")
     private String email;
 
     @NotNull
-    @ApiModelProperty(notes = "The user's password")
+    @ApiModelProperty(notes = "The user's password", example = "Password1")
     private String password;
 }
