@@ -34,6 +34,7 @@
         <org.testcontainers.version>1.12.5</org.testcontainers.version>
         <org.jetbrains.version>19.0.0</org.jetbrains.version>
         <org.webjars.jquery>2.1.1</org.webjars.jquery>
+        <spotbugs.plugin.version>4.0.0</spotbugs.plugin.version>
     </properties>
 
     <dependencies>
@@ -188,6 +189,21 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>${spotbugs.plugin.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <excludeFilterFile>/spotBugsFilterFile.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

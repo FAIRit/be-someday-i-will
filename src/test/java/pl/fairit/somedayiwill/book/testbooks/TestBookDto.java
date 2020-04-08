@@ -25,7 +25,7 @@ public class TestBookDto {
                 .build();
     }
 
-    public static String asJSONString(BookDto bookDto) {
+    public static String asJSONString(final BookDto bookDto) {
         var bookAsJSONString = new JSONObject();
         try {
             bookAsJSONString.put("title", bookDto.getTitle());
@@ -43,7 +43,7 @@ public class TestBookDto {
         return bookAsJSONString.toString();
     }
 
-    public static BookDto fromJSONString(String bookAsJSONString) {
+    public static BookDto fromJSONString(final String bookAsJSONString) {
         try {
             return new ObjectMapper().readValue(bookAsJSONString, BookDto.class);
         } catch (IOException e) {

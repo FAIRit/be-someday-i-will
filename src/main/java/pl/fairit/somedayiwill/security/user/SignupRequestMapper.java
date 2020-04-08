@@ -8,5 +8,5 @@ import pl.fairit.somedayiwill.user.AppUser;
 public interface SignupRequestMapper {
     SignupRequestMapper INSTANCE = Mappers.getMapper(SignupRequestMapper.class);
 
-    AppUser map(SignUpRequest signUpRequest);
+    AppUser map(final SignUpRequest signUpRequest);
 }

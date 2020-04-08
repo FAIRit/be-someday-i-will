@@ -45,8 +45,7 @@ public class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest))
-                .thenReturn(userToRegister);
+        Mockito.when(authService.registerUser(signupRequest)).thenReturn(userToRegister);
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
@@ -64,16 +63,13 @@ public class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest))
-                .thenThrow(new UserAlreadyExistsException("Email address already in use."));
+        Mockito.when(authService.registerUser(signupRequest)).thenThrow(new UserAlreadyExistsException("Email address already in use."));
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/signup");
 
-        assertTrue(response.getBody()
-                .asString()
-                .contains("Email address already in use."));
+        assertTrue(response.getBody().asString().contains("Email address already in use."));
         assertEquals(409, response.getStatusCode());
     }
 
@@ -84,16 +80,13 @@ public class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest))
-                .thenCallRealMethod();
+        Mockito.when(authService.registerUser(signupRequest)).thenCallRealMethod();
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/signup");
 
-        assertTrue(response.getBody()
-                .asString()
-                .contains("Password has to be at least 8 characters and contain at least one digit and one upper case letter"));
+        assertTrue(response.getBody().asString().contains("Password has to be at least 8 characters and contain at least one digit, one lower case and one upper case letter"));
         assertEquals(400, response.getStatusCode());
     }
 
@@ -104,14 +97,12 @@ public class AuthControllerTest {
         var loginRequest = aLoginRequest(userToLogin);
         var token = "token value";
 
-        Mockito.when(authService.authenticateUser(loginRequest))
-                .thenReturn(token);
+        Mockito.when(authService.authenticateUser(loginRequest)).thenReturn(token);
         var response = given()
                 .body(loginRequestBody)
                 .contentType(ContentType.JSON)
                 .post("/auth/login");
-        var responseBody = response.getBody()
-                .asString();
+        var responseBody = response.getBody().asString();
 
         assertEquals(200, response.getStatusCode());
         assertTrue(responseBody.contains("accessToken"));

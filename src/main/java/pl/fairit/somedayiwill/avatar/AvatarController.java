@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.fairit.somedayiwill.security.user.CurrentUser;
 import pl.fairit.somedayiwill.security.user.UserPrincipal;
-import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -58,8 +57,8 @@ public class AvatarController {
     })
     public ResponseEntity<ByteArrayResource> uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
                                                           @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
-        final AppUser existingUser = appUserService.getExistingUser(userPrincipal.getId());
-        final Avatar userAvatar = avatarService.saveAvatar(file, existingUser);
+        var existingUser = appUserService.getExistingUser(userPrincipal.getId());
+        var userAvatar = avatarService.saveAvatar(file, existingUser);
         return ResponseEntity.created(URI.create(""))
                 .contentType(MediaType.parseMediaType(userAvatar.getFileType()))
                 .body(new ByteArrayResource(userAvatar.getData()));

@@ -7,12 +7,15 @@ After creating new account, user will gain access to his own watch/read later li
 ## Live demo (deployed to AWS Elastic BeanStalk): [click here](http://somedayapp-env.eba-dsmnvmrd.us-west-2.elasticbeanstalk.com/swagger-ui.html#/)
 
 ## User stories
- - [x] User can create an account
- - [x] User can upload his avatar
+ - [x] User can create/update/delete an account
+ - [x] User can log in using JWT token
+ - [x] User can upload/update/delete an avatar
+ - [x] User can add movie/book to his watch later/read later list
+ 
+ To do on frontend side:
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
- - [x] User can add movie/book to his watch later/read later list
 
 ## Used tools & technologies
 * Spring Boot 2.2.4
@@ -26,6 +29,7 @@ After creating new account, user will gain access to his own watch/read later li
 * SendGrid
 * Thymeleaf
 * Lombok
+* SpotBugs
 * Mockito
 * JUnit 5
 * RestAssured
@@ -51,4 +55,8 @@ $ docker-compose up
 
 
 ### Status:
-Work in progress. 
+It works! 
+
+
+### About me:
+[Check out my portfolio!](http://somedayapp-env.eba-dsmnvmrd.us-west-2.elasticbeanstalk.com/)

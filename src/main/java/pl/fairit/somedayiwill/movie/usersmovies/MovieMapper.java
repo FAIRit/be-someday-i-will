@@ -20,12 +20,12 @@ public interface MovieMapper {
 
     MovieMapper INSTANCE = Mappers.getMapper(MovieMapper.class);
 
-    MovieDto mapMovieToMovieDto(Movie movie);
+    MovieDto mapMovieToMovieDto(final Movie movie);
 
     @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
-    Movie mapMovieDtoToMovie(MovieDto movieDto);
+    Movie mapMovieDtoToMovie(final MovieDto movieDto);
 
-    default MovieDto mapMDBMovieToMovieDto(MDBMovie mdbMovie, Map<Integer, String> genresMap) {
+    default MovieDto mapMDBMovieToMovieDto(final MDBMovie mdbMovie, final Map<Integer, String> genresMap) {
         if (mdbMovie == null) {
             return null;
         }
@@ -49,7 +49,7 @@ public interface MovieMapper {
     }
 
     @Named("trimToLongDescription")
-    static String trimToLongDescription(String description) {
+    static String trimToLongDescription(final String description) {
         if (isNull(description)) {
             return "";
         }

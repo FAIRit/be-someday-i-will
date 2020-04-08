@@ -37,13 +37,15 @@ public class NewsletterService {
     @Scheduled(cron = "${app.cron.weekly-pattern}")
     void sendWeeklyNewsletter() {
         log.info("Sending weekly newsletter");
-        appUserService.getAllUsersForWeeklyNewsletter().forEach(this::sendNewsletter);
+        appUserService.getAllUsersForWeeklyNewsletter()
+                .forEach(this::sendNewsletter);
     }
 
     @Scheduled(cron = "${app.cron.monthly-pattern}")
     void sendMonthlyNewsletter() {
         log.info("Sending monthly newsletter");
-        appUserService.getAllUsersForMonthlyNewsletter().forEach(this::sendNewsletter);
+        appUserService.getAllUsersForMonthlyNewsletter()
+                .forEach(this::sendNewsletter);
     }
 
     void sendNewsletter(final AppUser appUser) {

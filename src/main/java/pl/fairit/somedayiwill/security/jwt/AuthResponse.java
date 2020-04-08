@@ -16,7 +16,7 @@ public class AuthResponse {
     @ApiModelProperty(notes = "The token type")
     private String tokenType = "Bearer";
 
-    public AuthResponse(String accessToken) {
+    public AuthResponse(final String accessToken) {
         this.accessToken = accessToken;
     }
 }

@@ -40,8 +40,7 @@ public class TestAuthorization {
                 .body()
                 .asString();
 
-        return Objects.requireNonNull(getTokenFromJSONString(authResponse))
-                .getAccessToken();
+        return Objects.requireNonNull(getTokenFromJSONString(authResponse)).getAccessToken();
     }
 
     public static String aLoginRequestAsString(final AppUser userToLogin) {
@@ -75,7 +74,8 @@ public class TestAuthorization {
     }
 
     public static SignUpRequest aSignupRequest(final AppUser userToRegister) {
-        return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister.getPassword(), userToRegister.getNewsletterFrequency());
+        return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister
+                .getPassword(), userToRegister.getNewsletterFrequency());
     }
 
     public static SignUpRequest aSignUpRequest(final String password) {
@@ -84,7 +84,7 @@ public class TestAuthorization {
         return request;
     }
 
-    public static AuthResponse getTokenFromJSONString(String responseBody) {
+    public static AuthResponse getTokenFromJSONString(final String responseBody) {
         try {
             return new ObjectMapper().readValue(responseBody, AuthResponse.class);
         } catch (IOException e) {

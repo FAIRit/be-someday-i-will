@@ -62,17 +62,18 @@ class AvatarControllerTest {
         var validFileToSave = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(validFileToSave);
 
-        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+        Mockito.when(avatarService
+                .saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
                 .thenReturn(avatarToReturn);
         var response = given()
                 .contentType("multipart/form-data")
                 .header("Authorization", "Bearer " + token)
-                .multiPart("file", validFileToSave.getName(), validFileToSave.getBytes(), validFileToSave.getContentType())
+                .multiPart("file", validFileToSave.getName(), validFileToSave.getBytes(), validFileToSave
+                        .getContentType())
                 .post("/users/me/avatar");
 
         assertEquals(validFileToSave.getContentType(), response.getContentType());
-        assertArrayEquals(validFileToSave.getBytes(), response.getBody()
-                .asByteArray());
+        assertArrayEquals(validFileToSave.getBytes(), response.getBody().asByteArray());
         assertEquals(201, response.getStatusCode());
     }
 
@@ -80,12 +81,14 @@ class AvatarControllerTest {
     public void shouldReturnUnsupportedMediaTypeStatusCodeWhenPostPerformed() throws IOException {
         var invalidFileToSave = TestMultipartFile.aMockWithGifFileType();
 
-        Mockito.when(avatarService.saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+        Mockito.when(avatarService
+                .saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
                 .thenCallRealMethod();
         var response = given()
                 .contentType("multipart/form-data")
                 .header("Authorization", "Bearer " + token)
-                .multiPart("file", invalidFileToSave.getName(), invalidFileToSave.getBytes(), invalidFileToSave.getContentType())
+                .multiPart("file", invalidFileToSave.getName(), invalidFileToSave.getBytes(), invalidFileToSave
+                        .getContentType())
                 .post("/users/me/avatar");
 
         assertEquals(415, response.getStatusCode());
@@ -133,15 +136,13 @@ class AvatarControllerTest {
         var file = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(file);
 
-        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong()))
-                .thenReturn(avatarToReturn);
+        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong())).thenReturn(avatarToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/avatar");
 
         assertEquals(avatarToReturn.getFileType(), response.getContentType());
-        assertArrayEquals(avatarToReturn.getData(), response.getBody()
-                .asByteArray());
+        assertArrayEquals(avatarToReturn.getData(), response.getBody().asByteArray());
         assertEquals(200, response.getStatusCode());
     }
 }

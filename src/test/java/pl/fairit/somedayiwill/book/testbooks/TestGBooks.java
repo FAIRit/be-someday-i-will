@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class TestGBooks {
-    public static Books toBooks(GBooks gBooks) {
+    public static Books toBooks(final GBooks gBooks) {
         return new Books(Arrays.stream(gBooks.getItems())
                 .map(GBookWrapper::getVolumeInfo)
                 .map(BookMapper.INSTANCE::mapGBookToBookDto)

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @Slf4j
 public class TestBooks {
-    public static Books withListOfRandomBooks(int listSize) {
+    public static Books withListOfRandomBooks(final int listSize) {
         var bookDtoList = new ArrayList<BookDto>();
         for (int i = 0; i < listSize; i++) {
             bookDtoList.add(TestBookDto.aRandomBookDto());
@@ -18,7 +18,7 @@ public class TestBooks {
         return new Books(bookDtoList);
     }
 
-    public static Books fromJSONString(String booksAsString) {
+    public static Books fromJSONString(final String booksAsString) {
         try {
             return new ObjectMapper().readValue(booksAsString, Books.class);
         } catch (IOException e) {

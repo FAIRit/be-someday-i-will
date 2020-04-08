@@ -50,7 +50,7 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
     ErrorResponse handleUserAlreadyExistsException(final UserAlreadyExistsException exp) {
-        return new ErrorResponse(List.of(exp.getMessage()));
+        return new ErrorResponse(LocalDateTime.now(), List.of(exp.getMessage()));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
