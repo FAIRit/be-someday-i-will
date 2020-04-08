@@ -20,11 +20,12 @@ public class MovieService {
         this.userService = userService;
     }
 
-    public void saveMovie(final MovieDto movieDto, final Long userId) {
+    public MovieDto saveMovie(final MovieDto movieDto, final Long userId) {
         var user = userService.getExistingUser(userId);
         var movieToAdd = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
         movieToAdd.setUser(user);
         movieRepository.save(movieToAdd);
+        return MovieMapper.INSTANCE.mapMovieToMovieDto(movieToAdd);
     }
 
     public Movies getAllUsersMovies(final Long userId) {
@@ -44,17 +45,17 @@ public class MovieService {
 
     public void deleteUsersMovie(final Long movieId, final Long userId) {
         var existingMovie = getExistingMovieById(movieId);
-        if (existingMovie.getUser().getId().equals(userId)) {
-            movieRepository.deleteById(movieId);
+        if (!existingMovie.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("You do not have permission to access this content");
         }
-        throw new AccessDeniedException("You do not have permission to access this content");
+        movieRepository.deleteById(movieId);
     }
 
     public void deleteAllUsersMovies(final Long userId) {
         movieRepository.deleteAllByUserId(userId);
     }
 
-    private Movie getExistingMovieById(final Long movieId) {
+    Movie getExistingMovieById(final Long movieId) {
         return movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie with given id does not exist"));
     }
 }

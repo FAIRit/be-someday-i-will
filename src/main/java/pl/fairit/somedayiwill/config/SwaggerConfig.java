@@ -5,23 +5,23 @@ import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
 import pl.fairit.somedayiwill.avatar.AvatarController;
 import pl.fairit.somedayiwill.book.usersbooks.BookController;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieController;
-import pl.fairit.somedayiwill.security.jwt.AuthResponse;
 import pl.fairit.somedayiwill.user.AppUserController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 import static com.google.common.base.Predicates.or;
@@ -36,7 +36,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public Docket SwaggerApi() {
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
@@ -44,14 +44,9 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(getSwaggerPaths())
                 .build()
+                .ignoredParameterTypes(InputStream.class, URI.class, URL.class, File.class)
                 .securitySchemes(Lists.newArrayList(apiKey()))
-                .securityContexts(Lists.newArrayList(securityContext()))
-                .globalResponseMessage(RequestMethod.GET,
-                        List.of(new ResponseMessageBuilder()
-                                .code(500)
-                                .message("500 message")
-                                .responseModel(new ModelRef("Error"))
-                                .build()));
+                .securityContexts(Lists.newArrayList(securityContext()));
     }
 
     private ApiInfo apiInfo() {
@@ -63,7 +58,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT",  "Authorization", "header");
+        return new ApiKey("JWT", "Authorization", "header");
     }
 
     private SecurityContext securityContext() {
@@ -87,6 +82,6 @@ public class SwaggerConfig {
                 regex("/auth.*"),
                 regex("/books/search.*"),
                 regex("/movies/search.*"),
-                regex("/users.*"));
+                regex(DEFAULT_INCLUDE_PATTERN));
     }
 }

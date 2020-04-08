@@ -1,6 +1,5 @@
 package pl.fairit.somedayiwill.book.usersbooks;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 import pl.fairit.somedayiwill.user.AppUser;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity(name = "books")
 @Data

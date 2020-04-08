@@ -35,34 +35,34 @@ public class NewsletterService {
     }
 
     @Scheduled(cron = "${app.cron.weekly-pattern}")
-    private void sendWeeklyNewsletter() {
+    void sendWeeklyNewsletter() {
         log.info("Sending weekly newsletter");
         appUserService.getAllUsersForWeeklyNewsletter().forEach(this::sendNewsletter);
     }
 
     @Scheduled(cron = "${app.cron.monthly-pattern}")
-    private void sendMonthlyNewsletter() {
+    void sendMonthlyNewsletter() {
         log.info("Sending monthly newsletter");
         appUserService.getAllUsersForMonthlyNewsletter().forEach(this::sendNewsletter);
     }
 
-    private void sendNewsletter(final AppUser appUser) {
+    void sendNewsletter(final AppUser appUser) {
         var frequency = appUser.getNewsletterFrequency().getValue();
         var subject = "Your " + frequency + " newsletter";
         var movies = movieService.getAllUsersMovies(appUser.getId()).getMovies();
-        var books = bookService.getAllUsersBooks(appUser.getId()).getBooks();
+        var books = bookService.getAllUsersBooks(appUser.getId()).getBookDtos();
         var content = createNewsletterHtmlContent(appUser.getName(), movies, books, frequency);
         var email = appUser.getEmail();
         sendGridEmailService.sendHtmlMail(content, email, subject);
     }
 
-    private String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
+    String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
         final Locale locale = new Locale("en");
-        final Context ctx = new Context(locale);
-        ctx.setVariable("frequency", frequency);
-        ctx.setVariable("name", name);
-        ctx.setVariable("books", books);
-        ctx.setVariable("movies", movies);
-        return textTemplateEngine.process(NEWSLETTER_EMAIL_TEMPLATE, ctx);
+        final Context context = new Context(locale);
+        context.setVariable("frequency", frequency);
+        context.setVariable("name", name);
+        context.setVariable("books", books);
+        context.setVariable("movies", movies);
+        return textTemplateEngine.process(NEWSLETTER_EMAIL_TEMPLATE, context);
     }
 }

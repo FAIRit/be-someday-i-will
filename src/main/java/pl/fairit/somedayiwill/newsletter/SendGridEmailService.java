@@ -16,9 +16,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class SendGridEmailService {
-    private final static String EMAIL_FROM = "someday-i-will@someday-i-will.com";
-    private final static String SENDER_NAME = "Ewelina from Someday I Will";
     private final SendGrid sendGrid;
+    private static final String EMAIL_FROM = "someday-i-will@someday-i-will.com";
+    private static final String SENDER_NAME = "Ewelina from Someday I Will";
 
     public SendGridEmailService(final SendGrid sendGrid) {
         this.sendGrid = sendGrid;

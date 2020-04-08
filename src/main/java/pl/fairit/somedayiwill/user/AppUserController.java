@@ -23,7 +23,7 @@ public class AppUserController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Get information about currently logged in user", response = AppUserDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved user information"),

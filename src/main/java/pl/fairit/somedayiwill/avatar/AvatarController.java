@@ -14,6 +14,8 @@ import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.AppUserService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/users/me/avatar")
 @Api(value = "Avatar resource")
@@ -44,7 +46,7 @@ public class AvatarController {
                 .body(new ByteArrayResource(userAvatar.getData()));
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Upload an avatar")
@@ -54,10 +56,13 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
-                             @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+    public ResponseEntity<ByteArrayResource> uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
+                                                          @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         final AppUser existingUser = appUserService.getExistingUser(userPrincipal.getId());
-        avatarService.saveAvatar(file, existingUser);
+        final Avatar userAvatar = avatarService.saveAvatar(file, existingUser);
+        return ResponseEntity.created(URI.create(""))
+                .contentType(MediaType.parseMediaType(userAvatar.getFileType()))
+                .body(new ByteArrayResource(userAvatar.getData()));
     }
 
     @DeleteMapping

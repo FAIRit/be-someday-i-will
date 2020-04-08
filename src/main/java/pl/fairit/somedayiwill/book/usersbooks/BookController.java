@@ -30,7 +30,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public BookDto getBookById(@ApiParam(value = "Credentials injected automatically while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
+    public BookDto getBookById(@ApiParam(value = "Credentials injected while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
                                @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
         return bookService.getUsersBook(bookId, userPrincipal.getId());
     }
@@ -52,21 +52,21 @@ public class BookController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Upload a book")
+    @ApiOperation(value = "Add a book to your watchlist", response = BookDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Books successfully uploaded"),
+            @ApiResponse(code = 201, message = "Book successfully uploaded"),
             @ApiResponse(code = 401, message = "You are not authorized to access the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public void addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
-        bookService.saveBook(bookDto, userPrincipal.getId());
+    public BookDto addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+        return bookService.saveBook(bookDto, userPrincipal.getId());
     }
 
     @DeleteMapping("/{bookId}")
     @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Delete your book by it's ID")
+    @ApiOperation(value = "Delete your book by its ID")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Book successfully deleted"),
             @ApiResponse(code = 401, message = "You are not authorized to access the resource"),

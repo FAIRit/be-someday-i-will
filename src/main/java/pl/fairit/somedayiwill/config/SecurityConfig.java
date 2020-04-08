@@ -7,7 +7,6 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,11 +26,13 @@ import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
         prePostEnabled = true
 )
 
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
+
+
     private final CustomUserDetailsService userDetailsService;
     private static final String[] AUTH_WHITELIST = {
+            "/",
             "/books/search/**",
             "/movies/search/**",
             "/auth/**",
@@ -43,6 +44,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
+            // Home page
+            "/error",
+            "/**/*.png",
+            "/**/*.ico",
+            "/**/*.gif",
+            "/**/*.svg",
+            "/**/*.jpg",
+            "/**/*.html",
+            "/**/*.css",
+            "/**/*.js",
+            "/**/*.woff2",
+            "/**/*.woff"
     };
 
     public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
@@ -80,11 +93,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST)
-                .permitAll()
+                    .permitAll()
                 .anyRequest()
-                .authenticated()
+                    .authenticated()
                 .and()
-                .cors()
+                    .cors()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

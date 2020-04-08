@@ -26,7 +26,7 @@ public class AvatarService {
         this.appUserRepository = appUserRepository;
     }
 
-    public void saveAvatar(final MultipartFile file, final AppUser user) {
+    public Avatar saveAvatar(final MultipartFile file, final AppUser user) {
         try {
             if (!isSupportedType(file.getContentType())) {
                 throw new AvatarStorageException("Unsupported file type.");
@@ -39,8 +39,10 @@ public class AvatarService {
 
             user.setAvatar(avatar);
             appUserRepository.save(user);
+            return avatar;
         } catch (IOException exp) {
-            log.error("Could not store file " + exp.getMessage());
+            log.error(exp.getMessage());
+            throw new AvatarStorageException("Could not store file.");
         }
     }
 
@@ -49,11 +51,10 @@ public class AvatarService {
     }
 
     public Avatar getUsersAvatar(final Long userId) {
-        return avatarRepository.findAvatarByUserId(userId).orElseThrow(ResourceNotFoundException::new);
+        return avatarRepository.findAvatarByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Avatar does not exist"));
     }
 
     private boolean isSupportedType(final String fileType) {
         return nonNull(fileType) && (fileType.equals(MimeTypeUtils.IMAGE_JPEG_VALUE) || fileType.equals(MimeTypeUtils.IMAGE_PNG_VALUE));
     }
-
 }

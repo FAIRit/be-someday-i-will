@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.movie.moviesearch;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.movie.usersmovies.MovieDto;
@@ -30,22 +29,22 @@ public class MDBMovieService implements MovieService {
         this.restTemplate = restTemplate;
     }
 
-    public Movies searchMovies(final String query) {
+    public Movies searchMoviesByTitle(final String query) {
         var fullPath = getFullPath(query);
-        ResponseEntity apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
+        var apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
         if (isNull(apiResponse.getBody())) {
             return new Movies(Collections.emptyList());
         }
-        var mdbWrapper = (MDBWrapper) apiResponse.getBody();
+        var mdbWrapper = apiResponse.getBody();
         return new Movies(mapResponseBodyToMovieDtoList(mdbWrapper));
     }
 
     private Map<Integer, String> getGenresMap() {
-        ResponseEntity apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
+        var apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
         if (isNull(apiResponse.getBody())) {
             return Collections.emptyMap();
         }
-        var genresWrapper = (Genres) apiResponse.getBody();
+        var genresWrapper = apiResponse.getBody();
         return Arrays.stream(genresWrapper.getGenres())
                 .collect(Collectors.toMap(Genre::getId, Genre::getName));
     }
@@ -58,17 +57,17 @@ public class MDBMovieService implements MovieService {
     }
 
     private String getFullPath(final String query) {
-        var fullPath = new StringBuffer();
+        var fullPath = new StringBuilder();
         fullPath.append(movieApiBaseUrl)
                 .append("/search/movie?api_key=")
                 .append(movieApiKey)
                 .append("&query=")
-                .append(query.replaceAll(" ", "%20"));
+                .append(query.replace(" ", "%20"));
         return fullPath.toString();
     }
 
     private String getGenresPath() {
-        var fullGenresPath = new StringBuffer();
+        var fullGenresPath = new StringBuilder();
         fullGenresPath.append(movieApiBaseUrl)
                 .append("/genre/movie/list?api_key=")
                 .append(movieApiKey);

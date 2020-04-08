@@ -21,11 +21,12 @@ public class BookService {
         this.userService = userService;
     }
 
-    public void saveBook(final BookDto bookDto, final Long userId) {
+    public BookDto saveBook(final BookDto bookDto, final Long userId) {
         var user = userService.getExistingUser(userId);
         var bookToSave = BookMapper.INSTANCE.mapBookDtoToBook(bookDto);
         bookToSave.setUser(user);
         bookRepository.save(bookToSave);
+        return BookMapper.INSTANCE.mapBookToBookDto(bookToSave);
     }
 
     public Books getAllUsersBooks(final Long userId) {
@@ -45,17 +46,17 @@ public class BookService {
 
     public void deleteUsersBook(final Long bookId, final Long userId) {
         var existingBook = getExistingBookById(bookId);
-        if (existingBook.getUser().getId().equals(userId)) {
-            bookRepository.deleteById(bookId);
+        if (!existingBook.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("You do not have permission to access this content");
         }
-        throw new AccessDeniedException("You do not have permission to access this content");
+        bookRepository.deleteById(bookId);
     }
 
     public void deleteAllUsersBooks(final Long userId) {
         bookRepository.deleteAllByUserId(userId);
     }
 
-    private Book getExistingBookById(final Long bookId) {
+    Book getExistingBookById(final Long bookId) {
         return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book with given id does not exist"));
     }
 }
