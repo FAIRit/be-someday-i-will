@@ -12,7 +12,7 @@ After creating new account, user will gain access to his own watch/read later li
  - [x] User can upload/update/delete an avatar
  - [x] User can add movie/book to his watch later/read later list
  
- To do on frontend side:
+ To do on the frontend side:
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
@@ -38,15 +38,12 @@ After creating new account, user will gain access to his own watch/read later li
 
 
 ## Setup:
+To run this project you'll need docker and docker-compose to be installed on your computer. 
+
 ***IMPORTANT:*** To make this application work you have to provide valid Google API key, Sendgrid API key and MDBDatabase API key.
 
 ```
-$ ./mvnw clean package
-$ mkdir -p target/dependency
-$ cd target/dependency
-$ jar -xf ../*.jar
-$ docker-compose build --build-arg APP_GOOGLE_BOOKS_KEY=YOUR_KEY --build-arg APP_MOVIE_DATABASE_KEY=YOUR_KEY --build-arg SPRING_SENDGRID_API_KEY=YOUR_KEY
-$ docker-compose up
+$ ./run.sh GOOGLE_BOOKS_KEY MOVIE_DATABASE_KEY SENDGRID_API_KEY
 ```
 
 ## Used APIs
