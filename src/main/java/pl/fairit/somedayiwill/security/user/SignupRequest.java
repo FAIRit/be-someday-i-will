@@ -22,7 +22,7 @@ import static java.util.Objects.nonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel
-public class SignUpRequest {
+public class SignupRequest {
     @NotNull(message = "Name has to be provided")
     @Length(min = 2, message = "Name has to be at at least 2 character long")
     @ApiModelProperty(notes = "The user's name", example = "John")

@@ -7,7 +7,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import pl.fairit.somedayiwill.security.jwt.AuthResponse;
 import pl.fairit.somedayiwill.security.user.LoginRequest;
-import pl.fairit.somedayiwill.security.user.SignUpRequest;
+import pl.fairit.somedayiwill.security.user.SignupRequest;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
@@ -73,13 +73,13 @@ public class TestAuthorization {
         return signupRequestBody.toString();
     }
 
-    public static SignUpRequest aSignupRequest(final AppUser userToRegister) {
-        return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister
+    public static SignupRequest aSignupRequest(final AppUser userToRegister) {
+        return new SignupRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister
                 .getPassword(), userToRegister.getNewsletterFrequency());
     }
 
-    public static SignUpRequest aSignUpRequest(final String password) {
-        var request = new SignUpRequest();
+    public static SignupRequest aSignUpRequest(final String password) {
+        var request = new SignupRequest();
         request.setPassword(password);
         return request;
     }

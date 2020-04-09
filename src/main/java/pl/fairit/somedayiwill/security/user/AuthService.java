@@ -32,7 +32,7 @@ public class AuthService {
         return tokenProvider.createToken(authentication);
     }
 
-    public AppUser registerUser(final SignUpRequest signUpRequest) {
+    public AppUser registerUser(final SignupRequest signUpRequest) {
         if (appUserService.existsByEmail(signUpRequest.getEmail())) {
             throw new UserAlreadyExistsException("Email address already in use.");
         }

@@ -5,17 +5,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.fairit.somedayiwill.security.TestAuthorization;
-import pl.fairit.somedayiwill.security.user.SignUpRequest;
+import pl.fairit.somedayiwill.security.user.SignupRequest;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.fairit.somedayiwill.user.TestUsers.generateStrongPassword;
 
-class SignUpRequestTest {
+class SignupRequestTest {
     @ParameterizedTest
     @MethodSource("signupRequests")
-    void validatePasswords(SignUpRequest request, Boolean isPasswordValid) {
+    void validatePasswords(SignupRequest request, Boolean isPasswordValid) {
         assertEquals(isPasswordValid, request.isPasswordValid());
     }
 
