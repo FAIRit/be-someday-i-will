@@ -11,15 +11,18 @@ fi
 GOOGLE_BOOKS_KEY=$1
 MOVIE_DATABASE_KEY=$2
 SENDGRID_API_KEY=$3
-
 which docker docker-compose >/dev/null
 exit_status=$?
-
 if [ $exit_status -ne 0 ]; then
   echo Please install docker and docker-compose before running
   exit
 fi
-
+which jar >/dev/null
+exit_status=$?
+if [ $exit_status -ne 0 ]; then
+  echo Could not find jar command
+  exit
+fi
 ./mvnw clean package -Dspring.profiles.active=gh
 mkdir -p target/dependency
 cd target/dependency || exit
