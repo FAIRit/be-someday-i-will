@@ -40,7 +40,8 @@ public class GoogleBooksService implements BookService {
 
     public Books searchBooks(final String fullPath) {
         var apiResponse = restTemplate.getForEntity(fullPath, GBooks.class);
-        final List<BookDto> wrapper = nonNull(apiResponse.getBody()) ? mapResponseBodyToBookDtoList(apiResponse.getBody()) : Collections.emptyList();
+        final List<BookDto> wrapper = nonNull(apiResponse.getBody()) ? mapResponseBodyToBookDtoList(apiResponse
+                .getBody()) : Collections.emptyList();
         return new Books(wrapper);
     }
 
@@ -52,13 +53,11 @@ public class GoogleBooksService implements BookService {
     }
 
     private String getFullPath(final String query, final String searchKeyword) {
-        var fullPath = new StringBuilder();
-        fullPath.append(bookApiBaseUrl)
-                .append("/volumes?q=")
-                .append(searchKeyword)
-                .append(query.replace(" ", "+"))
-                .append("&key=")
-                .append(googleApiKey);
-        return fullPath.toString();
+        return bookApiBaseUrl +
+                "/volumes?q=" +
+                searchKeyword +
+                query.replace(" ", "+") +
+                "&key=" +
+                googleApiKey;
     }
 }

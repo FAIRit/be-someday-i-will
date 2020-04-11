@@ -32,7 +32,8 @@ public class MDBMovieService implements MovieService {
     public Movies searchMoviesByTitle(final String query) {
         var fullPath = getFullPath(query);
         var apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
-        final List<MovieDto> movieDtos = nonNull(apiResponse.getBody()) ? mapResponseBodyToMovieDtoList(apiResponse.getBody()) : Collections.emptyList();
+        final List<MovieDto> movieDtos = nonNull(apiResponse.getBody()) ? mapResponseBodyToMovieDtoList(apiResponse
+                .getBody()) : Collections.emptyList();
         return new Movies(movieDtos);
     }
 
@@ -54,20 +55,16 @@ public class MDBMovieService implements MovieService {
     }
 
     private String getFullPath(final String query) {
-        var fullPath = new StringBuilder();
-        fullPath.append(movieApiBaseUrl)
-                .append("/search/movie?api_key=")
-                .append(movieApiKey)
-                .append("&query=")
-                .append(query.replace(" ", "%20"));
-        return fullPath.toString();
+        return movieApiBaseUrl +
+                "/search/movie?api_key=" +
+                movieApiKey +
+                "&query=" +
+                query.replace(" ", "%20");
     }
 
     private String getGenresPath() {
-        var fullGenresPath = new StringBuilder();
-        fullGenresPath.append(movieApiBaseUrl)
-                .append("/genre/movie/list?api_key=")
-                .append(movieApiKey);
-        return fullGenresPath.toString();
+        return movieApiBaseUrl +
+                "/genre/movie/list?api_key=" +
+                movieApiKey;
     }
 }
