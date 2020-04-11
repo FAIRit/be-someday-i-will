@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 public class MDBMovieService implements MovieService {
@@ -32,21 +32,18 @@ public class MDBMovieService implements MovieService {
     public Movies searchMoviesByTitle(final String query) {
         var fullPath = getFullPath(query);
         var apiResponse = restTemplate.getForEntity(fullPath, MDBWrapper.class);
-        if (isNull(apiResponse.getBody())) {
-            return new Movies(Collections.emptyList());
-        }
-        var mdbWrapper = apiResponse.getBody();
-        return new Movies(mapResponseBodyToMovieDtoList(mdbWrapper));
+        final List<MovieDto> movieDtos = nonNull(apiResponse.getBody()) ? mapResponseBodyToMovieDtoList(apiResponse.getBody()) : Collections.emptyList();
+        return new Movies(movieDtos);
     }
 
     private Map<Integer, String> getGenresMap() {
         var apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
-        if (isNull(apiResponse.getBody())) {
-            return Collections.emptyMap();
+        if (nonNull(apiResponse.getBody())) {
+            var genresWrapper = apiResponse.getBody();
+            return Arrays.stream(genresWrapper.getGenres())
+                    .collect(Collectors.toMap(Genre::getId, Genre::getName));
         }
-        var genresWrapper = apiResponse.getBody();
-        return Arrays.stream(genresWrapper.getGenres())
-                .collect(Collectors.toMap(Genre::getId, Genre::getName));
+        return Collections.emptyMap();
     }
 
     private List<MovieDto> mapResponseBodyToMovieDtoList(final MDBWrapper wrapper) {
@@ -73,6 +70,4 @@ public class MDBMovieService implements MovieService {
                 .append(movieApiKey);
         return fullGenresPath.toString();
     }
-
-
 }

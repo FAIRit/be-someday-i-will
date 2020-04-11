@@ -30,9 +30,9 @@ class GoogleBooksServiceTest {
         var gBooksToReturn = new GBooks(1, new GBookWrapper[]{new GBookWrapper(TestGBook.aRandomGBook())});
         var books = TestGBooks.toBooks(gBooksToReturn);
 
-        when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(new ResponseEntity(gBooksToReturn, HttpStatus.OK));
+        when(restTemplate.getForEntity(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(new ResponseEntity<>(gBooksToReturn, HttpStatus.OK));
         var foundBooks = booksService.searchBooksByAuthor(query);
 
-        assertEquals(foundBooks, books);
+        assertEquals(books, foundBooks);
     }
 }

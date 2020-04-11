@@ -37,13 +37,15 @@ public class NewsletterService {
     @Scheduled(cron = "${app.cron.weekly-pattern}")
     void sendWeeklyNewsletter() {
         log.info("Sending weekly newsletter");
-        appUserService.getAllUsersForWeeklyNewsletter().forEach(this::sendNewsletter);
+        appUserService.getAllUsersForWeeklyNewsletter()
+                .forEach(this::sendNewsletter);
     }
 
     @Scheduled(cron = "${app.cron.monthly-pattern}")
     void sendMonthlyNewsletter() {
         log.info("Sending monthly newsletter");
-        appUserService.getAllUsersForMonthlyNewsletter().forEach(this::sendNewsletter);
+        appUserService.getAllUsersForMonthlyNewsletter()
+                .forEach(this::sendNewsletter);
     }
 
     void sendNewsletter(final AppUser appUser) {
@@ -57,8 +59,8 @@ public class NewsletterService {
     }
 
     String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
-        final Locale locale = new Locale("en");
-        final Context context = new Context(locale);
+        var locale = new Locale("en");
+        var context = new Context(locale);
         context.setVariable("frequency", frequency);
         context.setVariable("name", name);
         context.setVariable("books", books);

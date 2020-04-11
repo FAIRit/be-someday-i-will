@@ -73,7 +73,8 @@ class BookServiceTest {
     @Test
     public void shouldReturnUsersBooksWhenUserWithGivenIdExist() {
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
-        var booksToReturnByRepository = booksToReturn.getBookDtos().stream()
+        var booksToReturnByRepository = booksToReturn.getBookDtos()
+                .stream()
                 .map(BookMapper.INSTANCE::mapBookDtoToBook)
                 .collect(Collectors.toList());
         var userId = 3L;
@@ -102,6 +103,6 @@ class BookServiceTest {
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> bookService.getExistingBookById(bookId));
+        assertThrows(ResourceNotFoundException.class, () -> bookService.getExistingBookById(bookId), "Book with given id does not exist");
     }
 }

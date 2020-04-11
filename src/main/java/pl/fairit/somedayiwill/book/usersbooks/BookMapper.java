@@ -19,7 +19,7 @@ public interface BookMapper {
     BookDto mapBookToBookDto(Book book);
 
     @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
-    Book mapBookDtoToBook(BookDto bookDto);
+    Book mapBookDtoToBook(final BookDto bookDto);
 
     @Mapping(source = "imageLinks", target = "imageLink", qualifiedByName = "imageLinksMapToString")
     @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
@@ -28,17 +28,17 @@ public interface BookMapper {
     BookDto mapGBookToBookDto(GBook gBook);
 
     @Named("stringArrayToString")
-    static String stringArrayToString(String[] array) {
+    static String stringArrayToString(final String[] array) {
         return isNull(array) ? "" : String.join(", ", array);
     }
 
     @Named("imageLinksMapToString")
-    static String imageLinksMapToString(Map<String, String> imageLinks) {
+    static String imageLinksMapToString(final Map<String, String> imageLinks) {
         return imageLinks.get("smallThumbnail");
     }
 
     @Named("trimToLongDescription")
-    static String trimToLongDescription(String description) {
+    static String trimToLongDescription(final String description) {
         if (isNull(description)) {
             return "";
         }

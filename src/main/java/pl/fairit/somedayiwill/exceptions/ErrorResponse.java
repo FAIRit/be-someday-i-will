@@ -20,5 +20,4 @@ public class ErrorResponse {
     public ErrorResponse(final List<String> errors) {
         this.errors = errors;
     }
-
 }

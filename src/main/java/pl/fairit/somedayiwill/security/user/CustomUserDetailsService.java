@@ -20,13 +20,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String email) {
         var user = appUserRepository.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException("User not found with email : " + email)
-        );
+                        new UsernameNotFoundException("User not found with email : " + email)
+                );
         return UserPrincipal.create(user);
     }
 
     public UserDetails loadUserById(final Long id) {
-        var user = appUserRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User " + id));
+        var user = appUserRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("User " + id)
+        );
         return UserPrincipal.create(user);
     }
 }

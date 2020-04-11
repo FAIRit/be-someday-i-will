@@ -37,7 +37,6 @@ class MovieSearchControllerTest {
         var returnedMovies = TestMovies.fromJSONString(response.getBody()
                 .asString());
 
-
         assert returnedMovies != null;
         assertEquals(200, response.getStatusCode());
         assertEquals(moviesToReturn, returnedMovies);

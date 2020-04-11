@@ -7,15 +7,10 @@ import pl.fairit.somedayiwill.movie.usersmovies.Movies;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 public class TestMovies {
-    public static Movies withOneRandomMovie() {
-        return new Movies(List.of(TestMovieDto.aRandomMovieDto()));
-    }
-
-    public static Movies withListOfRandomMovies(int listSize) {
+    public static Movies withListOfRandomMovies(final int listSize) {
         var movieDtoList = new ArrayList<MovieDto>();
         for (int i = 0; i < listSize; i++) {
             movieDtoList.add(TestMovieDto.aRandomMovieDto());
@@ -23,7 +18,7 @@ public class TestMovies {
         return new Movies(movieDtoList);
     }
 
-    public static Movies fromJSONString(String moviesAsString) {
+    public static Movies fromJSONString(final String moviesAsString) {
         try {
             return new ObjectMapper().readValue(moviesAsString, Movies.class);
         } catch (IOException e) {

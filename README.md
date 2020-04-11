@@ -7,12 +7,15 @@ After creating new account, user will gain access to his own watch/read later li
 ## Live demo (deployed to AWS Elastic BeanStalk): [click here](http://somedayapp-env.eba-dsmnvmrd.us-west-2.elasticbeanstalk.com/swagger-ui.html#/)
 
 ## User stories
- - [x] User can create an account
- - [x] User can upload his avatar
+ - [x] User can create/update/delete an account
+ - [x] User can log in using JWT token
+ - [x] User can upload/update/delete an avatar
+ - [x] User can add movie/book to his watch later/read later list
+ 
+ To do on the frontend side:
  - [ ] User can choose between movies or books on the front page
  - [ ] User can select his own watch later/ read later list or input query to find books/movies
  - [ ] User can click on movie/book to see details
- - [x] User can add movie/book to his watch later/read later list
 
 ## Used tools & technologies
 * Spring Boot 2.2.4
@@ -26,6 +29,7 @@ After creating new account, user will gain access to his own watch/read later li
 * SendGrid
 * Thymeleaf
 * Lombok
+* SpotBugs
 * Mockito
 * JUnit 5
 * RestAssured
@@ -34,21 +38,24 @@ After creating new account, user will gain access to his own watch/read later li
 
 
 ## Setup:
-***IMPORTANT:*** To make this application work you have to provide valid Google API key, Sendgrid API key and MDBDatabase API key.
+To run this project you'll need docker and docker-compose to be installed on your computer. 
+
+***IMPORTANT:*** To make this application work you have to provide valid Google API key, SendGrid API key and MDBDatabase API key.
 
 ```
-$ ./mvnw clean package
-$ mkdir -p target/dependency
-$ cd target/dependency
-$ jar -xf ../*.jar
-$ docker-compose build --build-arg APP_GOOGLE_BOOKS_KEY=YOUR_KEY --build-arg APP_MOVIE_DATABASE_KEY=YOUR_KEY --build-arg SPRING_SENDGRID_API_KEY=YOUR_KEY
-$ docker-compose up
+$ ./run.sh GOOGLE_BOOKS_KEY MOVIE_DATABASE_KEY SENDGRID_API_KEY
 ```
+After application launch go to `http://localhost:8080/` to see homepage, or directly to Swagger documentation `http://localhost:8080/swagger-ui.html`
+
 
 ## Used APIs
 * [Google Books API](https://developers.google.com/books)
 * [The Movie Database API](https://developers.themoviedb.org/3/genres/get-tv-list)
-
+* [SendGrid API](https://sendgrid.com/docs/for-developers/sending-email/api-getting-started/)
 
 ### Status:
-Work in progress. 
+It works! 
+
+
+### About me:
+[Check out my portfolio!](http://somedayapp-env.eba-dsmnvmrd.us-west-2.elasticbeanstalk.com/)

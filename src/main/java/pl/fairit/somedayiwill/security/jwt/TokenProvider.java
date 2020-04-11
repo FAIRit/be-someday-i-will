@@ -19,12 +19,10 @@ public class TokenProvider {
     @Value("${app.auth.token-expiration-mills}")
     private long tokenExpirationMills;
 
-    public String createToken(Authentication authentication) {
+    public String createToken(final Authentication authentication) {
         var userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
         var now = new Date();
         var expiryDate = new Date(now.getTime() + tokenExpirationMills);
-
         return Jwts.builder()
                 .setSubject(userPrincipal.getId().toString())
                 .setIssuedAt(new Date())
@@ -33,18 +31,19 @@ public class TokenProvider {
                 .compact();
     }
 
-    public Long getUserIdFromToken(String token) {
-        Claims claims = Jwts.parser()
+    public Long getUserIdFromToken(final String token) {
+        var claims = Jwts.parser()
                 .setSigningKey(tokenSecret)
                 .parseClaimsJws(token)
                 .getBody();
-
         return Long.valueOf(claims.getSubject());
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(final String authToken) {
         try {
-            Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
+            Jwts.parser()
+                    .setSigningKey(tokenSecret)
+                    .parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
@@ -54,8 +53,9 @@ public class TokenProvider {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty.");
+        } catch (SignatureException ex){
+            log.error("JWT signature does not match locally computed signature");
         }
         return false;
     }
-
 }

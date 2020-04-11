@@ -17,7 +17,7 @@ import pl.fairit.somedayiwill.security.user.UserPrincipal;
 public class AppUserController {
     private final AppUserService appUserService;
 
-    public AppUserController(AppUserService appUserService) {
+    public AppUserController(final AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 

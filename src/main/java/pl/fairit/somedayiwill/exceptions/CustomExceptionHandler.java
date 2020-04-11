@@ -4,7 +4,6 @@ package pl.fairit.somedayiwill.exceptions;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 @RestControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(Exception.class)
@@ -50,7 +48,7 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
     ErrorResponse handleUserAlreadyExistsException(final UserAlreadyExistsException exp) {
-        return new ErrorResponse(List.of(exp.getMessage()));
+        return new ErrorResponse(LocalDateTime.now(), List.of(exp.getMessage()));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)

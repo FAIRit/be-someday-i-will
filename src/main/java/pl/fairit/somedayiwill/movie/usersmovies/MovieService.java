@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.fairit.somedayiwill.exceptions.ResourceNotFoundException;
 import pl.fairit.somedayiwill.user.AppUserService;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,8 @@ public class MovieService {
     }
 
     public Movies getAllUsersMovies(final Long userId) {
-        List<MovieDto> movieDtoList = movieRepository.findAllByUserId(userId).stream()
+        var movieDtoList = movieRepository.findAllByUserId(userId)
+                .stream()
                 .map(MovieMapper.INSTANCE::mapMovieToMovieDto)
                 .collect(Collectors.toList());
         return new Movies(movieDtoList);
@@ -56,6 +56,7 @@ public class MovieService {
     }
 
     Movie getExistingMovieById(final Long movieId) {
-        return movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie with given id does not exist"));
+        return movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with given id does not exist"));
     }
 }

@@ -21,7 +21,7 @@ public class TestMovieDto {
                 .build();
     }
 
-    public static String asJSONString(MovieDto movieDto) {
+    public static String asJSONString(final MovieDto movieDto) {
         var movieAsJSONString = new JSONObject();
         try {
             movieAsJSONString.put("title", movieDto.getTitle());
@@ -35,7 +35,7 @@ public class TestMovieDto {
         return movieAsJSONString.toString();
     }
 
-    public static MovieDto fromJSONString(String movieAsJSONString) {
+    public static MovieDto fromJSONString(final String movieAsJSONString) {
         try {
             return new ObjectMapper().readValue(movieAsJSONString, MovieDto.class);
         } catch (IOException e) {

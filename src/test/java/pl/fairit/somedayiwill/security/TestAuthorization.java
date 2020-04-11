@@ -7,7 +7,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import pl.fairit.somedayiwill.security.jwt.AuthResponse;
 import pl.fairit.somedayiwill.security.user.LoginRequest;
-import pl.fairit.somedayiwill.security.user.SignUpRequest;
+import pl.fairit.somedayiwill.security.user.SignupRequest;
 import pl.fairit.somedayiwill.user.AppUser;
 import pl.fairit.somedayiwill.user.TestUsers;
 
@@ -40,8 +40,7 @@ public class TestAuthorization {
                 .body()
                 .asString();
 
-        return Objects.requireNonNull(getTokenFromJSONString(authResponse))
-                .getAccessToken();
+        return Objects.requireNonNull(getTokenFromJSONString(authResponse)).getAccessToken();
     }
 
     public static String aLoginRequestAsString(final AppUser userToLogin) {
@@ -74,17 +73,18 @@ public class TestAuthorization {
         return signupRequestBody.toString();
     }
 
-    public static SignUpRequest aSignupRequest(final AppUser userToRegister) {
-        return new SignUpRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister.getPassword(), userToRegister.getNewsletterFrequency());
+    public static SignupRequest aSignupRequest(final AppUser userToRegister) {
+        return new SignupRequest(userToRegister.getName(), userToRegister.getEmail(), userToRegister
+                .getPassword(), userToRegister.getNewsletterFrequency());
     }
 
-    public static SignUpRequest aSignUpRequest(final String password) {
-        var request = new SignUpRequest();
+    public static SignupRequest aSignUpRequest(final String password) {
+        var request = new SignupRequest();
         request.setPassword(password);
         return request;
     }
 
-    public static AuthResponse getTokenFromJSONString(String responseBody) {
+    public static AuthResponse getTokenFromJSONString(final String responseBody) {
         try {
             return new ObjectMapper().readValue(responseBody, AuthResponse.class);
         } catch (IOException e) {
