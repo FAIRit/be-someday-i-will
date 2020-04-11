@@ -2,11 +2,10 @@ package pl.fairit.somedayiwill.movie.testmovies;
 
 import com.github.javafaker.Faker;
 import pl.fairit.somedayiwill.movie.usersmovies.Movie;
-import pl.fairit.somedayiwill.user.AppUser;
 
 public class TestMovie {
     public static Movie aRandomMovie() {
-    var faker = new Faker();
+        var faker = new Faker();
         return Movie.builder()
                 .genres(faker.book().genre())
                 .posterLink(faker.internet().url())

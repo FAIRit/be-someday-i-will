@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(final AppUser user) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
         return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), authorities);
     }
 

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,6 +27,8 @@ import static io.restassured.RestAssured.when;
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
@@ -63,7 +64,7 @@ class BookControllerTest {
     void shouldReturnListOfUsersBooksWhenGetAllPerformed() {
         var booksToReturn = TestBooks.withListOfRandomBooks(6);
 
-        Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong()))
+        Mockito.when(booksService.getAllUsersBooks(anyLong()))
                 .thenReturn(booksToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
@@ -83,7 +84,7 @@ class BookControllerTest {
         var bookToSave = TestBookDto.aRandomBookDto();
         var jsonBookDto = TestBookDto.asJSONString(bookToSave);
 
-        Mockito.when(booksService.saveBook(ArgumentMatchers.eq(bookToSave), ArgumentMatchers.anyLong()))
+        Mockito.when(booksService.saveBook(eq(bookToSave), anyLong()))
                 .thenReturn(bookToSave);
         var response = given()
                 .header("Authorization", "Bearer " + token)
@@ -102,7 +103,7 @@ class BookControllerTest {
         var bookToReturn = TestBookDto.aRandomBookDto();
         bookToReturn.setId(3L);
 
-        Mockito.when(booksService.getUsersBook(ArgumentMatchers.eq(3L), ArgumentMatchers.anyLong()))
+        Mockito.when(booksService.getUsersBook(eq(3L), anyLong()))
                 .thenReturn(bookToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
@@ -135,7 +136,7 @@ class BookControllerTest {
     void shouldReturnNotFoundStatusCodeWhenGetBookByIdPerformed() {
         var bookId = 6L;
 
-        Mockito.when(booksService.getUsersBook(ArgumentMatchers.eq(bookId), ArgumentMatchers.anyLong()))
+        Mockito.when(booksService.getUsersBook(eq(bookId), anyLong()))
                 .thenThrow(new ResourceNotFoundException("Book with given id does not exist"));
         var response = given()
                 .header("Authorization", "Bearer " + token)
@@ -163,7 +164,7 @@ class BookControllerTest {
 
     @Test
     void shouldReturnBooksWithEmptyListWhenGetAllBooksPerformed() {
-        Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong()))
+        Mockito.when(booksService.getAllUsersBooks(anyLong()))
                 .thenReturn(new Books(Collections.emptyList()));
         var response = given()
                 .header("Authorization", "Bearer " + token)

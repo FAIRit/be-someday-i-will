@@ -16,17 +16,6 @@ public interface BookMapper {
 
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
-    BookDto mapBookToBookDto(Book book);
-
-    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
-    Book mapBookDtoToBook(final BookDto bookDto);
-
-    @Mapping(source = "imageLinks", target = "imageLink", qualifiedByName = "imageLinksMapToString")
-    @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
-    @Mapping(source = "categories", target = "categories", qualifiedByName = "stringArrayToString")
-    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
-    BookDto mapGBookToBookDto(GBook gBook);
-
     @Named("stringArrayToString")
     static String stringArrayToString(final String[] array) {
         return isNull(array) ? "" : String.join(", ", array);
@@ -44,4 +33,15 @@ public interface BookMapper {
         }
         return description.length() < DESCRIPTION_MAX_LENGTH ? description : description.substring(0, DESCRIPTION_MAX_LENGTH) + "...";
     }
+
+    BookDto mapBookToBookDto(final Book book);
+
+    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
+    Book mapBookDtoToBook(final BookDto bookDto);
+
+    @Mapping(source = "imageLinks", target = "imageLink", qualifiedByName = "imageLinksMapToString")
+    @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
+    @Mapping(source = "categories", target = "categories", qualifiedByName = "stringArrayToString")
+    @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
+    BookDto mapGBookToBookDto(final GBook gBook);
 }

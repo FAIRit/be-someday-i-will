@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,6 +25,8 @@ import java.io.IOException;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
@@ -63,7 +64,7 @@ class AvatarControllerTest {
         var avatarToReturn = TestAvatar.fromMultipartFile(validFileToSave);
 
         Mockito.when(avatarService
-                .saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+                .saveAvatar(any(MultipartFile.class), any(AppUser.class)))
                 .thenReturn(avatarToReturn);
         var response = given()
                 .contentType("multipart/form-data")
@@ -82,7 +83,7 @@ class AvatarControllerTest {
         var invalidFileToSave = TestMultipartFile.aMockWithGifFileType();
 
         Mockito.when(avatarService
-                .saveAvatar(ArgumentMatchers.any(MultipartFile.class), ArgumentMatchers.any(AppUser.class)))
+                .saveAvatar(any(MultipartFile.class), any(AppUser.class)))
                 .thenCallRealMethod();
         var response = given()
                 .contentType("multipart/form-data")
@@ -112,7 +113,7 @@ class AvatarControllerTest {
 
     @Test
     void shouldReturnNotFoundStatusCode() {
-        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong()))
+        Mockito.when(avatarService.getUsersAvatar(anyLong()))
                 .thenThrow(new ResourceNotFoundException("Avatar does not exist"));
 
         //@formatter:off
@@ -136,7 +137,7 @@ class AvatarControllerTest {
         var file = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(file);
 
-        Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong())).thenReturn(avatarToReturn);
+        Mockito.when(avatarService.getUsersAvatar(anyLong())).thenReturn(avatarToReturn);
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/avatar");

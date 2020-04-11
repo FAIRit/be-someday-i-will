@@ -15,6 +15,11 @@ public class AppProperties {
     private final GoogleBooks googleBooks = new GoogleBooks();
     private final MovieDatabase movieDatabase = new MovieDatabase();
 
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
     @Data
     public static class Auth {
         private String tokenSecret;
@@ -37,10 +42,5 @@ public class AppProperties {
     private static class MovieDatabase {
         private String key;
         private String baseUrl;
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
     }
 }

@@ -17,13 +17,11 @@ import static java.util.Objects.nonNull;
 
 @Service
 public class MDBMovieService implements MovieService {
+    private final RestTemplate restTemplate;
     @Value("${app.movie-database.base-url}")
     private String movieApiBaseUrl;
-
     @Value("${app.movie-database.key}")
     private String movieApiKey;
-
-    private final RestTemplate restTemplate;
 
     public MDBMovieService(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

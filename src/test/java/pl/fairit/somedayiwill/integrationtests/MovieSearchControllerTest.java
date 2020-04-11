@@ -18,11 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MovieSearchControllerTest {
-    @LocalServerPort
-    private int port;
-
     @MockBean
     MDBMovieService movieService;
+    @LocalServerPort
+    private int port;
 
     @Test
     void shouldReturnMoviesWhenSearchByTitlePerformed() {

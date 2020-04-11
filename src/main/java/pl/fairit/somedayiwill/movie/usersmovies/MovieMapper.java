@@ -20,6 +20,14 @@ public interface MovieMapper {
 
     MovieMapper INSTANCE = Mappers.getMapper(MovieMapper.class);
 
+    @Named("trimToLongDescription")
+    static String trimToLongDescription(final String description) {
+        if (isNull(description)) {
+            return "";
+        }
+        return description.length() < DESCRIPTION_MAX_LENGTH ? description : description.substring(0, DESCRIPTION_MAX_LENGTH) + "...";
+    }
+
     MovieDto mapMovieToMovieDto(final Movie movie);
 
     @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
@@ -46,13 +54,5 @@ public interface MovieMapper {
 
     private String getFullPosterLink(final String posterPath) {
         return isNull(posterPath) ? "" : POSTER_BASE_URL + posterPath;
-    }
-
-    @Named("trimToLongDescription")
-    static String trimToLongDescription(final String description) {
-        if (isNull(description)) {
-            return "";
-        }
-        return description.length() < DESCRIPTION_MAX_LENGTH ? description : description.substring(0, DESCRIPTION_MAX_LENGTH) + "...";
     }
 }

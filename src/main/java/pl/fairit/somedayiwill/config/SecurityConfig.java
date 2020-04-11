@@ -27,10 +27,6 @@ import pl.fairit.somedayiwill.security.user.CustomUserDetailsService;
 )
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final TokenProvider tokenProvider;
-
-
-    private final CustomUserDetailsService userDetailsService;
     private static final String[] AUTH_WHITELIST = {
             "/",
             "/books/search/**",
@@ -58,8 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/*.woff2",
             "/**/*.woff"
     };
+    private final TokenProvider tokenProvider;
+    private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(TokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(final TokenProvider tokenProvider, final CustomUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
         this.userDetailsService = userDetailsService;
     }

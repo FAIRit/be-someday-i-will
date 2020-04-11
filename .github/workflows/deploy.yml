@@ -35,7 +35,7 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          version_label: 1.0.12
+          version_label: 1.0.13
           application_name: someday-app
           environment_name: SomedayApp-env
           region: us-west-2

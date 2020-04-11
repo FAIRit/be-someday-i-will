@@ -55,8 +55,9 @@ public class AvatarController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public ResponseEntity<ByteArrayResource> uploadAvatar(@ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
-                                                          @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+    public ResponseEntity<ByteArrayResource> uploadAvatar(
+            @ApiParam(value = "File to save or update", required = true) @RequestParam("file") final MultipartFile file,
+            @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         var existingUser = appUserService.getExistingUser(userPrincipal.getId());
         var userAvatar = avatarService.saveAvatar(file, existingUser);
         return ResponseEntity.created(URI.create(""))

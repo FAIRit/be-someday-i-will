@@ -27,8 +27,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserById(final Long id) {
         var user = appUserRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("User " + id)
-        );
+                        new ResourceNotFoundException("User " + id)
+                );
         return UserPrincipal.create(user);
     }
 }

@@ -17,7 +17,8 @@ public class TestMultipartFile {
     }
 
     static MockMultipartFile aMockWithApplicationJsonFileType() {
-        return new MockMultipartFile("file_name", "original_name", MimeTypeUtils.APPLICATION_JSON_VALUE, "value".getBytes());
+        return new MockMultipartFile("file_name", "original_name", MimeTypeUtils.APPLICATION_JSON_VALUE, "value"
+                .getBytes());
     }
 
     static MockMultipartFile aMockWithTextHtmlFileType() {

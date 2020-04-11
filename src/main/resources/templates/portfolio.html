@@ -4,14 +4,14 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Ewelina Fiedorowicz</title>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="../static/css/main.css" type="text/css" th:href="@{/css/main.css}"/>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport"/>
+    <link href="../static/css/main.css" rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
     <noscript>
-        <link rel="stylesheet" href="../static/css/noscript.css" th:href="@{/css/main.css}" type="text/css"/>
+        <link href="../static/css/noscript.css" rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
     </noscript>
 </head>
 <body class="is-preload">
@@ -21,17 +21,17 @@
 
     <!-- Nav -->
     <nav id="nav">
-        <a href="#" class="icon solid fa-home"><span>Home</span></a>
-        <a href="#work" class="icon solid fa-keyboard"><span>Stack</span></a>
-        <a target="_blank" href="https://github.com/ewefie" class="icon brands fa-github"><span>Github</span></a>
-        <a target="_blank" href="https://www.linkedin.com/in/ewelinafiedorowicz/" class="icon brands fa-linkedin"><span>LinkedIn</span></a>
+        <a class="icon solid fa-home" href="#"><span>Home</span></a>
+        <a class="icon solid fa-keyboard" href="#work"><span>Stack</span></a>
+        <a class="icon brands fa-github" href="https://github.com/ewefie" target="_blank"><span>Github</span></a>
+        <a class="icon brands fa-linkedin" href="https://www.linkedin.com/in/ewelinafiedorowicz/" target="_blank"><span>LinkedIn</span></a>
     </nav>
 
     <!-- Main -->
     <div id="main">
 
         <!-- Me -->
-        <article id="home" class="panel intro">
+        <article class="panel intro" id="home">
             <header>
                 <h1>Ewelina Fiedorowicz</h1>
                 <p>Junior Java Developer</p>
@@ -46,7 +46,7 @@
         </article>
 
         <!-- Work -->
-        <article id="work" class="panel">
+        <article class="panel" id="work">
             <header>
                 <h2>Technology stack</h2>
             </header>
@@ -118,7 +118,7 @@
     <!-- Footer -->
     <div id="footer">
         <ul class="copyright">
-            <li>Design: <a target="_blank" href="http://html5up.net">HTML5 UP</a></li>
+            <li>Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
         </ul>
     </div>
 

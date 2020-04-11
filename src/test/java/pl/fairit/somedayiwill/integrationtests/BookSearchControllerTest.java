@@ -26,11 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookSearchControllerTest {
-    @LocalServerPort
-    private int port;
-
     @MockBean
     GoogleBooksService googleBooksService;
+    @LocalServerPort
+    private int port;
 
     @BeforeAll
     void setup() {

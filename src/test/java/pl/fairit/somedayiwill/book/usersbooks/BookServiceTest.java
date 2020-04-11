@@ -2,7 +2,6 @@ package pl.fairit.somedayiwill.book.usersbooks;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -94,7 +93,7 @@ class BookServiceTest {
         when(userService.getExistingUser(user.getId())).thenReturn(user);
 
         bookService.saveBook(bookDtoToSave, user.getId());
-        verify(bookRepository, times(1)).save(ArgumentMatchers.any());
+        verify(bookRepository, times(1)).save(any());
     }
 
     @Test

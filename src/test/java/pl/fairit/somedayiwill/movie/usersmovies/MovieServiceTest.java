@@ -2,7 +2,6 @@ package pl.fairit.somedayiwill.movie.usersmovies;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -91,7 +90,7 @@ class MovieServiceTest {
         when(userService.getExistingUser(user.getId())).thenReturn(user);
         movieService.saveMovie(movieDtoToSave, user.getId());
 
-        verify(movieRepository, times(1)).save(ArgumentMatchers.any());
+        verify(movieRepository, times(1)).save(any());
     }
 
     @Test

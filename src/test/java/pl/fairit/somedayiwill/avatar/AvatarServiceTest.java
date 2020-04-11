@@ -30,6 +30,21 @@ class AvatarServiceTest {
     @InjectMocks
     AvatarService avatarService;
 
+    private static Stream<MultipartFile> invalidAvatarArguments() {
+        return Stream.of(
+                TestMultipartFile.aMockWithGifFileType(),
+                TestMultipartFile.aMockWithTextHtmlFileType(),
+                TestMultipartFile.aMockWithApplicationJsonFileType()
+        );
+    }
+
+    private static Stream<MultipartFile> validAvatarArguments() {
+        return Stream.of(
+                TestMultipartFile.aMockWithJpegFileType(),
+                TestMultipartFile.aMockWithPngFileType()
+        );
+    }
+
     @Test
     void shouldReturnUserAvatarWhenExistingUserIdGiven() throws IOException {
         var user = TestUsers.aDefaultUser();
@@ -62,7 +77,7 @@ class AvatarServiceTest {
 
     @ParameterizedTest
     @MethodSource("invalidAvatarArguments")
-    void shouldThrowAvatarStorageException(MultipartFile file) {
+    void shouldThrowAvatarStorageException(final MultipartFile file) {
         var user = TestUsers.aDefaultUser();
 
         var exception = assertThrows(AvatarStorageException.class, () -> avatarService.saveAvatar(file, user));
@@ -71,7 +86,7 @@ class AvatarServiceTest {
 
     @ParameterizedTest
     @MethodSource("validAvatarArguments")
-    void shouldSaveAvatars(MultipartFile file) throws IOException {
+    void shouldSaveAvatars(final MultipartFile file) throws IOException {
         var user = TestUsers.aDefaultUser();
 
         var avatar = avatarService.saveAvatar(file, user);
@@ -80,20 +95,5 @@ class AvatarServiceTest {
         assertArrayEquals(file.getBytes(), avatar.getData());
         assertEquals(file.getContentType(), avatar.getFileType());
         assertEquals(user, avatar.getUser());
-    }
-
-    private static Stream<MultipartFile> invalidAvatarArguments() {
-        return Stream.of(
-                TestMultipartFile.aMockWithGifFileType(),
-                TestMultipartFile.aMockWithTextHtmlFileType(),
-                TestMultipartFile.aMockWithApplicationJsonFileType()
-        );
-    }
-
-    private static Stream<MultipartFile> validAvatarArguments() {
-        return Stream.of(
-                TestMultipartFile.aMockWithJpegFileType(),
-                TestMultipartFile.aMockWithPngFileType()
-        );
     }
 }

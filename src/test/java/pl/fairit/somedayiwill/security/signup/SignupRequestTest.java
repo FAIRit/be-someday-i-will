@@ -13,12 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.fairit.somedayiwill.user.TestUsers.generateStrongPassword;
 
 class SignupRequestTest {
-    @ParameterizedTest
-    @MethodSource("signupRequests")
-    void validatePasswords(SignupRequest request, Boolean isPasswordValid) {
-        assertEquals(isPasswordValid, request.isPasswordValid());
-    }
-
     private static Stream<Arguments> signupRequests() {
         return Stream.of(
                 Arguments.of(TestAuthorization.aSignUpRequest("strongForSure124!"), true),
@@ -28,5 +22,11 @@ class SignupRequestTest {
                 Arguments.of(TestAuthorization.aSignUpRequest(new Faker().internet()
                         .password(0, 7)), false)
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("signupRequests")
+    void validatePasswords(SignupRequest request, Boolean isPasswordValid) {
+        assertEquals(isPasswordValid, request.isPasswordValid());
     }
 }

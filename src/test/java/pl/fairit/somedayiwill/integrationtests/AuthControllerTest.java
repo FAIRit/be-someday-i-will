@@ -28,11 +28,10 @@ import static pl.fairit.somedayiwill.security.TestAuthorization.*;
 @MockBean(SignupEmailService.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthControllerTest {
-    @LocalServerPort
-    private int port;
-
     @MockBean
     AuthService authService;
+    @LocalServerPort
+    private int port;
 
     @BeforeAll
     void setup() {
