@@ -59,8 +59,8 @@ public class NewsletterService {
     }
 
     String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
-        final Locale locale = new Locale("en");
-        final Context context = new Context(locale);
+        var locale = new Locale("en");
+        var context = new Context(locale);
         context.setVariable("frequency", frequency);
         context.setVariable("name", name);
         context.setVariable("books", books);
