@@ -17,7 +17,8 @@ public class SignupEmailService {
     private final SendGridEmailService sendGridEmailService;
     private final TemplateEngine textTemplateEngine;
 
-    public SignupEmailService(final SendGridEmailService sendGridEmailService, final TemplateEngine textTemplateEngine) {
+    public SignupEmailService(final SendGridEmailService sendGridEmailService,
+                              final TemplateEngine textTemplateEngine) {
         this.sendGridEmailService = sendGridEmailService;
         this.textTemplateEngine = textTemplateEngine;
     }

@@ -26,7 +26,9 @@ public class NewsletterService {
     private final MovieService movieService;
     private final TemplateEngine textTemplateEngine;
 
-    public NewsletterService(final SendGridEmailService sendGridEmailService, final AppUserService appUserService, final BookService bookService, final MovieService movieService, final TemplateEngine textTemplateEngine) {
+    public NewsletterService(final SendGridEmailService sendGridEmailService, final AppUserService appUserService,
+                             final BookService bookService, final MovieService movieService,
+                             final TemplateEngine textTemplateEngine) {
         this.sendGridEmailService = sendGridEmailService;
         this.appUserService = appUserService;
         this.bookService = bookService;
@@ -58,7 +60,8 @@ public class NewsletterService {
         sendGridEmailService.sendHtmlMail(content, email, subject);
     }
 
-    String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books, final String frequency) {
+    String createNewsletterHtmlContent(final String name, final List<MovieDto> movies, final List<BookDto> books,
+                                       final String frequency) {
         var locale = new Locale("en");
         var context = new Context(locale);
         context.setVariable("frequency", frequency);

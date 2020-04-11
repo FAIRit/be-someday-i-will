@@ -30,8 +30,9 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public BookDto getBookById(@ApiParam(value = "Credentials injected while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
-                               @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
+    public BookDto getBookById(
+            @ApiParam(value = "Credentials injected while user has valid token", required = true) @ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
+            @ApiParam(value = "Book's ID", required = true) @PathVariable(name = "bookId") final Long bookId) {
         return bookService.getUsersBook(bookId, userPrincipal.getId());
     }
 
@@ -59,7 +60,8 @@ public class BookController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public BookDto addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto, @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
+    public BookDto addBook(@ApiParam(value = "Book to add", required = true) @RequestBody final BookDto bookDto,
+                           @ApiIgnore @CurrentUser final UserPrincipal userPrincipal) {
         return bookService.saveBook(bookDto, userPrincipal.getId());
     }
 

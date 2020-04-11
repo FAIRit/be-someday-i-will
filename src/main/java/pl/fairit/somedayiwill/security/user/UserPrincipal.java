@@ -8,7 +8,6 @@ import pl.fairit.somedayiwill.user.AppUser;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Data
@@ -19,7 +18,8 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public UserPrincipal(final Long id, final String email, final String password, final Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(final Long id, final String email, final String password,
+                         final Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;

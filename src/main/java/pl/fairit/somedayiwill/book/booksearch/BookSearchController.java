@@ -23,7 +23,8 @@ public class BookSearchController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved books"),
     })
-    public Books getBooksByTitle(@ApiParam(value = "title", required = true) @RequestParam(name = "title") final String title) {
+    public Books getBooksByTitle(
+            @ApiParam(value = "title", required = true) @RequestParam(name = "title") final String title) {
         return bookService.searchBooksByTitle(title);
     }
 
@@ -33,7 +34,8 @@ public class BookSearchController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved books"),
     })
-    public Books getBooksByAuthor(@ApiParam(value = "author", required = true) @RequestParam(name = "author") final String author) {
+    public Books getBooksByAuthor(
+            @ApiParam(value = "author", required = true) @RequestParam(name = "author") final String author) {
         return bookService.searchBooksByAuthor(author);
     }
 }

@@ -25,7 +25,8 @@ public interface MovieMapper {
         if (isNull(description)) {
             return "";
         }
-        return description.length() < DESCRIPTION_MAX_LENGTH ? description : description.substring(0, DESCRIPTION_MAX_LENGTH) + "...";
+        return description.length() < DESCRIPTION_MAX_LENGTH ? description : description
+                .substring(0, DESCRIPTION_MAX_LENGTH) + "...";
     }
 
     MovieDto mapMovieToMovieDto(final Movie movie);

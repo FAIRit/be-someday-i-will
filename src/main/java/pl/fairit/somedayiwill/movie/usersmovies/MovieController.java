@@ -31,7 +31,8 @@ public class MovieController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    public MovieDto getMovieById(@ApiIgnore @CurrentUser final UserPrincipal userPrincipal, @ApiParam(value = "Movie ID", required = true) @PathVariable(name = "movieId") final Long movieId) {
+    public MovieDto getMovieById(@ApiIgnore @CurrentUser final UserPrincipal userPrincipal,
+                                 @ApiParam(value = "Movie ID", required = true) @PathVariable(name = "movieId") final Long movieId) {
         return movieService.getUsersMovie(movieId, userPrincipal.getId());
     }
 

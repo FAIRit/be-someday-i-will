@@ -23,7 +23,8 @@ public class MovieSearchController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved movies"),
     })
-    public Movies getMoviesByTitle(@ApiParam(value = "title", required = true) @RequestParam(name = "title") final String query) {
+    public Movies getMoviesByTitle(
+            @ApiParam(value = "title", required = true) @RequestParam(name = "title") final String query) {
         return movieService.searchMoviesByTitle(query);
     }
 }

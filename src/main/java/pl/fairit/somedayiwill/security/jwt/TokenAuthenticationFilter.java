@@ -19,19 +19,22 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService userDetailsService;
     private final TokenProvider tokenProvider;
 
-    public TokenAuthenticationFilter(final CustomUserDetailsService userDetailsService, final TokenProvider tokenProvider) {
+    public TokenAuthenticationFilter(final CustomUserDetailsService userDetailsService,
+                                     final TokenProvider tokenProvider) {
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                    final FilterChain filterChain) throws ServletException, IOException {
         try {
             var jwt = getJwtFromRequest(request);
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 var userId = tokenProvider.getUserIdFromToken(jwt);
                 var userDetails = userDetailsService.loadUserById(userId);
-                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails
+                        .getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext()
                         .setAuthentication(authentication);

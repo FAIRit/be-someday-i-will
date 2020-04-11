@@ -16,7 +16,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AppUserService userService;
 
-    public BookService(final BookRepository bookRepository,final AppUserService userService) {
+    public BookService(final BookRepository bookRepository, final AppUserService userService) {
         this.bookRepository = bookRepository;
         this.userService = userService;
     }
@@ -57,6 +57,7 @@ public class BookService {
     }
 
     Book getExistingBookById(final Long bookId) {
-        return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book with given id does not exist"));
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book with given id does not exist"));
     }
 }

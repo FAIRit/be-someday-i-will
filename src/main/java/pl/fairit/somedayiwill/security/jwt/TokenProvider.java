@@ -53,7 +53,7 @@ public class TokenProvider {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty.");
-        } catch (SignatureException ex){
+        } catch (SignatureException ex) {
             log.error("JWT signature does not match locally computed signature");
         }
         return false;

@@ -19,7 +19,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
-    public AuthService(final AuthenticationManager authenticationManager, final AppUserService appUserService, final PasswordEncoder passwordEncoder, final TokenProvider tokenProvider) {
+    public AuthService(final AuthenticationManager authenticationManager, final AppUserService appUserService,
+                       final PasswordEncoder passwordEncoder, final TokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.appUserService = appUserService;
         this.passwordEncoder = passwordEncoder;
@@ -27,7 +28,9 @@ public class AuthService {
     }
 
     public String authenticateUser(final LoginRequest loginRequest) {
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        var authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest
+                        .getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return tokenProvider.createToken(authentication);
     }
