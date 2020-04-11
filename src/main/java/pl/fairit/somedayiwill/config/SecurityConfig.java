@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
-            // Home page
+            // Home & portfolio page
+            "/portfolio",
             "/error",
             "/**/*.png",
             "/**/*.ico",

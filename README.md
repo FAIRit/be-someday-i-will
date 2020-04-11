@@ -40,16 +40,18 @@ After creating new account, user will gain access to his own watch/read later li
 ## Setup:
 To run this project you'll need docker and docker-compose to be installed on your computer. 
 
-***IMPORTANT:*** To make this application work you have to provide valid Google API key, Sendgrid API key and MDBDatabase API key.
+***IMPORTANT:*** To make this application work you have to provide valid Google API key, SendGrid API key and MDBDatabase API key.
 
 ```
 $ ./run.sh GOOGLE_BOOKS_KEY MOVIE_DATABASE_KEY SENDGRID_API_KEY
 ```
+After application launch go to `http://localhost:8080/` to see homepage, or directly to Swagger documentation `http://localhost:8080/swagger-ui.html`
+
 
 ## Used APIs
 * [Google Books API](https://developers.google.com/books)
 * [The Movie Database API](https://developers.themoviedb.org/3/genres/get-tv-list)
-
+* [SendGrid API](https://sendgrid.com/docs/for-developers/sending-email/api-getting-started/)
 
 ### Status:
 It works! 

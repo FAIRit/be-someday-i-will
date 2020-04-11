@@ -18,102 +18,28 @@
 
 <!-- Wrapper-->
 <div id="wrapper">
-
-    <!-- Nav -->
-    <nav id="nav">
-        <a href="#" class="icon solid fa-home"><span>Home</span></a>
-        <a href="#work" class="icon solid fa-keyboard"><span>Stack</span></a>
-        <a target="_blank" href="https://github.com/ewefie" class="icon brands fa-github"><span>Github</span></a>
-        <a target="_blank" href="https://www.linkedin.com/in/ewelinafiedorowicz/" class="icon brands fa-linkedin"><span>LinkedIn</span></a>
-    </nav>
-
     <!-- Main -->
     <div id="main">
-
-        <!-- Me -->
-        <article id="home" class="panel intro">
-            <header>
-                <h1>Ewelina Fiedorowicz</h1>
-                <p>Junior Java Developer</p>
-            </header>
-            <div style="padding: 2em">
-                Last year after a long time of hesitation, I finally decided to change my career and signed up for a
-                Java course. Since then, I practice programming every day, and it gives me a lot of satisfaction.
-                I have created several backend applications using Java (you can find them on my Github profile), and I
-                constantly learn how to write better code. I'm lucky to have experienced people around me who inspire me
-                to explore the IT industry.
-            </div>
-        </article>
-
         <!-- Work -->
         <article id="work" class="panel">
             <header>
-                <h2>Technology stack</h2>
+                <h2>Welcome!</h2>
             </header>
             <p>
-                Below you can see which tools and technologies I use in my projects. Some of them, like Java, Maven,
-                Spring Boot I use in everyday work while others, like CI tools or cloud platforms, are rather new to me,
-                but exploring them gives me a lot of fun.
+                <b>Someday I Will</b> application is my newest project. The main feature is storing information about
+                books you want to read, and movies you want to watch in the future. To start creating lists you have to
+                signup and login.
+                You can search for books/movies and add them to your lists, but you can also provide all the necessary
+                information on your own.
             </p>
-            <section>
-                <div class="row">
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Programming languages</h4>
-                        <ul>
-                            <li>Java 11</li>
-                            <li>JavaScript & Node.js & React.js - basic knowledge.</li>
-                            <li>HTML 5 & CSS 3 - basic knowledge.</li>
-                        </ul>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Java related technologies</h4>
-                        <ul>
-                            <li>Maven</li>
-                            <li>Spring Boot</li>
-                            <li>Hibernate</li>
-                            <li>Rest Assured</li>
-                            <li>JUnit 5</li>
-                            <li>Mockito</li>
-                            <li>Testcontainers</li>
-                        </ul>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Operating systems</h4>
-                        <ul>
-                            <li>Windows</li>
-                            <li>Linux</li>
-                        </ul>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Databases</h4>
-                        <ul>
-                            <li>MySQL</li>
-                            <li>MongoDB</li>
-                        </ul>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Other</h4>
-                        <ul>
-                            <li>GIT</li>
-                            <li>REST</li>
-                            <li>Docker</li>
-                            <li>CI/CD tools (i.g., Github Actions, Buddy.works)</li>
-                        </ul>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                        <h4>Cloud Solutions</h4>
-                        <ul>
-                            <li>Amazon Web Services (Dockerized app deployed to Elastic Beanstalk)</li>
-                            <li>Microsoft Azure (MySQL database)</li>
-                            <li>Digital Ocean</li>
-                            <li>Heroku</li>
-                            <li>Mongo DB Atlas</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+            <p>
+                Visit the <a th:href="@{/swagger-ui.html}"> SwaggerUI</a> page to learn more about this application. You will find there information about all
+                models and available endpoints.
+            </p>
+            <p>
+                To read more about me please got to my <a th:href="@{/portfolio}">portfolio page</a>.
+            </p>
         </article>
-
     </div>
 
     <!-- Footer -->
