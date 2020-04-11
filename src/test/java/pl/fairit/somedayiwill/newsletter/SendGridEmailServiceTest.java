@@ -26,7 +26,7 @@ class SendGridEmailServiceTest {
     SendGridEmailService emailService;
 
     @Test
-    public void shouldSendEmailAndReturnOkResponse() throws IOException {
+    void shouldSendEmailAndReturnOkResponse() throws IOException {
         var faker = new Faker();
         var htmlContent = faker.lorem().sentence();
         var subject = faker.cat().name();

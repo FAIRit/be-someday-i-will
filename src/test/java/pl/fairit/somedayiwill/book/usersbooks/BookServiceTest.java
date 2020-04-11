@@ -34,7 +34,7 @@ class BookServiceTest {
     BookService bookService;
 
     @Test
-    public void shouldDeleteAllUsersBooksWhenUserIdGiven() {
+    void shouldDeleteAllUsersBooksWhenUserIdGiven() {
         var userId = 5L;
 
         bookService.deleteAllUsersBooks(userId);
@@ -43,7 +43,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void shouldDeleteUsersBookWhenUserIdAndBookIdGiven() {
+    void shouldDeleteUsersBookWhenUserIdAndBookIdGiven() {
         var appUser = TestUsers.aUserWithRandomCredentials();
         appUser.setId(5L);
         var book = TestBook.aRandomBook();
@@ -57,7 +57,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchBookOwnerId() {
+    void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchBookOwnerId() {
         var book = TestBook.aRandomBook();
         book.setId(12L);
         var appUser = TestUsers.aUserWithRandomCredentials();
@@ -71,7 +71,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void shouldReturnUsersBooksWhenUserWithGivenIdExist() {
+    void shouldReturnUsersBooksWhenUserWithGivenIdExist() {
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
         var booksToReturnByRepository = booksToReturn.getBookDtos()
                 .stream()
@@ -86,7 +86,7 @@ class BookServiceTest {
     }
 
     @Test
-    public void shouldSaveBookWhenUserWithGivenIdExists() {
+    void shouldSaveBookWhenUserWithGivenIdExists() {
         var user = TestUsers.aUserWithRandomCredentials();
         user.setId(3L);
         var bookDtoToSave = TestBookDto.aRandomBookDto();
@@ -98,11 +98,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void shouldThrowResourceNotFoundExceptionWhenBookWithGivenIdDoesNotExist() {
+    void shouldThrowResourceNotFoundExceptionWhenBookWithGivenIdDoesNotExist() {
         var bookId = 1L;
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> bookService.getExistingBookById(bookId), "Book with given id does not exist");
+        assertThrows(ResourceNotFoundException.class, () -> bookService
+                .getExistingBookById(bookId), "Book with given id does not exist");
     }
 }

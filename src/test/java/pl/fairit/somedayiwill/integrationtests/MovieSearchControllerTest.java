@@ -25,7 +25,7 @@ class MovieSearchControllerTest {
     MDBMovieService movieService;
 
     @Test
-    public void shouldReturnMoviesWhenSearchByTitlePerformed() {
+    void shouldReturnMoviesWhenSearchByTitlePerformed() {
         var query = "Peppa";
         var moviesToReturn = TestMovies.withListOfRandomMovies(3);
 

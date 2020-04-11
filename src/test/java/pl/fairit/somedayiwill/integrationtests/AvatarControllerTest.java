@@ -41,13 +41,13 @@ class AvatarControllerTest {
     private String token;
 
     @BeforeAll
-    public void authorize() {
+    void authorize() {
         RestAssured.port = port;
         token = TestAuthorization.getToken();
     }
 
     @Test
-    public void shouldReturnUnauthorizedWhenGetWithNoTokenPerformed() {
+    void shouldReturnUnauthorizedWhenGetWithNoTokenPerformed() {
         //@formatter:off
         when()
                 .get("/users/me/avatar")
@@ -58,7 +58,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnCreatedStatusCodeWhenPostPerformed() throws IOException {
+    void shouldReturnCreatedStatusCodeWhenPostPerformed() throws IOException {
         var validFileToSave = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(validFileToSave);
 
@@ -78,7 +78,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnUnsupportedMediaTypeStatusCodeWhenPostPerformed() throws IOException {
+    void shouldReturnUnsupportedMediaTypeStatusCodeWhenPostPerformed() throws IOException {
         var invalidFileToSave = TestMultipartFile.aMockWithGifFileType();
 
         Mockito.when(avatarService
@@ -98,7 +98,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnNoContentWhenDeleteAvatarPerformed() throws IOException {
+    void shouldReturnNoContentWhenDeleteAvatarPerformed() throws IOException {
         //@formatter:off
         given()
                 .header("Authorization", "Bearer " + token)
@@ -111,7 +111,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnNotFoundStatusCode() {
+    void shouldReturnNotFoundStatusCode() {
         Mockito.when(avatarService.getUsersAvatar(ArgumentMatchers.anyLong()))
                 .thenThrow(new ResourceNotFoundException("Avatar does not exist"));
 
@@ -132,7 +132,7 @@ class AvatarControllerTest {
     }
 
     @Test
-    public void shouldReturnAvatarWhenGetPerformed() throws IOException {
+    void shouldReturnAvatarWhenGetPerformed() throws IOException {
         var file = TestMultipartFile.aMockWithJpegFileType();
         var avatarToReturn = TestAvatar.fromMultipartFile(file);
 

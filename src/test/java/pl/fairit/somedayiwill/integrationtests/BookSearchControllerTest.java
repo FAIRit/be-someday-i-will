@@ -33,12 +33,12 @@ class BookSearchControllerTest {
     GoogleBooksService googleBooksService;
 
     @BeforeAll
-    private void setup() {
+    void setup() {
         RestAssured.port = port;
     }
 
     @Test
-    public void shouldReturnBooksWhenSearchByAuthorPerformed() {
+    void shouldReturnBooksWhenSearchByAuthorPerformed() {
         var query = "Rowling";
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
 
@@ -54,7 +54,7 @@ class BookSearchControllerTest {
     }
 
     @Test
-    public void shouldReturnBooksWhenSearchByTitlePerformed() {
+    void shouldReturnBooksWhenSearchByTitlePerformed() {
         var query = "Rowling";
         var booksToReturn = new Books(List.of(TestBookDto.aRandomBookDto()));
 

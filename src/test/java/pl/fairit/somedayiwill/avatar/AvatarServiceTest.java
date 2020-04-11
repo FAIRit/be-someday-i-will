@@ -31,7 +31,7 @@ class AvatarServiceTest {
     AvatarService avatarService;
 
     @Test
-    public void shouldReturnUserAvatarWhenExistingUserIdGiven() throws IOException {
+    void shouldReturnUserAvatarWhenExistingUserIdGiven() throws IOException {
         var user = TestUsers.aDefaultUser();
         var avatar = TestAvatar.fromMultipartFile(TestMultipartFile.aMockWithJpegFileType());
         avatar.setUser(user);
@@ -43,7 +43,7 @@ class AvatarServiceTest {
     }
 
     @Test
-    public void shouldThrowResourceNotFoundExceptionWhenUserAvatarDoesNotExist() {
+    void shouldThrowResourceNotFoundExceptionWhenUserAvatarDoesNotExist() {
         var user = TestUsers.aDefaultUser();
 
         when(avatarRepository.findAvatarByUserId(user.getId())).thenReturn(Optional.empty());
@@ -52,7 +52,7 @@ class AvatarServiceTest {
     }
 
     @Test
-    public void shouldDeleteAvatarWhenUserIdGiven() {
+    void shouldDeleteAvatarWhenUserIdGiven() {
         var userId = 3L;
 
         avatarService.deleteUsersAvatar(userId);
@@ -69,14 +69,6 @@ class AvatarServiceTest {
         assertEquals("Unsupported file type.", exception.getMessage());
     }
 
-    private static Stream<MultipartFile> invalidAvatarArguments() {
-        return Stream.of(
-                TestMultipartFile.aMockWithGifFileType(),
-                TestMultipartFile.aMockWithTextHtmlFileType(),
-                TestMultipartFile.aMockWithApplicationJsonFileType()
-        );
-    }
-
     @ParameterizedTest
     @MethodSource("validAvatarArguments")
     void shouldSaveAvatars(MultipartFile file) throws IOException {
@@ -88,6 +80,14 @@ class AvatarServiceTest {
         assertArrayEquals(file.getBytes(), avatar.getData());
         assertEquals(file.getContentType(), avatar.getFileType());
         assertEquals(user, avatar.getUser());
+    }
+
+    private static Stream<MultipartFile> invalidAvatarArguments() {
+        return Stream.of(
+                TestMultipartFile.aMockWithGifFileType(),
+                TestMultipartFile.aMockWithTextHtmlFileType(),
+                TestMultipartFile.aMockWithApplicationJsonFileType()
+        );
     }
 
     private static Stream<MultipartFile> validAvatarArguments() {

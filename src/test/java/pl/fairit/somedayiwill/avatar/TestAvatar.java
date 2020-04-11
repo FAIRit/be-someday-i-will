@@ -1,7 +1,6 @@
 package pl.fairit.somedayiwill.avatar;
 
 import org.springframework.web.multipart.MultipartFile;
-import pl.fairit.somedayiwill.user.AppUser;
 
 import java.io.IOException;
 

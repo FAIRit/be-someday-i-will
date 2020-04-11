@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MovieControllerTest {
+class MovieControllerTest {
     @LocalServerPort
     private int port;
     private static String token;
@@ -43,13 +43,13 @@ public class MovieControllerTest {
     private MovieService movieService;
 
     @BeforeAll
-    public void authorize() {
+    void authorize() {
         RestAssured.port = port;
         token = TestAuthorization.getToken();
     }
 
     @Test
-    public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+    void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
         //@formatter:off
         when()
                 .get("/users/me/movies")
@@ -60,7 +60,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnListOfUsersMoviesWhenGetAllPerformed() {
+    void shouldReturnListOfUsersMoviesWhenGetAllPerformed() {
         var moviesToReturn = TestMovies.withListOfRandomMovies(3);
 
         Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong()))
@@ -79,7 +79,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnSavedMovieWhenPostPerformed() {
+    void shouldReturnSavedMovieWhenPostPerformed() {
         var movieToSave = TestMovieDto.aRandomMovieDto();
         var jsonMovieDto = TestMovieDto.asJSONString(movieToSave);
 
@@ -98,7 +98,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnMovieWhenGetMovieByIdPerformed() {
+    void shouldReturnMovieWhenGetMovieByIdPerformed() {
         var movieToReturn = TestMovieDto.aRandomMovieDto();
         movieToReturn.setId(7L);
 
@@ -116,7 +116,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnNoContentStatusCodeAfterDeleteOnePerformed() {
+    void shouldReturnNoContentStatusCodeAfterDeleteOnePerformed() {
         var movieId = 7L;
 
         //@formatter:off
@@ -132,7 +132,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnNotFoundStatusCodeWhenGetMovieByIdPerformed() {
+    void shouldReturnNotFoundStatusCodeWhenGetMovieByIdPerformed() {
         var movieId = 4L;
 
         Mockito.when(movieService.getUsersMovie(ArgumentMatchers.eq(movieId), ArgumentMatchers.anyLong()))
@@ -149,7 +149,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnedNoContentWhenDeleteAllMoviesPerformed() {
+    void shouldReturnedNoContentWhenDeleteAllMoviesPerformed() {
         //@formatter:off
         given()
                 .header("Authorization", "Bearer " + token)
@@ -162,7 +162,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldReturnMoviesWithEmptyListWhenGetAllMoviesPerformed() {
+    void shouldReturnMoviesWithEmptyListWhenGetAllMoviesPerformed() {
         Mockito.when(movieService.getAllUsersMovies(ArgumentMatchers.anyLong()))
                 .thenReturn(new Movies(Collections.emptyList()));
         var response = given()

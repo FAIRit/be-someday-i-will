@@ -33,7 +33,7 @@ class MovieServiceTest {
     MovieService movieService;
 
     @Test
-    public void shouldDeleteAllUsersMoviesWhenUserIdGiven() {
+    void shouldDeleteAllUsersMoviesWhenUserIdGiven() {
         var userId = 5L;
 
         movieService.deleteAllUsersMovies(userId);
@@ -42,7 +42,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void shouldDeleteUsersMovieWhenUserIdAndMovieIdGiven() {
+    void shouldDeleteUsersMovieWhenUserIdAndMovieIdGiven() {
         var appUser = TestUsers.aDefaultUser();
         appUser.setId(5L);
         var movie = TestMovie.aRandomMovie();
@@ -56,7 +56,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchMovieOwnerId() {
+    void shouldThrowAccessDeniedExceptionWhenGivenUserIdDoesNotMatchMovieOwnerId() {
         var movie = TestMovie.aRandomMovie();
         var appUser = TestUsers.aDefaultUser();
         appUser.setId(13L);
@@ -70,7 +70,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void shouldReturnUsersMoviesWhenUserWithGivenIdExist() {
+    void shouldReturnUsersMoviesWhenUserWithGivenIdExist() {
         var moviesToReturn = TestMovies.withListOfRandomMovies(3);
         var moviesToReturnByRepository = moviesToReturn.getMovies().stream()
                 .map(MovieMapper.INSTANCE::mapMovieDtoToMovie)
@@ -84,7 +84,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void shouldSaveMovieWhenUserWithGivenIdExists() {
+    void shouldSaveMovieWhenUserWithGivenIdExists() {
         var user = TestUsers.aDefaultUser();
         var movieDtoToSave = TestMovieDto.aRandomMovieDto();
 
@@ -95,7 +95,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void shouldThrowResourceNotFoundExceptionWhenMovieWithGivenIdDoesNotExist() {
+    void shouldThrowResourceNotFoundExceptionWhenMovieWithGivenIdDoesNotExist() {
         var movieId = 1L;
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());

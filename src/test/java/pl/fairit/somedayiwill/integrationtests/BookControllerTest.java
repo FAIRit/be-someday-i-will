@@ -43,13 +43,13 @@ class BookControllerTest {
     private BookService booksService;
 
     @BeforeAll
-    public void authorize() {
+    void authorize() {
         RestAssured.port = port;
         token = TestAuthorization.getToken();
     }
 
     @Test
-    public void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
+    void shouldReturnUnauthorizedWhenGetWithNoTokePerformed() {
         //@formatter:off
         when()
                 .get("/users/me/books")
@@ -60,7 +60,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnListOfUsersBooksWhenGetAllPerformed() {
+    void shouldReturnListOfUsersBooksWhenGetAllPerformed() {
         var booksToReturn = TestBooks.withListOfRandomBooks(6);
 
         Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong()))
@@ -79,7 +79,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnSavedBookWhenPostPerformed() {
+    void shouldReturnSavedBookWhenPostPerformed() {
         var bookToSave = TestBookDto.aRandomBookDto();
         var jsonBookDto = TestBookDto.asJSONString(bookToSave);
 
@@ -98,7 +98,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnBookWhenGetBookByIdPerformed() {
+    void shouldReturnBookWhenGetBookByIdPerformed() {
         var bookToReturn = TestBookDto.aRandomBookDto();
         bookToReturn.setId(3L);
 
@@ -116,7 +116,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnNoContentStatusCodeAfterDeleteBookByIdPerformed() {
+    void shouldReturnNoContentStatusCodeAfterDeleteBookByIdPerformed() {
         var bookId = 4L;
 
         //@formatter:off
@@ -132,7 +132,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnNotFoundStatusCodeWhenGetBookByIdPerformed() {
+    void shouldReturnNotFoundStatusCodeWhenGetBookByIdPerformed() {
         var bookId = 6L;
 
         Mockito.when(booksService.getUsersBook(ArgumentMatchers.eq(bookId), ArgumentMatchers.anyLong()))
@@ -149,7 +149,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnedNoContentWhenDeleteAllBooksPerformed() {
+    void shouldReturnedNoContentWhenDeleteAllBooksPerformed() {
         //@formatter:off
         given()
                 .header("Authorization", "Bearer " + token)
@@ -162,7 +162,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnBooksWithEmptyListWhenGetAllBooksPerformed() {
+    void shouldReturnBooksWithEmptyListWhenGetAllBooksPerformed() {
         Mockito.when(booksService.getAllUsersBooks(ArgumentMatchers.anyLong()))
                 .thenReturn(new Books(Collections.emptyList()));
         var response = given()

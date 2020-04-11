@@ -12,11 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import pl.fairit.somedayiwill.movie.testmovies.TestGenres;
 import pl.fairit.somedayiwill.movie.testmovies.TestMDBMovie;
 import pl.fairit.somedayiwill.movie.testmovies.TestMDBWrapper;
-import pl.fairit.somedayiwill.movie.usersmovies.MovieMapper;
-import pl.fairit.somedayiwill.movie.usersmovies.Movies;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -43,6 +38,4 @@ class MDBMovieServiceTest {
 
         assertEquals(foundMovies, movies);
     }
-
-
 }

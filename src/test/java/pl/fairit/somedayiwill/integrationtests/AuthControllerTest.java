@@ -27,7 +27,7 @@ import static pl.fairit.somedayiwill.security.TestAuthorization.*;
 @ContextConfiguration
 @MockBean(SignupEmailService.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AuthControllerTest {
+class AuthControllerTest {
     @LocalServerPort
     private int port;
 
@@ -35,12 +35,12 @@ public class AuthControllerTest {
     AuthService authService;
 
     @BeforeAll
-    public void setup() {
+    void setup() {
         RestAssured.port = port;
     }
 
     @Test
-    public void whenRequestedPostToSignupThenUserCreated() {
+    void whenRequestedPostToSignupThenUserCreated() {
         var userToRegister = TestUsers.aDefaultUser();
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
@@ -58,12 +58,13 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void whenPerformedPostSecondTimeWithTheSameCredentialsThenShouldReturnConflictStatusCode() {
+    void whenPerformedPostSecondTimeWithTheSameCredentialsThenShouldReturnConflictStatusCode() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest)).thenThrow(new UserAlreadyExistsException("Email address already in use."));
+        Mockito.when(authService.registerUser(signupRequest))
+                .thenThrow(new UserAlreadyExistsException("Email address already in use."));
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
@@ -74,7 +75,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void whenPasswordNotValidThenShouldReturnBadRequestStatusCode() {
+    void whenPasswordNotValidThenShouldReturnBadRequestStatusCode() {
         var userToRegister = TestUsers.aUserWithRandomCredentials();
         userToRegister.setPassword("invalid");
         var signupRequest = aSignupRequest(userToRegister);
@@ -86,12 +87,13 @@ public class AuthControllerTest {
                 .contentType(ContentType.JSON)
                 .post("/auth/signup");
 
-        assertTrue(response.getBody().asString().contains("Password has to be at least 8 characters and contain at least one digit, one lower case and one upper case letter"));
+        assertTrue(response.getBody().asString()
+                .contains("Password has to be at least 8 characters and contain at least one digit, one lower case and one upper case letter"));
         assertEquals(400, response.getStatusCode());
     }
 
     @Test
-    public void shouldReturnTokenWhenValidLoginRequestPerformed() {
+    void shouldReturnTokenWhenValidLoginRequestPerformed() {
         var userToLogin = TestUsers.aUserWithRandomCredentials();
         var loginRequestBody = aLoginRequestAsString(userToLogin);
         var loginRequest = aLoginRequest(userToLogin);

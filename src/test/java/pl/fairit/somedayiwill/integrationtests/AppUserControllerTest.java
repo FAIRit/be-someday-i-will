@@ -29,13 +29,13 @@ class AppUserControllerTest {
     private String token;
 
     @BeforeAll
-    public void authorize() {
+    void authorize() {
         RestAssured.port = port;
         token = TestAuthorization.getToken();
     }
 
     @Test
-    public void shouldReturnUnauthorizedWhenNoCredentialsProvided() {
+    void shouldReturnUnauthorizedWhenNoCredentialsProvided() {
         //@formatter:off
         when()
                 .get("/users/me")
@@ -46,7 +46,7 @@ class AppUserControllerTest {
     }
 
     @Test
-    public void shouldReturnAppUserDtoWhenValidCredentialsProvided() {
+    void shouldReturnAppUserDtoWhenValidCredentialsProvided() {
         var response = given()
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me");

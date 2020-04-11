@@ -16,27 +16,27 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @ExtendWith(SpringExtension.class)
 @MockBean(SendGridEmailService.class)
 @ContextConfiguration
-public class AppUserTest {
+class AppUserTest {
 
     @Autowired
-    public AppUserService service;
+    AppUserService service;
 
     @Test
-    public void findUsersForMonthlyNewsletterShouldReturnOneUser() {
+    void findUsersForMonthlyNewsletterShouldReturnOneUser() {
         var usersForMonthlyNewsletter = service.getAllUsersForMonthlyNewsletter();
 
         assertEquals(1, usersForMonthlyNewsletter.size());
     }
 
     @Test
-    public void findUsersForWeeklyNewsletterShouldReturnTwoUsers() {
+    void findUsersForWeeklyNewsletterShouldReturnTwoUsers() {
         var usersForWeeklyNewsletter = service.getAllUsersForWeeklyNewsletter();
 
         assertEquals(2, usersForWeeklyNewsletter.size());
     }
 
     @Test
-    public void shouldSaveUser() {
+    void shouldSaveUser() {
         var expectedUser = TestUsers.aDefaultUser();
 
         var actualUser = service.saveUser(expectedUser);
@@ -45,7 +45,7 @@ public class AppUserTest {
     }
 
     @Test
-    public void existsByEmailShouldReturnFalseAfterDeleteUserPerformed() {
+    void existsByEmailShouldReturnFalseAfterDeleteUserPerformed() {
         var existingUser = service.getExistingUser(2L);
 
         service.deleteUser(existingUser.getId());
