@@ -1,8 +1,11 @@
+![](https://github.com/FAIRit/be-someday-i-will/workflows/Tests/badge.svg)
+![](https://github.com/FAIRit/be-someday-i-will/workflows/Deploy/badge.svg)
+
 # **Someday I will**
 
 ## Overview
-This app will allow users to search books, movies and tv series by entering keywords (title, author, etc.).
-After creating new account, user will gain access to his own watch/read later lists.
+This app will allow users to search for books, movies and tv series by entering keywords (title, author, etc.).
+After creating a new account, user will gain access to his own watch/read later lists.
 
 ## Live demo (deployed to AWS Elastic BeanStalk): [click here](http://somedayapp-env.eba-dsmnvmrd.us-west-2.elasticbeanstalk.com/swagger-ui.html#/)
 
@@ -34,7 +37,7 @@ After creating new account, user will gain access to his own watch/read later li
 * JUnit 5
 * RestAssured
 * Testcontainers
-* GitHub Actions
+* Github Actions
 
 
 ## Setup:
