@@ -18,8 +18,7 @@ import pl.fairit.somedayiwill.security.user.UserAlreadyExistsException;
 import pl.fairit.somedayiwill.user.TestUsers;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static pl.fairit.somedayiwill.security.TestAuthorization.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,6 +29,7 @@ import static pl.fairit.somedayiwill.security.TestAuthorization.*;
 class AuthControllerTest {
     @MockBean
     AuthService authService;
+
     @LocalServerPort
     private int port;
 
@@ -52,8 +52,10 @@ class AuthControllerTest {
         var bodyValue = response.getBody()
                 .asString();
 
-        assertTrue(bodyValue.contains("User registered successfully"));
-        assertEquals(201, response.getStatusCode());
+        assertAll(
+                () -> assertTrue(bodyValue.contains("User registered successfully")),
+                () -> assertEquals(201, response.getStatusCode())
+        );
     }
 
     @Test
@@ -69,8 +71,10 @@ class AuthControllerTest {
                 .contentType(ContentType.JSON)
                 .post("/auth/signup");
 
-        assertTrue(response.getBody().asString().contains("Email address already in use."));
-        assertEquals(409, response.getStatusCode());
+        assertAll(
+                () -> assertTrue(response.getBody().asString().contains("Email address already in use.")),
+                () -> assertEquals(409, response.getStatusCode())
+        );
     }
 
     @Test
@@ -86,9 +90,11 @@ class AuthControllerTest {
                 .contentType(ContentType.JSON)
                 .post("/auth/signup");
 
-        assertTrue(response.getBody().asString()
-                .contains("Password has to be at least 8 characters and contain at least one digit, one lower case and one upper case letter"));
-        assertEquals(400, response.getStatusCode());
+        assertAll(
+                () -> assertTrue(response.getBody().asString()
+                        .contains("Password has to be at least 8 characters and contain at least one digit, one lower case and one upper case letter")),
+                () -> assertEquals(400, response.getStatusCode())
+        );
     }
 
     @Test
@@ -105,7 +111,9 @@ class AuthControllerTest {
                 .post("/auth/login");
         var responseBody = response.getBody().asString();
 
-        assertEquals(200, response.getStatusCode());
-        assertTrue(responseBody.contains("accessToken"));
+        assertAll(
+                () -> assertEquals(200, response.getStatusCode()),
+                () -> assertTrue(responseBody.contains("accessToken"))
+        );
     }
 }

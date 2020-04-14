@@ -24,9 +24,7 @@ import java.util.Collections;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static java.util.Objects.nonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -37,8 +35,10 @@ import static org.mockito.ArgumentMatchers.eq;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MovieControllerTest {
     private static String token;
+
     @LocalServerPort
     private int port;
+
     @MockBean
     private MovieService movieService;
 
@@ -71,11 +71,13 @@ class MovieControllerTest {
         var foundMovies = TestMovies.fromJSONString(response.getBody()
                 .asString());
 
-        assert nonNull(foundMovies);
-        assertEquals(3, foundMovies.getMovies()
-                .size());
-        assertEquals(moviesToReturn, foundMovies);
-        assertEquals(200, response.getStatusCode());
+        assertNotNull(foundMovies);
+        assertAll(
+                () -> assertEquals(moviesToReturn, foundMovies),
+                () -> assertEquals(3, foundMovies.getMovies()
+                        .size()),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 
     @Test
@@ -93,8 +95,10 @@ class MovieControllerTest {
         var returnedMovieDto = TestMovieDto.fromJSONString(response.getBody()
                 .asString());
 
-        assertEquals(movieToSave, returnedMovieDto);
-        assertEquals(201, response.getStatusCode());
+        assertAll(
+                () -> assertEquals(movieToSave, returnedMovieDto),
+                () -> assertEquals(201, response.getStatusCode())
+        );
     }
 
     @Test
@@ -111,8 +115,10 @@ class MovieControllerTest {
         var returnedMovie = TestMovieDto.fromJSONString(getResponse.getBody()
                 .asString());
 
-        assertEquals(movieToReturn, returnedMovie);
-        assertEquals(200, getResponse.getStatusCode());
+        assertAll(
+                () -> assertEquals(movieToReturn, returnedMovie),
+                () -> assertEquals(200, getResponse.getStatusCode())
+        );
     }
 
     @Test
@@ -142,10 +148,12 @@ class MovieControllerTest {
                 .contentType(ContentType.JSON)
                 .get("/users/me/movies/" + movieId);
 
-        assertEquals(404, response.getStatusCode());
-        assertTrue(response.getBody()
-                .asString()
-                .contains("Movie with given id does not exist"));
+        assertAll(
+                () -> assertEquals(404, response.getStatusCode()),
+                () -> assertTrue(response.getBody()
+                        .asString()
+                        .contains("Movie with given id does not exist"))
+        );
     }
 
     @Test
@@ -171,10 +179,12 @@ class MovieControllerTest {
         var movies = TestMovies.fromJSONString(response.getBody()
                 .asString());
 
-        assert nonNull(movies);
-        assertTrue(movies.getMovies()
-                .isEmpty());
-        assertEquals(200, response.getStatusCode());
+        assertNotNull(movies);
+        assertAll(
+                () -> assertTrue(movies.getMovies()
+                        .isEmpty()),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 }
 

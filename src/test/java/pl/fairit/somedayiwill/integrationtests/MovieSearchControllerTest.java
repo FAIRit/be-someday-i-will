@@ -12,7 +12,7 @@ import pl.fairit.somedayiwill.movie.moviesearch.MDBMovieService;
 import pl.fairit.somedayiwill.movie.testmovies.TestMovies;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MovieSearchControllerTest {
     @MockBean
     MDBMovieService movieService;
+
     @LocalServerPort
     private int port;
 
@@ -36,8 +37,10 @@ class MovieSearchControllerTest {
         var returnedMovies = TestMovies.fromJSONString(response.getBody()
                 .asString());
 
-        assert returnedMovies != null;
-        assertEquals(200, response.getStatusCode());
-        assertEquals(moviesToReturn, returnedMovies);
+        assertNotNull(returnedMovies);
+        assertAll(
+                () -> assertEquals(200, response.getStatusCode()),
+                () -> assertEquals(moviesToReturn, returnedMovies)
+        );
     }
 }

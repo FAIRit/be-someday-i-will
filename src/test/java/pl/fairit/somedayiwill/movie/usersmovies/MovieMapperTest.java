@@ -8,6 +8,7 @@ import pl.fairit.somedayiwill.movie.testmovies.TestMovieDto;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class MovieMapperTest {
 
@@ -30,11 +31,13 @@ class MovieMapperTest {
 
         var movieDto = MovieMapper.INSTANCE.mapMovieToMovieDto(movie);
 
-        assertThat(movieDto.getGenres()).isEqualTo(movie.getGenres());
-        assertThat(movieDto.getDescription()).isEqualTo(movie.getDescription());
-        assertThat(movieDto.getPosterLink()).isEqualTo(movie.getPosterLink());
-        assertThat(movieDto.getReleaseDate()).isEqualTo(movie.getReleaseDate());
-        assertThat(movieDto.getTitle()).isEqualTo(movie.getTitle());
+        assertAll(
+                () -> assertThat(movieDto.getGenres()).isEqualTo(movie.getGenres()),
+                () -> assertThat(movieDto.getDescription()).isEqualTo(movie.getDescription()),
+                () -> assertThat(movieDto.getPosterLink()).isEqualTo(movie.getPosterLink()),
+                () -> assertThat(movieDto.getReleaseDate()).isEqualTo(movie.getReleaseDate()),
+                () -> assertThat(movieDto.getTitle()).isEqualTo(movie.getTitle())
+        );
     }
 
     @Test
@@ -43,10 +46,12 @@ class MovieMapperTest {
 
         var movie = MovieMapper.INSTANCE.mapMovieDtoToMovie(movieDto);
 
-        assertThat(movie.getGenres()).isEqualTo(movieDto.getGenres());
-        assertThat(movie.getDescription()).isEqualTo(movieDto.getDescription());
-        assertThat(movie.getPosterLink()).isEqualTo(movieDto.getPosterLink());
-        assertThat(movie.getReleaseDate()).isEqualTo(movieDto.getReleaseDate());
-        assertThat(movie.getTitle()).isEqualTo(movieDto.getTitle());
+        assertAll(
+                () -> assertThat(movie.getGenres()).isEqualTo(movieDto.getGenres()),
+                () -> assertThat(movie.getDescription()).isEqualTo(movieDto.getDescription()),
+                () -> assertThat(movie.getPosterLink()).isEqualTo(movieDto.getPosterLink()),
+                () -> assertThat(movie.getReleaseDate()).isEqualTo(movieDto.getReleaseDate()),
+                () -> assertThat(movie.getTitle()).isEqualTo(movieDto.getTitle())
+        );
     }
 }

@@ -19,6 +19,7 @@ import pl.fairit.somedayiwill.book.usersbooks.Books;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ContextConfiguration
@@ -28,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BookSearchControllerTest {
     @MockBean
     GoogleBooksService googleBooksService;
+
     @LocalServerPort
     private int port;
 
@@ -48,8 +50,10 @@ class BookSearchControllerTest {
         var foundBooks = TestBooks.fromJSONString(response.getBody()
                 .asString());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals(booksToReturn, foundBooks);
+        assertAll(
+                () -> assertEquals(200, response.getStatusCode()),
+                () -> assertEquals(booksToReturn, foundBooks)
+        );
     }
 
     @Test
@@ -64,7 +68,9 @@ class BookSearchControllerTest {
         var foundBooks = TestBooks.fromJSONString(response.getBody()
                 .asString());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals(booksToReturn, foundBooks);
+        assertAll(
+                () -> assertEquals(200, response.getStatusCode()),
+                () -> assertEquals(booksToReturn, foundBooks)
+        );
     }
 }

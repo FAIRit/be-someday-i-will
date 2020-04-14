@@ -91,8 +91,8 @@ class BookServiceTest {
         var bookDtoToSave = TestBookDto.aRandomBookDto();
 
         when(userService.getExistingUser(user.getId())).thenReturn(user);
-
         bookService.saveBook(bookDtoToSave, user.getId());
+
         verify(bookRepository, times(1)).save(any());
     }
 

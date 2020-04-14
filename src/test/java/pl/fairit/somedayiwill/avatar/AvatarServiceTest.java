@@ -91,9 +91,11 @@ class AvatarServiceTest {
 
         var avatar = avatarService.saveAvatar(file, user);
 
-        verify(userRepository, times(1)).save(user);
-        assertArrayEquals(file.getBytes(), avatar.getData());
-        assertEquals(file.getContentType(), avatar.getFileType());
-        assertEquals(user, avatar.getUser());
+        assertAll(
+                () -> verify(userRepository, times(1)).save(user),
+                () -> assertArrayEquals(file.getBytes(), avatar.getData()),
+                () -> assertEquals(file.getContentType(), avatar.getFileType()),
+                () -> assertEquals(user, avatar.getUser())
+        );
     }
 }

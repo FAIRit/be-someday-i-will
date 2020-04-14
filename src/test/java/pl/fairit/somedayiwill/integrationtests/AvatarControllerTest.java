@@ -34,12 +34,13 @@ import static org.mockito.ArgumentMatchers.anyLong;
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AvatarControllerTest {
+    private String token;
+
     @MockBean
     AvatarService avatarService;
 
     @LocalServerPort
     private int port;
-    private String token;
 
     @BeforeAll
     void authorize() {
@@ -73,9 +74,11 @@ class AvatarControllerTest {
                         .getContentType())
                 .post("/users/me/avatar");
 
-        assertEquals(validFileToSave.getContentType(), response.getContentType());
-        assertArrayEquals(validFileToSave.getBytes(), response.getBody().asByteArray());
-        assertEquals(201, response.getStatusCode());
+        assertAll(
+                () -> assertEquals(validFileToSave.getContentType(), response.getContentType()),
+                () -> assertArrayEquals(validFileToSave.getBytes(), response.getBody().asByteArray()),
+                () -> assertEquals(201, response.getStatusCode())
+        );
     }
 
     @Test
@@ -92,10 +95,12 @@ class AvatarControllerTest {
                         .getContentType())
                 .post("/users/me/avatar");
 
-        assertEquals(415, response.getStatusCode());
-        assertTrue(response.getBody()
-                .asString()
-                .contains("Unsupported file type."));
+        assertAll(
+                () -> assertEquals(415, response.getStatusCode()),
+                () -> assertTrue(response.getBody()
+                        .asString()
+                        .contains("Unsupported file type."))
+        );
     }
 
     @Test
@@ -142,8 +147,10 @@ class AvatarControllerTest {
                 .header("Authorization", "Bearer " + token)
                 .get("/users/me/avatar");
 
-        assertEquals(avatarToReturn.getFileType(), response.getContentType());
-        assertArrayEquals(avatarToReturn.getData(), response.getBody().asByteArray());
-        assertEquals(200, response.getStatusCode());
+        assertAll(
+                () -> assertEquals(avatarToReturn.getFileType(), response.getContentType()),
+                () -> assertArrayEquals(avatarToReturn.getData(), response.getBody().asByteArray()),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 }

@@ -24,9 +24,7 @@ import java.util.Collections;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static java.util.Objects.nonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -36,9 +34,10 @@ import static org.mockito.ArgumentMatchers.eq;
 @ContextConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookControllerTest {
+    private String token;
+
     @LocalServerPort
     private int port;
-    private String token;
 
     @MockBean
     private BookService booksService;
@@ -72,11 +71,13 @@ class BookControllerTest {
         var foundBooks = TestBooks.fromJSONString(response.getBody()
                 .asString());
 
-        assert nonNull(foundBooks);
-        assertEquals(6, foundBooks.getBookDtos()
-                .size());
-        assertEquals(booksToReturn, foundBooks);
-        assertEquals(200, response.getStatusCode());
+        assertNotNull(foundBooks);
+        assertAll(
+                () -> assertEquals(6, foundBooks.getBookDtos()
+                        .size()),
+                () -> assertEquals(booksToReturn, foundBooks),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 
     @Test
@@ -94,8 +95,10 @@ class BookControllerTest {
         var returnedBookDto = TestBookDto.fromJSONString(response.getBody()
                 .asString());
 
-        assertEquals(bookToSave, returnedBookDto);
-        assertEquals(201, response.getStatusCode());
+        assertAll(
+                () -> assertEquals(bookToSave, returnedBookDto),
+                () -> assertEquals(201, response.getStatusCode())
+        );
     }
 
     @Test
@@ -112,8 +115,10 @@ class BookControllerTest {
         var returnedBook = TestBookDto.fromJSONString(response.getBody()
                 .asString());
 
-        assertEquals(bookToReturn, returnedBook);
-        assertEquals(200, response.getStatusCode());
+        assertAll(
+                () -> assertEquals(bookToReturn, returnedBook),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 
     @Test
@@ -143,10 +148,12 @@ class BookControllerTest {
                 .contentType(ContentType.JSON)
                 .get("/users/me/books/" + bookId);
 
-        assertEquals(404, response.getStatusCode());
-        assertTrue(response.getBody()
-                .asString()
-                .contains("Book with given id does not exist"));
+        assertAll(
+                () -> assertEquals(404, response.getStatusCode()),
+                () -> assertTrue(response.getBody()
+                        .asString()
+                        .contains("Book with given id does not exist"))
+        );
     }
 
     @Test
@@ -172,9 +179,11 @@ class BookControllerTest {
         var books = TestBooks.fromJSONString(response.getBody()
                 .asString());
 
-        assert nonNull(books);
-        assertTrue(books.getBookDtos()
-                .isEmpty());
-        assertEquals(200, response.getStatusCode());
+        assertNotNull(books);
+        assertAll(
+                () -> assertTrue(books.getBookDtos()
+                        .isEmpty()),
+                () -> assertEquals(200, response.getStatusCode())
+        );
     }
 }

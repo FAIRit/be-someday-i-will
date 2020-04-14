@@ -15,8 +15,7 @@ import pl.fairit.somedayiwill.security.TestAuthorization;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
@@ -24,9 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @MockBean(SendGridEmailService.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AppUserControllerTest {
+    private String token;
+
     @LocalServerPort
     private int port;
-    private String token;
 
     @BeforeAll
     void authorize() {
@@ -53,8 +53,10 @@ class AppUserControllerTest {
         var responseBody = response.getBody()
                 .asString();
 
-        assertEquals(200, response.getStatusCode());
-        assertTrue(responseBody.contains("email"));
+        assertAll(
+                () -> assertEquals(200, response.getStatusCode()),
+                () -> assertTrue(responseBody.contains("email"))
+        );
     }
 }
 
