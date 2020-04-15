@@ -11,7 +11,7 @@ public class TestGBook {
         var faker = new Faker();
         return GBook.builder()
                 .authors(new String[]{faker.book().author(), faker.book().author()})
-                .buyLink(faker.internet().url())
+                .canonicalVolumeLink(faker.internet().url())
                 .categories(new String[]{faker.book().genre()})
                 .description(faker.lorem().sentence())
                 .imageLinks(Collections.singletonMap("smallThumbnail", faker.internet().url()))

@@ -23,7 +23,7 @@ public class GBook {
     private Integer pageCount;
     private String[] categories;
     private Map<String, String> imageLinks = new HashMap<>();
-    private String buyLink;
+    private String canonicalVolumeLink;
     private String language;
     private String previewLink;
 }

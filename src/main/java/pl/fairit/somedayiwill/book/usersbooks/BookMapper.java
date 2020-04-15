@@ -44,5 +44,6 @@ public interface BookMapper {
     @Mapping(source = "authors", target = "authors", qualifiedByName = "stringArrayToString")
     @Mapping(source = "categories", target = "categories", qualifiedByName = "stringArrayToString")
     @Mapping(source = "description", target = "description", qualifiedByName = "trimToLongDescription")
+    @Mapping(source = "canonicalVolumeLink", target = "buyLink")
     BookDto mapGBookToBookDto(final GBook gBook);
 }

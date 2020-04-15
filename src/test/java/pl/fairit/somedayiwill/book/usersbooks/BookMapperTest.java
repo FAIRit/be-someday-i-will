@@ -69,7 +69,7 @@ class BookMapperTest {
     void shouldMapGBookToBookDto() {
         var gBook = GBook.builder()
                 .authors(new String[]{FAKER.book().author(), FAKER.book().author()})
-                .buyLink(FAKER.internet().url())
+                .canonicalVolumeLink(FAKER.internet().url())
                 .imageLinks(Collections.singletonMap("smallThumbnail", FAKER.internet().url()))
                 .title(FAKER.book().title())
                 .description(FAKER.harryPotter().quote())
@@ -81,7 +81,7 @@ class BookMapperTest {
         assertAll(
                 () -> assertThat(bookDto).isNotNull(),
                 () -> assertThat(bookDto.getAuthors()).isEqualTo(gBook.getAuthors()[0] + ", " + gBook.getAuthors()[1]),
-                () -> assertThat(bookDto.getBuyLink()).isEqualTo(gBook.getBuyLink()),
+                () -> assertThat(bookDto.getBuyLink()).isEqualTo(gBook.getCanonicalVolumeLink()),
                 () -> assertThat(bookDto.getImageLink()).isEqualTo(gBook.getImageLinks().get("smallThumbnail")),
                 () -> assertThat(bookDto.getTitle()).isEqualTo(gBook.getTitle()),
                 () -> assertThat(bookDto.getDescription()).isEqualTo(gBook.getDescription()),
