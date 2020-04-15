@@ -10,6 +10,7 @@ import pl.fairit.somedayiwill.book.usersbooks.Books;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -46,10 +47,13 @@ public class GoogleBooksService implements BookService {
     }
 
     private List<BookDto> mapResponseBodyToBookDtoList(final GBooks wrapper) {
-        return Arrays.stream(wrapper.getItems())
-                .map(GBookWrapper::getVolumeInfo)
-                .map(BookMapper.INSTANCE::mapGBookToBookDto)
-                .collect(Collectors.toList());
+        if (nonNull(wrapper.getItems())) {
+            return Arrays.stream(wrapper.getItems())
+                    .map(GBookWrapper::getVolumeInfo)
+                    .map(BookMapper.INSTANCE::mapGBookToBookDto)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     private String getFullPath(final String query, final String searchKeyword) {

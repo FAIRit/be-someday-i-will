@@ -39,17 +39,22 @@ public class MDBMovieService implements MovieService {
         var apiResponse = restTemplate.getForEntity(getGenresPath(), Genres.class);
         if (nonNull(apiResponse.getBody())) {
             var genresWrapper = apiResponse.getBody();
-            return Arrays.stream(genresWrapper.getGenres())
-                    .collect(Collectors.toMap(Genre::getId, Genre::getName));
+            if (nonNull(genresWrapper.getGenres())) {
+                return Arrays.stream(genresWrapper.getGenres())
+                        .collect(Collectors.toMap(Genre::getId, Genre::getName));
+            }
         }
         return Collections.emptyMap();
     }
 
     private List<MovieDto> mapResponseBodyToMovieDtoList(final MDBWrapper wrapper) {
         var genresMap = getGenresMap();
-        return Arrays.stream(wrapper.getResults())
-                .map(mdbMovie -> MovieMapper.INSTANCE.mapMDBMovieToMovieDto(mdbMovie, genresMap))
-                .collect(Collectors.toList());
+        if (nonNull(wrapper.getResults())) {
+            return Arrays.stream(wrapper.getResults())
+                    .map(mdbMovie -> MovieMapper.INSTANCE.mapMDBMovieToMovieDto(mdbMovie, genresMap))
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     private String getFullPath(final String query) {
