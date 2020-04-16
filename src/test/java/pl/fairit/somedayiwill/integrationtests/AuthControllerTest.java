@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -19,6 +18,7 @@ import pl.fairit.somedayiwill.user.TestUsers;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static pl.fairit.somedayiwill.security.TestAuthorization.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,7 +44,7 @@ class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest)).thenReturn(userToRegister);
+        when(authService.registerUser(signupRequest)).thenReturn(userToRegister);
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
@@ -64,7 +64,7 @@ class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest))
+        when(authService.registerUser(signupRequest))
                 .thenThrow(new UserAlreadyExistsException("Email address already in use."));
         var response = given()
                 .body(requestBody)
@@ -84,7 +84,7 @@ class AuthControllerTest {
         var signupRequest = aSignupRequest(userToRegister);
         var requestBody = aSignupRequestAsString(userToRegister);
 
-        Mockito.when(authService.registerUser(signupRequest)).thenCallRealMethod();
+        when(authService.registerUser(signupRequest)).thenCallRealMethod();
         var response = given()
                 .body(requestBody)
                 .contentType(ContentType.JSON)
@@ -104,7 +104,7 @@ class AuthControllerTest {
         var loginRequest = aLoginRequest(userToLogin);
         var token = "token value";
 
-        Mockito.when(authService.authenticateUser(loginRequest)).thenReturn(token);
+        when(authService.authenticateUser(loginRequest)).thenReturn(token);
         var response = given()
                 .body(loginRequestBody)
                 .contentType(ContentType.JSON)
