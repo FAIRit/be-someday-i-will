@@ -73,8 +73,6 @@ class BookControllerTest {
 
         assertNotNull(foundBooks);
         assertAll(
-                () -> assertEquals(6, foundBooks.getBookDtos()
-                        .size()),
                 () -> assertEquals(booksToReturn, foundBooks),
                 () -> assertEquals(200, response.getStatusCode())
         );

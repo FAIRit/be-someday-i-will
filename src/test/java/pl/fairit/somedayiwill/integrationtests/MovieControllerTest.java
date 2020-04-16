@@ -74,8 +74,6 @@ class MovieControllerTest {
         assertNotNull(foundMovies);
         assertAll(
                 () -> assertEquals(moviesToReturn, foundMovies),
-                () -> assertEquals(3, foundMovies.getMovies()
-                        .size()),
                 () -> assertEquals(200, response.getStatusCode())
         );
     }
