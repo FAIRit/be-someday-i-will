@@ -12,7 +12,10 @@ import pl.fairit.somedayiwill.user.AppUserController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -34,7 +37,6 @@ public class SwaggerConfig {
 
     public static final String DEFAULT_INCLUDE_PATTERN = "/users/.*";
 
-
     @Bean
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -52,8 +54,6 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Someday I Will")
-                .contact(new Contact("Ewelina Fiedorowicz", "someday I will provide an url",
-                        "ewelinaformella@gmail.com"))
                 .build();
     }
 
@@ -69,12 +69,10 @@ public class SwaggerConfig {
     }
 
     List<SecurityReference> defaultAuth() {
-        var authorizationScope
-                = new AuthorizationScope("global", "accessEverything");
+        var authorizationScope = new AuthorizationScope("global", "accessEverything");
         var authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(
-                new SecurityReference("JWT", authorizationScopes));
+        return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
     }
 
     private Predicate<String> getSwaggerPaths() {
