@@ -29,7 +29,7 @@
         <io.springfox.swagger2.version>2.9.2</io.springfox.swagger2.version>
         <com.github.javafaker.version>1.0.2</com.github.javafaker.version>
         <org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
-        <org.thymeleaf.spring5.version>3.0.11.RELEASE</org.thymeleaf.spring5.version>
+        <org.thymeleaf.spring5.version>3.0.13.RELEASE</org.thymeleaf.spring5.version>
         <org.apache.maven.plugins.version>3.8.0</org.apache.maven.plugins.version>
         <org.testcontainers.version>1.12.5</org.testcontainers.version>
         <org.jetbrains.version>19.0.0</org.jetbrains.version>
